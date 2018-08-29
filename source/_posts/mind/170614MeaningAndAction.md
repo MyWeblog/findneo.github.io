@@ -3,7 +3,7 @@ comments: true
 toc: true
 mathjax: false
 title: 人生价值与自我实现
-tags: []
+tags: [随笔]
 date: 1017-06-14 06:06:06
 categories: yell
 

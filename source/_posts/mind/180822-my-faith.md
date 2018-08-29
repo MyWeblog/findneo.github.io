@@ -2,7 +2,7 @@
 toc: false
 mathjax: true
 title: 【转】我的信仰——胡适
-tag: [faith]
+tag: [转载]
 date: 1018-08-22 19:10:10
 categories: yell
 ---

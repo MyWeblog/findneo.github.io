@@ -2,8 +2,8 @@
 comments: true
 toc: true
 mathjax: false
-title: 黑客与画家
-tags: []
+title: 《黑客与画家》
+tags: [读后感]
 date: 1016-04-30 06:06:06
 categories: yell
 ---

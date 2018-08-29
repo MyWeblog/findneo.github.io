@@ -2,8 +2,8 @@
 comments: true
 toc: true
 mathjax: false
-title: 硅谷商战
-tags: []
+title: 《硅谷商战》
+tags: [读后感]
 date: 1017-06-28 06:06:06
 categories: yell
 ---

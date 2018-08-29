@@ -3,7 +3,7 @@ comments: true
 toc: true
 mathjax: false
 title: 关于情感
-tags: []
+tags: [随笔]
 date: 1016-06-06 06:06:06
 categories: yell
 ---

@@ -2,8 +2,8 @@
 comments: true
 toc: true
 mathjax: false
-title: 我执
-tags: []
+title: 《我执》
+tags: [读后感]
 date: 1016-06-06 06:06:06
 categories: yell
 ---

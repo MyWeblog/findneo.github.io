@@ -5,6 +5,7 @@ mathjax: true
 title: 回头是岸
 date: 1018-07-31 00:41:56
 categories: yell
+tag: [随笔]
 ---
 
 ```python

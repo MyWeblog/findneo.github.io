@@ -3,7 +3,7 @@ comments: true
 toc: true
 mathjax: false
 title: 奇文共赏
-tags: []
+tags: [随笔]
 date: 1018-04-10 21:18:41
 categories: yell
 ---
