@@ -1,6 +1,6 @@
 ---
 mathjax: true
-title:  TJCTF2018：Mirror Mirror——一种绕过Python沙箱字符限制的方法
+title:  TJCTF2018：Mirror Mirror——一种绕过Py沙箱字符限制的方法
 tag: [jail_escape]
 date: 2018-08-14 19:24:11
 categories: writeup
@@ -81,8 +81,6 @@ SyntaxError: unexpected EOF while parsing
   print f(5), eval(brainfuckize(5)) == 5
   # ~(~(~(~([]<[])<<({}<[]))<<({}<[]))<<({}<[])) True
   ```
-
-  
 
 - 字符串 `%\xcb` 由`%` 和 `\xcb)` 两个字符构成。`repr('%\xcb')` 会得到一个七字符的字符串，其中包含`%` 和 `c` 。结合上面的得到的整数就可以构造任意字符了。
 

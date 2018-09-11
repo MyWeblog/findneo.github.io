@@ -33,7 +33,7 @@ google_analytics:
 baidu_tongji: true
 gauges_analytics:
 favicon: /favicon.ico
-twitter:
-google_plus:
-fb_admins:
+twitter: 
+google_plus: 
+fb_admins: 
 fb_app_id:

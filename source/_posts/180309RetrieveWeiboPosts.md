@@ -8,7 +8,7 @@ date: 2018-03-09 00:01:39
 categories: code
 ---
 
-> 项目地址在  [https://github.com/findneo/TKposts](https://github.com/findneo/TKposts) 
+> 项目地址在  [Github](https://github.com/findneo/scripts/tree/master/attaches/tk%E6%95%99%E4%B8%BB%E8%AF%AD%E5%BD%95) 
 
 人生活在社区里，对一个常使用微博的人来说，微博记录和反映了他在一段时间内所接触的信息，思考的问题和表达的观点，是值得研究的。如果这个研究对象是一个优秀的人，这里面的价值可能比想象要大。
 

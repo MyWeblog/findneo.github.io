@@ -1,0 +1,12 @@
+<footer id="footer">
+  <% if (theme.sidebar === 'bottom'){ %>
+    <%- partial('_partial/sidebar') %>
+  <% } %>
+  <div class="outer">
+    <%- partial("baidu_tongji") %>
+    <div id="footer-info" class="inner">
+      &copy;  <%= config.author || config.title %>&emsp; 始于 2017-09-24 03:27:04
+      &emsp;全站共约 <%= totalcount(site) %> 字
+    </div>
+  </div>
+</footer>

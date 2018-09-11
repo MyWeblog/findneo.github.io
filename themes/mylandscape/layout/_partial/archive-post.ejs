@@ -1,0 +1,19 @@
+<!-- <article class="archive-article archive-type-<%= post.layout %>">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      <%- partial('post/date', {class_name: 'archive-article-date', date_format: 'MMM D'}) %>
+      <%- partial('post/title', {class_name: 'archive-article-title'}) %>
+    </header>
+  </div>
+</article> -->
+
+<!-- <section class="myarchive">
+  <ul class="post-archive"> -->
+    <!-- <% page.posts.each(function (post) { %> -->
+      <li class="post-item">
+        <span class="post-date"><%= date(post.date, "YYYY-MM-DD") %></span>
+        <a class="post-title" href="<%- url_for(post.path) %>"><%= post.title %></a>
+      </li>
+    <!-- <% }) %> -->
+  <!-- </ul>
+</section> -->

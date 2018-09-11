@@ -65,12 +65,12 @@ separated by period characters.
 
 ### inet_aton()允许哪些形式的IP地址
 
-> - a single number giving the entire 32-bit address.
-> - dot-separated octet values.  
-> - It also interpreted two intermediate syntaxes: 
->   - octet-dot-octet-dot-16bits, intended for class B addresses
->   - octet-dot-24bits, intended for class A addresses. 
-> - It also allowed some flexibility in how the individual numeric parts were specified. it allowed octal and hexadecimal in addition to decimal, distinguishing these radices by using the C language syntax involving a prefix "0" or "0x", and allowed the numbers to be arbitrarily long.
+- a single number giving the entire 32-bit address.
+- dot-separated octet values.  
+- It also interpreted two intermediate syntaxes: 
+- octet-dot-octet-dot-16bits, intended for class B addresses
+- octet-dot-24bits, intended for class A addresses. 
+- It also allowed some flexibility in how the individual numeric parts were specified. it allowed octal and hexadecimal in addition to decimal, distinguishing these radices by using the C language syntax involving a prefix "0" or "0x", and allowed the numbers to be arbitrarily long.
 
 归纳起来有这么几种情况
 
