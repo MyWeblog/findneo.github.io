@@ -78,8 +78,9 @@ pagination_dir: page
 # theme: cactus-light
 # theme: suyan
 # theme: reading
-# theme: mylandscape
-theme: next
+theme: mylandscape
+# theme: next
+# theme: suyan
 disqus_shortname: findneo
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
