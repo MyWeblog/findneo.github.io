@@ -485,7 +485,7 @@ baidu_analytics: c9a19ce963f4d3d9bdc923fec3582400
 disqus:
   enable: true
   shortname: findneo
-  count: true
+  count: false
   lazyload: true
 
 # changyan
@@ -655,7 +655,7 @@ firestore:
 # Show Views/Visitors of the website/page with busuanzi.
 # Get more information on http://ibruce.info/2015/04/04/busuanzi/
 busuanzi_count:
-  enable: true
+  enable: false
   total_visitors: true
   total_visitors_icon: user
   total_views: true
