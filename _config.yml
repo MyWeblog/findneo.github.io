@@ -78,10 +78,17 @@ pagination_dir: page
 # theme: cactus-light
 # theme: suyan
 # theme: reading
-theme: mylandscape
+# theme: mylandscape
+theme: next
 disqus_shortname: findneo
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
+
+symbols_count_time:
+  symbols: true
+  time: true
+  total_symbols: true
+  total_time: true
 
 deploy:
   type: git
