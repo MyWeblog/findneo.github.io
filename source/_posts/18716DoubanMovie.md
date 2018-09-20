@@ -45,7 +45,7 @@ def main():
 		content+=parse(purl)
 	html="""
 		<html>
-			<head>
+			<head><meta charset="UTF-8"/>
 				<style type="text/css">img{ width: 10%%; height: 33.3%%; display: block; float: left;}</style>
 			</head>
 			<body>
