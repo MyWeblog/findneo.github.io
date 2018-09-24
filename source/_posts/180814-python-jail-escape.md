@@ -1,6 +1,6 @@
 ---
 mathjax: true
-title:  TJCTF2018：Mirror Mirror——一种绕过Py沙箱字符限制的方法
+title:  TJCTF2018：Mirror Mirror——一种绕过Python沙箱字符限制的方法
 tag: [jail_escape]
 date: 2018-08-14 19:24:11
 categories: writeup
