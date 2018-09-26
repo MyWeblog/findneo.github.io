@@ -1,5 +1,5 @@
 ---
-title:  扶墙留言板
+title:  富强留言板
 comments: true
 donate: false
 date: 2017-09-24 03:27:04
