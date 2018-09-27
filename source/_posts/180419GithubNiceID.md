@@ -85,7 +85,7 @@ Upgrade-Insecure-Requests: 1
 06 0e 0t 0y 2e 2l 2n 2v 3u 4j 4r 4t 4y 5b 5f 5h 5j 5n 5q 5t 5u 5z 6e 6i 6j 6l 6m 6n 6o 6p 6r 6y 7j 7p 7y 8a 8n 8y 96 9e 9g 9j 9w 9y j3 m6 n5 u6 y4  y6 y9 
 ```
 
-三位长的就很多了，部分结果放在 [GIthub](https://github.com/findneo/scripts/blob/master/GithubNiceID.txt) 上了，其中不乏一些靓号：）
+三位长的就很多了，部分结果放在 [GIthub](https://github.com/findneo/scripts/blob/master/attaches/Github%E5%8F%AF%E7%94%A8%E7%9F%ADID%5Bupto201804%5D/GithubNiceID.txt) 上了，其中不乏一些靓号：）
 
 但也有一些是保留字或者被使用过，如
 
