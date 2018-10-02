@@ -255,7 +255,7 @@ echo trigger($name);//加载文件，测试效果
 
 # 防御
 
-彻底禁用DTD是最好的，退一步，禁用外部实体/外部DTD也可以。具体参考 [XML_External_Entity_(XXE)_Prevention_Cheat_Sheet](https://www.owasp.org/index.php/XML_External_Entity_(XXE)_Prevention_Cheat_Sheet) 。
+彻底禁用DTD是最好的，退一步，禁用外部实体/外部DTD也可以。具体参考 [XML_External_Entity_(XXE)_Prevention_Cheat_Sheet](https://www.owasp.org/index.php/XML_External_Entity_%28XXE%29_Prevention_Cheat_Sheet) 。
 
 - 禁用外部实体 ( http://cn2.php.net/libxml_disable_entity_loader 等)
   - 对于PHP来说，尽管不同环境下`simplexml_load_string() ` 默认行为并不一致，但为了安全应当总是`libxml_disable_entity_loader();` 。 

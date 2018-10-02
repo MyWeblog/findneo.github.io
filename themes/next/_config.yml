@@ -116,7 +116,7 @@ index_with_subtitle: false
 # Key is the name of menu item. If translate for this menu will find in languages - this translate will be loaded; if not - Key name will be used. Key is case-senstive.
 # Value before `||` delimeter is the target link.
 # Value after `||` delimeter is the name of FontAwesome icon. If icon (with or without delimeter) is not specified, question icon will be loaded.
-menu:
+menu: #True
   # home: / || home
   # tags: /tags/ || tags
   categories: /categories/ || th
@@ -189,6 +189,7 @@ links_layout: inline
 links:
   Chybeta: https://chybeta.github.io/
   Ginove: https://ginove.github.io/
+  Lm0963: https://lm0963.github.io/ 
   lzhtony: https://lxpark.com/
   Mads: https://madsome.one/
   Ph0en1x-Team: https://ph0en1x.com/
@@ -370,7 +371,7 @@ custom_logo:
 highlight_theme: night
 
 # Enable "cheers" for archive page.
-cheers_enabled: true
+cheers_enabled: false
 
 
 # ---------------------------------------------------------------

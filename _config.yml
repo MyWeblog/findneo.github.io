@@ -39,8 +39,8 @@ post_asset_folder: true
 relative_link: false
 future: true
 highlight:
-  enable: true
-  line_number: true
+  enable: false
+  line_number: false
   auto_detect: false
   tab_replace:
   
@@ -79,7 +79,7 @@ pagination_dir: page
 # theme: suyan
 # theme: reading
 # theme: mylandscape
-theme: next
+theme: 3-hexo
 # theme: suyan
 disqus_shortname: findneo
 # Deployment
@@ -95,3 +95,7 @@ deploy:
   type: git
   repo: git@github.com:findneo/findneo.github.io.git
   branch:  master
+
+search:
+  path: search.xml
+  field: post
