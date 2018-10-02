@@ -79,7 +79,8 @@ pagination_dir: page
 # theme: suyan
 # theme: reading
 # theme: mylandscape
-theme: 3-hexo
+theme: next
+# theme: 3-hexo
 # theme: suyan
 disqus_shortname: findneo
 # Deployment
