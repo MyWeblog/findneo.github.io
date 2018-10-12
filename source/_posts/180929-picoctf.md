@@ -323,9 +323,7 @@ echo "Please may I have the flag?" | ./in-out-error  > ~/result.txt
 
 `picoCTF{gDb_iS_sUp3r_u53fuL_f3f39814}` 
 
-![1538828295272](180929-picoctf.assets\1538828295272.png)
-
-
+![1538828295272](1538828295272.png)
 
 ## store
 
@@ -957,7 +955,9 @@ picoCTF{J0hn_1$_R1pp3d_4e5aa29e}
 
 ## rsa-madlibs
 
-回答一些简单的RSA知识。发现一个做这类题目的好方法，`python solve.py | nc 2018shell2.picoctf.com 18148` ，不到必要就不去处理各种奇怪的数据。
+回答一些简单的RSA知识。可以参考[CTF中常见的RSA相关问题总结](https://findneo.github.io/180727rsa-attack/) 一文。
+
+发现一个做这类题目的好方法，`python solve.py | nc 2018shell2.picoctf.com 18148` ，不到必要就不去处理各种奇怪的数据。
 
 `picoCTF{d0_u_kn0w_th3_w@y_2_RS@_b38be18a}` 
 
@@ -1282,7 +1282,7 @@ if __name__ == "__main__":
 
 ## 【X】A Simple Question
 
-```php+HTML
+```1538828295272php+HTML
 <?php
   include "config.php";
   ini_set('error_reporting', E_ALL);
