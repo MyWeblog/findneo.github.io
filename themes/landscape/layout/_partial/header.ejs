@@ -19,16 +19,8 @@
         <% } %>
       </nav>
       <nav id="sub-nav">
-		
-		<a id="nav-github-link" class="nav-icon" href="https://github.com/findneo" target="_blank" title='GitHub'></a>
-		
-		<a id="nav-twitter-link" class="nav-icon" href="https://twitter.com/findne0" target="_blank" title='twitter'></a>
-		
-		<a id="nav-email-link" class="nav-icon" href="javascript:alert(atob('ZGZpbmRuZW9AZ21haWwuY29t'))" title='邮箱'></a>
-		
-        
-		<% if (theme.rss){ %>
-          <a id="nav-rss-link" class="nav-icon" href="<%- url_for(theme.rss) %>" target="_blank" title="<%= __('rss_feed') %>"></a>
+        <% if (theme.rss){ %>
+          <a id="nav-rss-link" class="nav-icon" href="<%- url_for(theme.rss) %>" title="<%= __('rss_feed') %>"></a>
         <% } %>
         <a id="nav-search-btn" class="nav-icon" title="<%= __('search') %>"></a>
       </nav>

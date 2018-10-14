@@ -1,8 +1,7 @@
 # Header
 menu:
   Home: /
-  # Archives: /archives
-  About: /about
+  Archives: /archives
 rss: /atom.xml
 
 # Content
@@ -12,11 +11,11 @@ fancybox: true
 # Sidebar
 sidebar: right
 widgets:
-# - recent_posts
 - category
-# - tag
+- tag
 - tagcloud
 - archive
+- recent_posts
 
 # display widgets at the bottom of index pages (pagination == 2)
 index_widgets:
@@ -25,15 +24,14 @@ index_widgets:
 # - archive
 
 # widget behavior
-archive_type: 'yearly'
-show_count: true
+archive_type: 'monthly'
+show_count: false
 
 # Miscellaneous
 google_analytics:
-baidu_tongji: true
 gauges_analytics:
-favicon: /favicon.ico
-twitter: 
-google_plus: 
-fb_admins: 
+favicon: /favicon.png
+twitter:
+google_plus:
+fb_admins:
 fb_app_id:

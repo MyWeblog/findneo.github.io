@@ -1,8 +1,0 @@
-if page.title
-  #footer='Copyright © 2017-' + date(Date.now(), 'YYYY') + ' by '
-    a(href=url_for('.'), rel='nofollow')= config.author + '.'
-    span.post-count= ' 本文字数：'+wordcount(page.content)
-else
-  #footer='Copyright © 2017-' + date(Date.now(), 'YYYY') + ' by '
-    a(href=url_for('.'), rel='nofollow')= config.author + '.'
-    span.post-count= ' 全站字数: '+totalcount(site) 

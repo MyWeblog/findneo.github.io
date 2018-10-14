@@ -75,7 +75,7 @@ goto disconnect
 
 
 :not_connected
-if "%1"=="" goto connect_with_ss
+if "%1"=="s" goto connect_with_ss
 goto connect_without_ss
 
 rem ==========================================

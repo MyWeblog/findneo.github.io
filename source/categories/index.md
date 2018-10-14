@@ -1,6 +1,5 @@
 ---
-title: 分类
-date: 2018-09-20 09:36:32
+title: categories
+date: 2018-10-14 12:49:10
 type: categories
-comments: false
 ---
