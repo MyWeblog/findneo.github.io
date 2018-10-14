@@ -129,8 +129,10 @@ flag{59a95928373bfa789e06635d2d5e9459}
 
 参考：https://www.cnblogs.com/bwangel23/p/4858870.html 
 
-# 更多
+# 更多题解
 
-- [护网杯2018线上赛 Writeup by Whitzard](https://xz.aliyun.com/t/2893)
+- [护网杯2018线上赛 Writeup by Whitzard](https://xz.aliyun.com/t/2893) 
+- [2018护网杯线上赛 Writeup by 天枢](https://xz.aliyun.com/t/2897) 
 - [2018护网杯线上赛题解by Lilac](https://xz.aliyun.com/t/2892) 
 - [护网杯-easy laravel-Writeup](http://www.venenof.com/index.php/archives/565/) 
+- [2018护网杯-web-writeup](http://skysec.top/2018/10/13/2018%E6%8A%A4%E7%BD%91%E6%9D%AF-web-writeup/) 
