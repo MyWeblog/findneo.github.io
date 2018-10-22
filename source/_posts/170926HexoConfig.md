@@ -266,3 +266,8 @@ git remote -v
 git push origin master
 ```
 
+### update 20181022
+
+折叠代码块
+
+参考链接：https://www.bbsmax.com/A/gAJG9Qv8dZ/  
