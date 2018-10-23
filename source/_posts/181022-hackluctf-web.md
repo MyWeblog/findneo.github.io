@@ -8,7 +8,6 @@ category: writeup
 
 环境：https://arcade.fluxfingers.net:1819/ 
 
-{% fold 展开源码 %}
 ```php
 <?php
 
@@ -67,8 +66,6 @@ echo "Good Job ;)";
 // TODO
 // echo $flag;  
 ```
-
-{% endfold %}
 
 用 `php -S 127.0.0.1:8080` 起一个本地服务用于调试。
 
