@@ -797,6 +797,10 @@ asm3:
 	ret
 ```
 
+- https://tcode2k16.github.io/blog/posts/picoctf-2018-writeup/reversing/#assembly-3 
+- https://ctftime.org/writeup/11693 
+- https://github.com/xnand/ctf_writeups/blob/master/picoCTF2018/assembly-0-1-2-3-4/README.md 
+
 # binary exploitation
 
 ## buffer overflow 0
