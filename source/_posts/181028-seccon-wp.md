@@ -15,6 +15,19 @@ echo 'SECCON{'`cat key`'}' > flag.txt
 zip -e --password=`perl -e "print time()"` flag.zip flag.txt
 ```
 
+update:
+
+###
+
+比较棒的思路是flag.zip生成时刻的时间戳就是他的密码。那么
+
+```bash
+$stat -c %Y flag.zip
+1540566641
+```
+
+###
+
 爆破密码：
 
 ![1540714389474](1540714389474.png)
@@ -23,11 +36,74 @@ zip -e --password=`perl -e "print time()"` flag.zip flag.txt
 
 ![1540714953343](1540714953343.png)
 
+## History
+
+```bash
+$ binwalk J
+
+DECIMAL       HEXADECIMAL     DESCRIPTION
+--------------------------------------------------------------------------------
+3912330       0x3BB28A        ARJ archive data, header size: 22472, version 1, minimum version to extract: 1, compression method: stored, file type: binary, original name: "1", original file date: 1970-01-01 00:00:00, compressed file size: 538968064, uncompressed file size: 1441792, os: MS-DOS
+# MS-DOS 以小端序存储数据
+
+$ strings -el J | grep SEC
+...foo...
+<SEC{.txt
+...bar...
+
+$ strings -el J | grep CON
+...foo...
+<CON{.txt
+...bar...
+
+$ strings -el J | grep .txt | uniq
+...foo...
+<SEC.txt
+<CON{.txt
+<F0r.txt
+<tktksec.txt
+<F0r.txt
+<ensic.txt
+<s.txt
+<_usnjrnl.txt
+<2018}.txt
+<logfile.txt.0
+
+$ strings -el J | grep .txt | uniq | tail -n 10 | sed -E 's/<(.*).txt.*/\1/g' | tr  -d '\n' | grep -o 'SECCON{.*}'
+SECCON{F0rtktksecF0rensics_usnjrnl2018}
+```
+
 # Reversing
 
 ## Runme
 
 misc式的水题。就是不断跟进函数，每个函数传入一个参数，拼凑起来就可以了。会得到 `"C:\Temp\SECCON2018Online.exe" SECCON{Runn1n6_P47h} ` 。
+
+update:
+
+###
+
+比较骚的做法是直接strings
+
+```bash
+$ strings runme
+!This program cannot be run in DOS mode.
+...foo...
+BRjS
+BRjE
+BRjC
+BRjC
+BRjO
+BRjN
+BRj{
+BRjR
+BRju
+...bar...
+$ strings runme | sed -E 's/BRj(.)/\1/g' | tr -d '\n' | grep -o 'SECCON{.*}'
+SECCON{Runn1n6_P47h}
+```
+
+###
 
 # Media
 
@@ -81,7 +157,11 @@ print(do(may))
 
 
 
-update:实际上天亮以后用窗户的开关来表示，窗户打开为1，窗户关闭为0（正好和原来的处理方式01相反，所以得不到flag），思维太僵硬啊😂
+update:
+
+###
+
+实际上天亮以后用窗户的开关来表示，窗户打开为1，窗户关闭为0（正好和原来的处理方式01相反，所以得不到flag），思维太僵硬啊😂
 
 那么就得到如下结果：
 
@@ -91,3 +171,18 @@ update:实际上天亮以后用窗户的开关来表示，窗户打开为1，窗
 SECCON(SOMETIMES-A-SECRET-MESSAGE-BROADCASTS-BOLDLY)
 ```
 
+这个图片解释得很到位了，不过我觉得徒手开关两个多小时的窗户太不黑客了吧，他们一定用了某种方式自动化。
+
+![1540778376203](1540778376203.png)
+
+###
+
+update2:
+
+###
+
+有大佬做了自动化，效果蛮好的。
+
+（https://ctf-writeups.ru/2k18/seccon-2018-online-ctf/needle_in_a_haystack/ ）
+
+###
