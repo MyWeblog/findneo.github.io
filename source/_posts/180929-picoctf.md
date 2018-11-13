@@ -15,9 +15,8 @@ date: 2018-10-11 22:07:27
 题目：
 
 - https://2018game.picoctf.com/problems
-- 备用
-  - https://findneo.github.io/p/picoCTF-2018-Problems.html 
-  - 附件：https://github.com/findneo/ctfgodown/tree/master/20180929-picoctf 
+- 备用：https://findneo.github.io/p/picoCTF-2018-Problems.html 
+- 附件：https://github.com/findneo/ctfgodown/tree/master/20180929-picoctf 
 
 # Forensics
 
@@ -133,7 +132,7 @@ debugfs: Bad magic number in super-block while trying to open ext.img
 .......
 ```
 
-从文档（https://wiki.osdev.org/Ext2#Superblock）可以看到使用ext2文件系统的第一步是寻找、提取、解析superblock。superblock总是从卷的1024字节开始，长度为1024字节。也就是说，如果一个扇区是512字节，那么superblock位于第2、3扇区。而在superblock中，ext2文件的signature（0xef53）位于第56、57两个字节，所以我们要修正文件的magic number为正确的signature，也就是修改(1024+56,1024+57)bytes即(1080,1081)bytes即(0x438,0x439)bytes的值为`0xef53` 。需注意采用小端序，低字节在低地址。
+从文档（[https://wiki.osdev.org/Ext2#Superblock](https://wiki.osdev.org/Ext2#Superblock)）可以看到使用ext2文件系统的第一步是寻找、提取、解析superblock。superblock总是从卷的1024字节开始，长度为1024字节。也就是说，如果一个扇区是512字节，那么superblock位于第2、3扇区。而在superblock中，ext2文件的signature（0xef53）位于第56、57两个字节，所以我们要修正文件的magic number为正确的signature，也就是修改(1024+56,1024+57)bytes即(1080,1081)bytes即(0x438,0x439)bytes的值为`0xef53` 。需注意采用小端序，低字节在低地址。
 
 ![1541167493772](1541167493772.png)
 
@@ -287,7 +286,7 @@ picoCTF{st0r3d_iN_tH3_l345t_s1gn1f1c4nT_b1t5_2903593693}
 
 ## core
 
-core file或者core dunp是一个保存进程运行时内存镜像和进程状态（如寄存器的值等）的文件。没挂调试器的程序奔溃时一般会自动产生core文件用于post-mortem debugging。可以使用 `gdb  program [core dump]` 开始调试。
+core file或者core dunp是一个保存进程运行时内存镜像和进程状态（如寄存器的值等）的文件。没挂调试器的程序崩溃时一般会自动产生core文件用于post-mortem debugging。可以使用 `gdb  program [core dump]` 开始调试。
 
 ```assembly
 (gdb) disas main
