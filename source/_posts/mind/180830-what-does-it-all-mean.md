@@ -1,10 +1,6 @@
 ---
-toc: true
-comments: true
 title: 从《你的第一本哲学书》想到的
 date: 1018-08-30 10:04:11
-tags: [读后感]
-category: yell
 ---
 
 

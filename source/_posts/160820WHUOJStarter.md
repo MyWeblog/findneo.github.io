@@ -1,10 +1,6 @@
 ---
-comments: true
-toc: true
 title: 武汉大学C语言上机训练系统练习
-tags: [C]
 date: 2016-08-20 08:15:01
-categories: code
 description: 2016年8月初学编程时的训练。
 ---
 

@@ -1,11 +1,7 @@
 ---
-comments: true
-toc: true
 mathjax: false
 title: 华为2018年校园招聘软件题
-tags: [python]
 date: 2018-04-04 00:13:26
-categories: code
 ---
 
 > 2018.4.3 19:00 ~ 2018.4.3 21:00

@@ -1,11 +1,7 @@
 ---
-comments: true
-toc: true
 mathjax: false
 title: starctf writeup
-tags: []
 date: 2018-04-26 14:20:29
-categories: writeup
 ---
 
 # Web

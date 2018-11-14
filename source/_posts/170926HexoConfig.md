@@ -1,10 +1,6 @@
 ---
 title: 博客搭建与自定义
-toc: true
-tags: [hacklife]
 date: 2017-09-26 18:29:02
-categories: tool 
-comments: true
 description: 或许，记录在印象笔记和在博客会有不同，但是究竟，不同在哪里呢？
 ---
 

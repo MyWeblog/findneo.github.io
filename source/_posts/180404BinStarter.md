@@ -1,11 +1,7 @@
 ---
-comments: true
-toc: true
 mathjax: false
 title: 二进制安全学习规划指南
-tags: [method]
 date: 2018-04-04 00:09:57
-categories: summary
 ---
 
 > note of https://www.ichunqiu.com/course/56927

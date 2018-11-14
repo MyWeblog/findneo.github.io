@@ -1,11 +1,8 @@
 ---
 comment: true
-toc: true
 mathjax: true
 title: Meepwn2018：PyCalx&PyCalx2——Python3的f-string与eval注入
-tags: [f-string]
 date: 2018-07-19 09:10:50
-categories: writeup
 ---
 
 **本文首发 [先知社区](https://xz.aliyun.com/t/2446) ，转载请注明链接。** 

@@ -1,10 +1,6 @@
 ---
-comments: true
-toc: true
 title: “华为杯”极客出发XMan冬令营线上CTF解题赛
-tags: [ctf]
 date: 2018-01-07 19:11:25
-categories: writeup
 description: 只做了个签到题，总的来说是一个脑洞和简单AES加密的结合。
 ---
 

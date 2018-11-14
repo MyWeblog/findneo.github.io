@@ -1,11 +1,8 @@
 ---
-comments: true
 toc: false
 mathjax: false
 title: GitHub 可用短ID
-tags: [Github]
 date: 2018-04-19 20:27:42
-categories: tool
 ---
 
 做了件无聊的事，做完发现有人做过了（https://www.v2ex.com/t/401615 ） ，记录一下。

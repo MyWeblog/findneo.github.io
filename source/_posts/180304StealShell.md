@@ -1,10 +1,6 @@
 ---
-comments: true
-toc: true
 title: 一句话快速爆破脚本
-tags: [php]
 date: 2018-03-04 22:48:13
-categories: code
 ---
 
 思路来自爱春秋文章[python之提速千倍爆破一句话 ](https://bbs.ichunqiu.com/thread-16952-1-1.html) ，据说源头是吐司文章《让你的一句话爆破速度提升千倍》。

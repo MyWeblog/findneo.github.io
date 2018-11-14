@@ -1,11 +1,8 @@
 ---
 comment: true
-toc: true
 mathjax: true
 title: Meepwn2018：MaplStory——以Cookie为跳板的Session文件包含
-tags: [FI,CPA]
 date: 2018-07-21 03:43:44
-categories: writeup
 ---
 
 **本文首发 [先知社区](https://xz.aliyun.com/t/2463) ，转载请注明链接。** 

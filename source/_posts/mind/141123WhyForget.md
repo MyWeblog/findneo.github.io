@@ -1,11 +1,7 @@
 ---
-comments: true
-toc: true
 mathjax: false
 title: 遗忘
-tags: [随笔]
 date: 1014-11-23 06:06:06
-categories: yell
 ---
 
 #### 遗忘

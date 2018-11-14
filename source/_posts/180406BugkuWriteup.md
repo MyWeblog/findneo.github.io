@@ -1,11 +1,7 @@
 ---
-comments: true
-toc: true
 mathjax: false
 title: Bugku Writeup
-tags: [ctf]
 date: 2018-04-06 00:12:06
-categories: writeup
 ---
 
 ### WEB

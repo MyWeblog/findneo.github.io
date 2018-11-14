@@ -1,11 +1,9 @@
 ---
 comment: false
-toc: true
+toc: false
 mathjax: true
 title: XML外部实体注入小结
-tag: xxe
 date: 2018-08-11 19:18:24
-categories: summary
 ---
 
 

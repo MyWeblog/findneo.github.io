@@ -1,11 +1,7 @@
 ---
-comments: true
-toc: true
 mathjax: false
 title: xss.tv挑战赛
-tags: [xss]
 date: 2018-04-05 23:47:33
-categories: writeup
 ---
 
 > http://test.xss.tv

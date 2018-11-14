@@ -3,9 +3,7 @@ comment: true
 toc: false
 mathjax: true
 title: 根据豆瓣观影记录生成海报
-tags: [hacklife]
 date: 2018-07-06 23:51:56
-categories: code
 ---
 
 效果见 [findneo 的观影记录](https://findneo.github.io/p/movie.html)  。

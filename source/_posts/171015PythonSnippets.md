@@ -1,10 +1,6 @@
 ---
 title: 用python实现几种常见简单加密
-toc: true
-tags: [python ]
 date: 2017-10-15 16:45:21
-categories: code
-comments: true
 description: 凯撒加密，摩斯电码，栅栏密码，base家族混合编解码。	
 ---
 

@@ -1,11 +1,7 @@
 ---
-comments: true
-toc: true
 mathjax: true
 title: 网络安全学习资料
-tags: [resources]
 date: 2018-03-08 14:31:44
-categories: summary
 ---
 
 

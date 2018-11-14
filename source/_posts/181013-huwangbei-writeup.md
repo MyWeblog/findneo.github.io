@@ -1,8 +1,5 @@
 ---
-t oc: true
-comments: true
 title: 护网杯解题记录
-category: writeup
 date: 2018-10-14 00:17:37
 ---
 

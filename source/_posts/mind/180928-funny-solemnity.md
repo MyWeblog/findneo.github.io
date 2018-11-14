@@ -1,8 +1,6 @@
 ---
 toc: false
-comments: true
 title: 真诚与滑稽
-category: yell
 date: 1018-09-28 05:06:25
 ---
 

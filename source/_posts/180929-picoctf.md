@@ -1,9 +1,5 @@
 ---
-toc: true
-comments: true
 title: picoCTF-2018 解题报告
-tags: [ctf]
-category: writeup
 date: 2018-10-11 22:07:27
 ---
 

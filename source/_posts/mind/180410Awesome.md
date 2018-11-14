@@ -1,11 +1,7 @@
 ---
-comments: true
-toc: true
 mathjax: false
 title: 奇文共赏
-tags: [随笔]
-date: 1018-12-30 21:18:41
-categories: yell
+date: 1018-04-10 21:18:41
 ---
 
 - [如何才能去做喜欢的事情](http://static.wanglianghome.org/zh_CN/translation/HowToDoWhatYouLove.html)         英文原文：[How To Do What You Love](http://www.paulgraham.com/love.html) 

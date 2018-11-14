@@ -1,11 +1,8 @@
 ---
 comment: true
-toc: true
 mathjax: true
 title: 【译】渗透测试工具备忘录
-tags: [penetration]
 date: 2018-07-25 15:01:56
-categories: summary
 ---
 
 # 渗透测试工具备忘录

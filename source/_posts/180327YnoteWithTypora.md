@@ -1,11 +1,7 @@
 ---
-comments: true
-toc: true
 mathjax: false
 title: 有道云笔记markdown文档插入图片
-tags: [hacklife]
 date: 2018-03-27 16:35:22
-categories: tool	
 ---
 
 阶段性地优雅地解决了这个问题！

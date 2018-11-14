@@ -4,8 +4,6 @@ toc: false
 mathjax: true
 title: 【转】中华人民共和国网络安全法
 date: 1018-08-11 23:37:47
-tag: [转载]
-categories: yell
 ---
 
 # [中华人民共和国网络安全法](http://www.miit.gov.cn/n1146295/n1146557/n1146614/c5345009/content.html) 

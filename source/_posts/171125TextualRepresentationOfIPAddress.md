@@ -1,10 +1,6 @@
 ---
-comments: true
-toc: true
 title: IP地址混淆
-tags: [网络]
 date: 2017-11-25 16:18:25
-categories: summary
 description: 一个IP地址，可能有上百种面目
 ---
 

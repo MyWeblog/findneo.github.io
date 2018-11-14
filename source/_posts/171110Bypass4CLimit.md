@@ -1,10 +1,6 @@
 ---
-comments: true
-toc: true
 title: 如何绕过四个字符限制getshell
-tags: [命令注入]
 date: 2017-11-10 18:34:05
-categories: summary
 description: 巧用Linux命令实现限制条件下的注入
 ---
 

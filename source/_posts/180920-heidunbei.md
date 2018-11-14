@@ -1,9 +1,5 @@
 ---
-toc: true
-comments: true
 title: 福建省黑盾杯解题报告
-tags: [ctf]
-category: writeup
 date: 2018-09-20 14:07:27
 ---
 

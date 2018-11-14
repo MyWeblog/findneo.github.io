@@ -1,11 +1,7 @@
 ---
-comments: true
-toc: true
 mathjax: false
 title: 《一塌糊涂》
-tags: [读后感]
 date: 1016-05-01 06:06:06
-categories: yell
 ---
 
 ### 《一塌糊涂》

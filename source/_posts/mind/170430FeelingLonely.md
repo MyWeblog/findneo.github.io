@@ -1,11 +1,7 @@
 ---
-comments: true
-toc: true
 mathjax: false
 title: 关于孤独的遐想
-tags: [随笔]
 date: 1017-04-30 06:06:06
-categories: yell
 
 ---
 

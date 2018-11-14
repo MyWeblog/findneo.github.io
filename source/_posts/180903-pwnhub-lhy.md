@@ -1,10 +1,6 @@
 ---
-toc: true
-comments: true
 title: 胖哈勃之 LHY
-tags: [Crypto]
 date: 2018-09-03 02:29:11
-category: writeup
 ---
 
 # Problem

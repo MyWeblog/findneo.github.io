@@ -1,7 +1,6 @@
 ---
 title: Hack.lu CTF 2018 Baby PHP
 date: 2018-10-22 21:44:52
-category: writeup
 ---
 
 # Baby PHP

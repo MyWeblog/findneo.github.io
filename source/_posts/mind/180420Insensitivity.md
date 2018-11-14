@@ -1,11 +1,7 @@
 ---
-comments: true
-toc: true
 mathjax: false
 title: 《钝感力》
-tags: [读后感]
 date: 1018-04-20 01:00:34
-categories: yell
 ---
 
 

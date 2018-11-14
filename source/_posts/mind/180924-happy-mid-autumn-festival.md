@@ -1,8 +1,6 @@
 ---
 toc: false
-comments: true
 title: 《人生的智慧·一》
-category: yell
 date: 1018-09-24 23:19:11
 ---
 

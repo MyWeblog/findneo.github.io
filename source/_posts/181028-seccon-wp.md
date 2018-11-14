@@ -1,6 +1,5 @@
 ---
 title: SECCON 2018
-category: writeup
 date: 2018-10-28 16:05:30
 ---
 

@@ -1,11 +1,7 @@
 ---
-comments: true
-toc: true
 mathjax: false
 title: 《遥远的救世主》
-tags: [读后感]
 date: 1016-04-21 06:06:06
-categories: yell
 ---
 
 遥远的救世主

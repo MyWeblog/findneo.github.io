@@ -1,11 +1,7 @@
 ---
 title: 在win10家庭版上的Docker中使用Kali
-toc: true
-comments: true
 mathjax: true
-tags: [kali, docker]
 date: 2018-05-12 00:05:29
-categories: tool
 ---
 
 **全程需保证保证网络畅通**

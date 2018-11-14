@@ -1,11 +1,7 @@
 ---
-comments: true
-toc: true
 mathjax: true
 title: 收集整理一个人所有的微博
-tags: [python]
 date: 2018-03-09 00:01:39
-categories: code
 ---
 
 > 项目地址在  [Github](https://github.com/findneo/scripts/tree/master/attaches/tk%E6%95%99%E4%B8%BB%E8%AF%AD%E5%BD%95) 

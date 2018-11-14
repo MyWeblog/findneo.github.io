@@ -2,9 +2,7 @@
 toc: false
 mathjax: true
 title: 【转】我的信仰——胡适
-tag: [转载]
 date: 1018-08-22 19:10:10
-categories: yell
 ---
 
 转自 [梦远书城 : 胡适《实用人生》](http://www.my285.com/xdmj/hushi/syrs/index.htm) 

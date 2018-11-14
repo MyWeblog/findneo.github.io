@@ -1,11 +1,7 @@
 ---
-comments: true
-toc: true
 mathjax: false
 title: 《天下为公· 孙中山传》
-tags: [读后感]
 date: 1016-04-21 06:06:06
-categories: yell
 ---
 
 ### 天下何时为公
