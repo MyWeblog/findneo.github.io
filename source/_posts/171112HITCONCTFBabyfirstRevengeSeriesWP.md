@@ -1,10 +1,7 @@
 ---
 comments: true
-toc: true
 title: HITCON CTF 2017 BabyFirst Revenge and v2 writeup
-tags: [ctf,命令注入]
 date: 2017-11-12 17:14:27
-categories: writeup
 description: 绕过四个字符限制getshell
 ---
 
