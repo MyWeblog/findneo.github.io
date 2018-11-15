@@ -1,5 +1,4 @@
 ---
-comment: true
 mathjax: true
 title: 【译】渗透测试工具备忘录
 date: 2018-07-25 15:01:56

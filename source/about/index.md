@@ -15,10 +15,8 @@ date: 2017-09-24 03:27:04
 
 一些书签：
 
-[`Sec-News`](http://wiki.ioin.in/) [`先知`](https://xz.aliyun.com/) [`seebugPaper`](https://paper.seebug.org/) [`SecWiki`](https://www.sec-wiki.com/index.php) [`r/netsec`](https://www.reddit.com/r/netsec/) [`91ri`](http://www.91ri.org/) [`安全脉搏`](https://www.secpulse.com/)[`T00LS`](https://www.t00ls.net/) [`看雪`](https://bbs.pediy.com/) [`吾爱破解`](https://www.52pojie.cn/) 
+[`Inoreader`](https://www.inoreader.com)  [`r/netsec`](https://www.reddit.com/r/netsec/) [`T00LS`](https://www.t00ls.net/) [`看雪论坛`](https://bbs.pediy.com/) [`吾爱破解`](https://www.52pojie.cn/)  [`CTFtime`](https://ctftime.org/event/list/upcoming) [`h1 Hacktivity`](https://hackerone.com/hacktivity?sort_type=latest_disclosable_activity_at&filter=type%3Ahacker-published&page=1) 
 
- [`FreeBuf`](https://www.freebuf.com/) [`安全客`](https://www.anquanke.com/)  [`CTFtime`](https://ctftime.org/event/list/upcoming) [`h1 Hacktivity`](https://hackerone.com/hacktivity?sort_type=latest_disclosable_activity_at&filter=type%3Ahacker-published&page=1) [`玄武每日安全动态推送`](https://weibo.com/xuanwulab) [`exploit-db`](https://www.exploit-db.com/) 
+[`看雪知识库`](https://www.kanxue.com/chm.htm) [`乌云漏洞库`](https://bugs.shuimugan.com/) [`乌云知识库`](https://findneo.github.io/WooyunDrops/#!/) [`维基文库`](https://zh.wikisource.org/wiki/Wikisource:%E9%A6%96%E9%A1%B5) 
 
 [`Hacker News`](https://news.ycombinator.com/)  [`知乎日报`](http://daily.zhihu.com/)  
-
-[`乌云漏洞库`](https://bugs.shuimugan.com/) [`乌云知识库`](https://findneo.github.io/WooyunDrops/#!/) [`维基文库`](https://zh.wikisource.org/wiki/Wikisource:%E9%A6%96%E9%A1%B5) 

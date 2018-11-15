@@ -1,5 +1,4 @@
 ---
-comment: true
 mathjax: true
 title: Meepwn2018：MaplStory——以Cookie为跳板的Session文件包含
 date: 2018-07-21 03:43:44

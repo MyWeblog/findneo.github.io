@@ -1,5 +1,4 @@
 ---
-comment: true
 mathjax: true
 title: Meepwn2018：PyCalx&PyCalx2——Python3的f-string与eval注入
 date: 2018-07-19 09:10:50

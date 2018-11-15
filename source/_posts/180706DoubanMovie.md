@@ -1,5 +1,4 @@
 ---
-comment: true
 toc: false
 mathjax: true
 title: 根据豆瓣观影记录生成海报
