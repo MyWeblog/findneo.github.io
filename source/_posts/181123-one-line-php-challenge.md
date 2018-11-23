@@ -7,7 +7,7 @@ date: 2018-11-23 08:31:07
 
 环境：`This is a default installation PHP7.2 + Apache on Ubuntu 18.04` 。
 
-![alt](181123-one-line-php-challenge/2018-10-23_200848.png) 
+![alt](2018-10-23_200848.png) 
 
 # 解读
 
@@ -17,8 +17,8 @@ date: 2018-11-23 08:31:07
 - `$_` 。一个普通的变量名。
 - `file()` 。把整个文件读入数组中。
   - `array file ( string $filename [, int $flags = 0 [, resource $context ]] )`  
-  - ![1542959895935](181123-one-line-php-challenge/1542959895935.png)
-  - ![1542960054923](181123-one-line-php-challenge/1542960054923.png) 
+  - ![1542959895935](1542959895935.png)
+  - ![1542960054923](1542960054923.png) 
 - `string substr ( string $string , int $start [, int $length ] )` 。
 - include 语句包含并运行指定文件。
 - `(expr1) ? (expr2) : (expr3)` 是一个条件运算符，和C语言类似。
@@ -37,7 +37,7 @@ date: 2018-11-23 08:31:07
 
 我的环境：`PHP7.2 + Apache on Kali 4.18` 
 
-![1542968416018](181123-one-line-php-challenge/1542968416018.png)
+![1542968416018](1542968416018.png)
 
 会发现确实如此。而且不仅如此。
 
@@ -50,13 +50,13 @@ curl -s 127.0.0.1/oneline.php -H 'Cookie: PHPSESSID=iamnotorange4' -d 'PHP_SESSI
 
 我执行了四次请求。第一次是使用multipart传一个文件和一个字符串，可以同时生成session文件并且控制文件名，第二次传两个字符串，只能生成文件，文件名是随机的，第三次只有一个字符串，效果同第二次，第四个直接post一个字符串，无法生成session文件。四次请求的报文形式如下。
 
-![第一次](181123-one-line-php-challenge/1542969726963.png)
+![第一次](1542969726963.png)
 
-![第二次](181123-one-line-php-challenge/1542969783918.png)
+![第二次](1542969783918.png)
 
-![第三次](181123-one-line-php-challenge/1542969815646.png)
+![第三次](1542969815646.png)
 
-![第四次](181123-one-line-php-challenge/1542969856431.png)
+![第四次](1542969856431.png)
 
 但是我们还会发现，无论怎样请求，文件内容总是为空，这是因为 `session.upload_progress.cleanup=on` ，导致文件一上传完马上被清空。这是我们可以用条件竞争或者传超大文件来保留文件内容。
 
@@ -76,7 +76,7 @@ pool=threadpool(30)
 result=pool.map_async(runner,range(30)).get(0xffff)
 ```
 
-![1542964721887](181123-one-line-php-challenge/1542964721887.png)
+![1542964721887](1542964721887.png)
 
 可以观察到，文件内容的前一部分是可控的。
 
@@ -183,7 +183,8 @@ result = pool.map_async( runner, range(32) ).get(0xffff)
 
 
 
-# 其他解法和WP
+# 相关链接
 
 - http://www.wupco.cn/?p=4460 
 - https://github.com/orangetw/My-CTF-Web-Challenges#one-line-php-challenge 
+- https://bugs.php.net/bug.php?id=72681 
