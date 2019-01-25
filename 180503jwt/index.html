@@ -1,0 +1,1214 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next gemini" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="闲言语" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="本文首发  Freebuf   。略有更新。   0x01 初识JWTJWT （ JSON Web Token 的缩写）是一串带有声明信息的字符串，由服务端用加密算法对信息签名来保证其完整性和不可伪造。Token里可以包含所有必要信息，这样服务端就无需保存任何关于用户或会话的信息，JWT可用于身份认证、会话状态维持、信息交换等。 JWT 由三部分构成，分别称为 header 、payload 和">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JSON Web Token的认识与攻击">
+<meta property="og:url" content="https://findneo.github.io/180503jwt/index.html">
+<meta property="og:site_name" content="闲言语">
+<meta property="og:description" content="本文首发  Freebuf   。略有更新。   0x01 初识JWTJWT （ JSON Web Token 的缩写）是一串带有声明信息的字符串，由服务端用加密算法对信息签名来保证其完整性和不可伪造。Token里可以包含所有必要信息，这样服务端就无需保存任何关于用户或会话的信息，JWT可用于身份认证、会话状态维持、信息交换等。 JWT 由三部分构成，分别称为 header 、payload 和">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://findneo.github.io/180503jwt/1525158849660.png">
+<meta property="og:image" content="https://findneo.github.io/180503jwt/1525160523495.png">
+<meta property="og:image" content="https://findneo.github.io/180503jwt/1525359586004.png">
+<meta property="og:updated_time" content="2019-01-25T23:21:37.003Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JSON Web Token的认识与攻击">
+<meta name="twitter:description" content="本文首发  Freebuf   。略有更新。   0x01 初识JWTJWT （ JSON Web Token 的缩写）是一串带有声明信息的字符串，由服务端用加密算法对信息签名来保证其完整性和不可伪造。Token里可以包含所有必要信息，这样服务端就无需保存任何关于用户或会话的信息，JWT可用于身份认证、会话状态维持、信息交换等。 JWT 由三部分构成，分别称为 header 、payload 和">
+<meta name="twitter:image" content="https://findneo.github.io/180503jwt/1525158849660.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":true},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":true,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://findneo.github.io/180503jwt/">
+
+
+
+
+
+  <title>JSON Web Token的认识与攻击 | 闲言语</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?c9a19ce963f4d3d9bdc923fec3582400";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">闲言语</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://findneo.github.io/180503jwt/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="findneo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="闲言语">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">JSON Web Token的认识与攻击</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-03T22:22:34+08:00">
+                2018-05-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><strong>本文首发  <a href="http://www.freebuf.com/column/170359.html" target="_blank" rel="noopener">Freebuf</a>   。略有更新。</strong>  </p>
+<h1 id="0x01-初识JWT"><a href="#0x01-初识JWT" class="headerlink" title="0x01 初识JWT"></a>0x01 初识JWT</h1><p>JWT （ <code>JSON Web Token</code> 的缩写）是一串带有声明信息的字符串，由服务端用加密算法对信息签名来保证其完整性和不可伪造。Token里可以包含所有必要信息，这样服务端就无需保存任何关于用户或会话的信息，JWT可用于身份认证、会话状态维持、信息交换等。</p>
+<p>JWT 由三部分构成，分别称为 <code>header</code> 、<code>payload</code> 和 <code>signature</code> ，各部分用<code>.</code> 相连构成一个完整的Token，形如<code>xxxxx.yyyyy.zzzzz</code> 。</p>
+<p>分别看下各个部分：</p>
+<p><strong>header</strong> ：</p>
+<p>使用一个JSON格式字符串声明token的类型和签名用的算法等，形如<code>{&quot;alg&quot;: &quot;HS256&quot;, &quot;typ&quot;: &quot;JWT&quot;}</code> 。该字符串经过Base64Url编码后形成JWT的第一部分<code>xxxxx</code>。</p>
+<p>Base64Url编码可以用这段代码直观理解：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> base64 <span class="keyword">import</span> *</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">base64URLen</span><span class="params">(s)</span>:</span></span><br><span class="line">	t0=b64encode(s)</span><br><span class="line">	t1=t0.strip(<span class="string">'='</span>).replace(<span class="string">'+'</span>,<span class="string">'-'</span>).replace(<span class="string">'/'</span>,<span class="string">'_'</span>)</span><br><span class="line">	<span class="keyword">return</span> t1</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">base64URLde</span><span class="params">(s)</span>:</span></span><br><span class="line">	t0=s.replace(<span class="string">'-'</span>,<span class="string">'+'</span>).replace(<span class="string">'_'</span>,<span class="string">'/'</span>)</span><br><span class="line">	t1=t0+<span class="string">'='</span>*(<span class="number">4</span>-len(t0)%<span class="number">4</span>)%<span class="number">4</span></span><br><span class="line">	<span class="keyword">return</span> b64decode(t1)</span><br></pre></td></tr></table></figure>
+<p><strong>payload</strong> :</p>
+<p>使用一个JSON格式字符串描述所要声明的信息，分为 <code>registered</code> 、<code>public</code> 、 和 <code>private</code> 三类，形如<code>{&quot;name&quot;: &quot;John Doe&quot;, &quot;admin&quot;: true}</code> ，具体信息可参考 <a href="https://tools.ietf.org/html/rfc7519#section-4" target="_blank" rel="noopener">RFC7519 的 JWT claims</a> 部分。</p>
+<p>同样的，该字符串经过Base64Url编码形成JWT的第二部分<code>yyyyy</code>。</p>
+<p><strong>signature</strong> :</p>
+<p>将 <code>xxxxx.yyyyy</code> 使用<code>alg</code> 指定的算法加密，然后再Base64Url编码得到JWT的第三部分<code>zzzzz</code> 。所支持的算法 类型取决于实现，但<code>HS256</code> 和 <code>none</code> 是强制要求实现的。</p>
+<h1 id="0x02-简单应用"><a href="#0x02-简单应用" class="headerlink" title="0x02 简单应用"></a>0x02 简单应用</h1><p>在本地运行起简单的基于Express的可发放和处理JWT的服务。</p>
+<ol>
+<li><strong>安装Node.js。</strong>Node.js是JavaScript运行时环境，采用轻量高效的事件驱动、无阻塞I/O模型，拥有最大的开源库生态nmp。</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Windows平台可在 https:<span class="comment">//nodejs.org/en/download/ 下载安装包 </span></span><br><span class="line">*nix 平台可根据 https:<span class="comment">//nodejs.org/en/download/package-manager/ 提示使用包管理器安装</span></span><br></pre></td></tr></table></figure>
+<ol>
+<li><strong>安装Express</strong>，一款基于Node.js的快速、灵活、极简的Web框架。</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> http://expressjs.com/en/starter/installing.html</span></span><br><span class="line">mkdir D:\myapp &amp;&amp; cd D:\myapp </span><br><span class="line">	（全部回车，保持默认配置）</span><br><span class="line">npm init </span><br><span class="line">npm install express --save</span><br></pre></td></tr></table></figure>
+<ol>
+<li><strong>运行本地服务</strong></li>
+</ol>
+<p>新建 <code>index.js</code> ，内容如下</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>)</span><br><span class="line"><span class="keyword">const</span> app = express()</span><br><span class="line">app.get(<span class="string">'/'</span>, (req, res) =&gt; res.send(<span class="string">'Hello World!'</span>))</span><br><span class="line">app.listen(<span class="number">3000</span>, () =&gt; <span class="built_in">console</span>.log(<span class="string">'Example app listening on port 3000!'</span>))</span><br></pre></td></tr></table></figure>
+<p>运行<code>node index.js</code> ，就可从本地访问 <code>http://localhost:3000</code> 。</p>
+<ol>
+<li><strong>安装必要模块：</strong> 适用于Node.js的JWT编解码模块 <code>node-jwt-simple</code> 和 cookie解析模块 <code>cookie-parser</code> </li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> https://github.com/hokaccha/node-jwt-simple</span></span><br><span class="line">npm install jwt-simple</span><br><span class="line">npm install cookie-parser</span><br></pre></td></tr></table></figure>
+<ol>
+<li><strong>一个简单的本地demo</strong> </li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//index.js</span></span><br><span class="line"><span class="comment">//http://expressjs.com/en/4x/api.html</span></span><br><span class="line"><span class="comment">//https://github.com/hokaccha/node-jwt-simple</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//一些初始化的工作</span></span><br><span class="line"><span class="keyword">const</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>)</span><br><span class="line"><span class="keyword">var</span> jwt = <span class="built_in">require</span>(<span class="string">'jwt-simple'</span>)</span><br><span class="line"><span class="keyword">var</span> cookieParser = <span class="built_in">require</span>(<span class="string">'cookie-parser'</span>)</span><br><span class="line"><span class="keyword">var</span> jwt_secret = <span class="string">"this is a secret for jwt"</span></span><br><span class="line"><span class="keyword">const</span> app = express()</span><br><span class="line">app.use(cookieParser())</span><br><span class="line"></span><br><span class="line">app.get(<span class="string">'/'</span>,(req,res)=&gt;res.redirect(<span class="string">'/help'</span>))</span><br><span class="line">app.get(<span class="string">'/help'</span>, (req, res) =&gt; &#123;</span><br><span class="line">	<span class="keyword">var</span> RequstedURL=req.protocol+<span class="string">'://'</span>+req.get(<span class="string">'Host'</span>)</span><br><span class="line">	res.send([ </span><br><span class="line">		<span class="string">'GET '</span>+RequstedURL+<span class="string">'/login?user=name&amp;pass=passwd to get your JSON Web Token '</span> , </span><br><span class="line">		<span class="string">'GET '</span>+RequstedURL+<span class="string">'/whoami to identify yourself'</span></span><br><span class="line">		].join(<span class="string">'&lt;br&gt;'</span>))</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">app.get(<span class="string">'/login'</span>,(req,res)=&gt;&#123;</span><br><span class="line">	<span class="keyword">var</span> users=&#123;</span><br><span class="line">		<span class="string">"admin"</span>:<span class="string">"admin_password_is_hard_to_guess"</span>,</span><br><span class="line">		<span class="string">"test"</span>:<span class="string">"test123"</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">var</span> payload = &#123;<span class="string">"name"</span>:req.query.user&#125;</span><br><span class="line">	<span class="keyword">if</span>(users[req.query.user]===req.query.pass)&#123;</span><br><span class="line">		res.cookie(<span class="string">'jwt'</span>,jwt.encode(payload,jwt_secret))</span><br><span class="line">		res.send(req.query.user +<span class="string">' logged in'</span>)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span>&#123;res.send(<span class="string">'login failed!'</span>)&#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">app.get(<span class="string">'/whoami'</span>,(req,res)=&gt;&#123;</span><br><span class="line">	<span class="keyword">try</span> &#123;res.send(<span class="string">"you are logged in as :&lt;br&gt;"</span> +jwt.decode(req.cookies.jwt,jwt_secret)[<span class="string">'name'</span>])&#125;</span><br><span class="line">	<span class="keyword">catch</span>(err) &#123;res.send(<span class="string">"your JWT is :&lt;br&gt;"</span>+req.cookies.jwt)&#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">app.listen(<span class="number">3000</span>, () =&gt; &#123;</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="string">'Example app listening on port 3000!'</span>);</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="string">'Example app listening on port 3000!'</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>推荐几个在线工具<ul>
+<li><a href="https://jwt.io" target="_blank" rel="noopener">https://jwt.io</a> </li>
+<li>by Sjoerd Langkemper<ul>
+<li>支持 <a href="http://demo.sjoerdlangkemper.nl/jwtdemo/hs256.php" target="_blank" rel="noopener">hs256</a> 算法</li>
+<li>支持 <a href="http://demo.sjoerdlangkemper.nl/jwtdemo/rs256.php" target="_blank" rel="noopener">rs256</a> 算法</li>
+</ul>
+</li>
+<li>by Kenji Urushima <ul>
+<li>支持更多算法  <a href="https://kjur.github.io/jsjws/tool_jwt.html" target="_blank" rel="noopener">kjur/jsjws</a>  </li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="0x03-攻击面"><a href="#0x03-攻击面" class="headerlink" title="0x03 攻击面"></a>0x03 攻击面</h1><h2 id="发现敏感信息"><a href="#发现敏感信息" class="headerlink" title="发现敏感信息"></a>发现敏感信息</h2><p>JWT中的<code>header</code> 和 <code>payload</code> 虽然看起来不可读，但实际上都只经过简单编码，开发者可能误将敏感信息存储在里面。使用上述工具可以方便地解码JWT中前两部分的信息。</p>
+<h2 id="指定算法为none"><a href="#指定算法为none" class="headerlink" title="指定算法为none"></a>指定算法为none</h2><p>上面提到算法 <code>none</code> 是JWT规范中强制要求实现的，但有些实现JWT的库直接将使用<code>none</code> 算法的token视为已经过校验。这样攻击者就可以设置<code>alg</code> 为<code>none</code> ，使<code>signature</code> 部分为空，然后构造包含任意<code>payload</code> 的JWT来欺骗服务端。</p>
+<p><img src="1525158849660.png" alt="1525158849660"></p>
+<h2 id="将签名算法从非对称类型改为对称类型"><a href="#将签名算法从非对称类型改为对称类型" class="headerlink" title="将签名算法从非对称类型改为对称类型"></a>将签名算法从非对称类型改为对称类型</h2><p>使用非对称加密算法（主要基于RSA、ECDSA，如S256）分发JWT的过程是使用私钥（private）加密生成JWT，使用公钥（public）解密验证。</p>
+<p>使用对称加密算法（主要基于HMAC，如HS256）分发JWT的过程是使用同一个密钥（secret）生成和验证JWT。</p>
+<p>如果服务端期待收到的算法类型为RS256，然后以RS256和public去验证JWT，而实际上收到的算法类型是HS256，那么服务端就可能尝试把public当作secret，然后用HS256算法解密验证JWT。</p>
+<p>由于RS256的public人人都可获得，攻击者可以预先以public为密钥，用HS256算法伪造包含任意<code>payload</code> 的JWT，从而成功通过服务端的验证。</p>
+<p><img src="1525160523495.png" alt="1525160523495"></p>
+<h2 id="爆破密钥"><a href="#爆破密钥" class="headerlink" title="爆破密钥"></a>爆破密钥</h2><p>JWT的安全性依赖于密钥的保密性，任何拥有密钥的人都可以构造任何内容的合法token。</p>
+<p>当一个JSON Web Token 被分发出去，如果密钥不够强壮就存在被爆破的风险，而且整个爆破过程可以离线进行。</p>
+<p>已经有人写了一些工具，推荐如下：</p>
+<ul>
+<li><a href="https://github.com/jmaxxz/jwtbrute" target="_blank" rel="noopener">jwtbrute</a> </li>
+<li><a href="https://github.com/Sjord/jwtcrack/blob/master/crackjwt.py" target="_blank" rel="noopener">Sjord’ python script</a> </li>
+<li><a href="https://github.com/magnumripper/JohnTheRipper" target="_blank" rel="noopener">John the Ripper</a> </li>
+</ul>
+<h2 id="伪造密钥"><a href="#伪造密钥" class="headerlink" title="伪造密钥"></a>伪造密钥</h2><p>有时JWT采用<code>header</code> 中的<code>kid</code> 字段关联校验算法的密钥，这个密钥可能是对称加密的密钥，也可能是非对称加密的公钥。如果能够猜测<code>kid</code> 和 密钥的关联性，攻击者就可能修改<code>kid</code> 来欺骗服务端，使其校验时使用攻击者可控的密钥，于是攻击者就可以伪造任意内容的可通过校验的JWT。</p>
+<h3 id="2017-HITB-Pasty"><a href="#2017-HITB-Pasty" class="headerlink" title="2017 HITB Pasty"></a>2017 HITB Pasty</h3><p>关联性：kid是密钥URI的一部分。</p>
+<p><img src="1525359586004.png" alt="from cnblogs.com/dliv3/p/7450057.html"></p>
+<h3 id="2018强网杯-easyweb"><a href="#2018强网杯-easyweb" class="headerlink" title="2018强网杯 easyweb"></a>2018强网杯 easyweb</h3><p>关联性：kid 带入数据库查询对应密钥，可联合查询或者盲注。</p>
+<p>详见 <a href="http://findneo.github.io/180430ciscn/#easyweb">http://findneo.github.io/180430ciscn/#easyweb</a></p>
+<h1 id="0x04-安全建议"><a href="#0x04-安全建议" class="headerlink" title="0x04 安全建议"></a>0x04 安全建议</h1><ul>
+<li>验证函数应忽略JWT中的<code>algo</code> 字段，预先就明确JWT使用的算法，如果需要使用多种算法，可以在<code>header</code> 中使用表示”key ID” 的<code>kid</code> 字段，查询每个<code>kid</code> 对应的算法。</li>
+<li>JWT/JWS 标准应该移除 <code>header</code> 中的<code>algo</code> 字段。JWT的许多安全缺陷都来自于开发者依赖这一客户端可控的字段。</li>
+<li>开发者应升级相应库到最新版本，因为旧版本可能存在致命缺陷。</li>
+</ul>
+<h1 id="0x05-参考文章"><a href="#0x05-参考文章" class="headerlink" title="0x05 参考文章"></a>0x05 参考文章</h1><ul>
+<li><a href="https://jwt.io/introduction/" target="_blank" rel="noopener">https://jwt.io/introduction/</a></li>
+<li><a href="https://www.cnblogs.com/anny0404/p/5318692.html" target="_blank" rel="noopener">https://www.cnblogs.com/anny0404/p/5318692.html</a></li>
+<li><a href="https://www.sjoerdlangkemper.nl/2016/09/28/attacking-jwt-authentication/" target="_blank" rel="noopener">https://www.sjoerdlangkemper.nl/2016/09/28/attacking-jwt-authentication/</a></li>
+<li><a href="https://auth0.com/blog/critical-vulnerabilities-in-json-web-token-libraries/" target="_blank" rel="noopener">https://auth0.com/blog/critical-vulnerabilities-in-json-web-token-libraries/</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/180430ciscn/" rel="next" title="第十一届全国大学生信息安全竞赛“创新实践能力赛”">
+                <i class="fa fa-chevron-left"></i> 第十一届全国大学生信息安全竞赛“创新实践能力赛”
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/180512KalionDocker/" rel="prev" title="在win10家庭版上的Docker中使用Kali">
+                在win10家庭版上的Docker中使用Kali <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">findneo</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">73</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/findneo" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i></a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="javascript:alert(atob('ZGZpbmRuZW9AZ21haWwuY29t'))" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i></a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://twitter.com/findne0" target="_blank" title="Twitter">
+                      
+                        <i class="fa fa-fw fa-twitter"></i></a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://chybeta.github.io/" title="Chybeta" target="_blank">Chybeta</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://ctftime.org/event/list/upcoming" title="CTFtime" target="_blank">CTFtime</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://ginove.github.io/" title="Ginove" target="_blank">Ginove</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://lm0963.github.io/" title="Lm0963" target="_blank">Lm0963</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.lzhtony.com" title="lzhtony" target="_blank">lzhtony</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://madsome.one/" title="Mads" target="_blank">Mads</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://ph0en1x.com/" title="Ph0en1x-Team" target="_blank">Ph0en1x-Team</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://vancir.com/" title="Vancir" target="_blank">Vancir</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#0x01-初识JWT"><span class="nav-number">1.</span> <span class="nav-text">0x01 初识JWT</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#0x02-简单应用"><span class="nav-number">2.</span> <span class="nav-text">0x02 简单应用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#0x03-攻击面"><span class="nav-number">3.</span> <span class="nav-text">0x03 攻击面</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#发现敏感信息"><span class="nav-number">3.1.</span> <span class="nav-text">发现敏感信息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#指定算法为none"><span class="nav-number">3.2.</span> <span class="nav-text">指定算法为none</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#将签名算法从非对称类型改为对称类型"><span class="nav-number">3.3.</span> <span class="nav-text">将签名算法从非对称类型改为对称类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#爆破密钥"><span class="nav-number">3.4.</span> <span class="nav-text">爆破密钥</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#伪造密钥"><span class="nav-number">3.5.</span> <span class="nav-text">伪造密钥</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2017-HITB-Pasty"><span class="nav-number">3.5.1.</span> <span class="nav-text">2017 HITB Pasty</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2018强网杯-easyweb"><span class="nav-number">3.5.2.</span> <span class="nav-text">2018强网杯 easyweb</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#0x04-安全建议"><span class="nav-number">4.</span> <span class="nav-text">0x04 安全建议</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#0x05-参考文章"><span class="nav-number">5.</span> <span class="nav-text">0x05 参考文章</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">findneo</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'https://findneo.github.io/180503jwt/';
+          this.page.identifier = '180503jwt/';
+          this.page.title = 'JSON Web Token的认识与攻击';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://findneo.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.4"></script>
+  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=5.1.4"></script>
+
+
+  
+
+</body>
+</html>

