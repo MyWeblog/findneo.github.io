@@ -79,7 +79,7 @@ fcl=all_xor([l,r,pl,fl,fr])
 fcr=all_xor([l,pr,fl])
 flag=fcl+fcr
 print flag
-#flag{festel_weak_666_plo88112tty}�{v�N;	K�X
+#flag{festel_weak_666_plo88112tty}
 ```
 
 # LTSHOP
