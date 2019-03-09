@@ -1,0 +1,1367 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next gemini" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="闲言语" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="光阴似箭，我也做起了毕业设计。随波逐流，我也玩起了深度学习。 深度学习需要较强的计算能力，在网络上找了一圈，列出一些可用的方案。  极客云  谷歌云 。提供一年免费试用，但需要外币信用卡。  谷歌的Colaboratory   厦大HPC   淘宝西电机房等   百度深度学习平台   AWS  DeepBrain Chain  美团云 售罄  滴滴云  华为云  阿里云  参考文章   机器学习深">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用谷歌云进行深度学习训练，以aster为例">
+<meta property="og:url" content="https://findneo.github.io/190308-run-aster-on-gce-or-locally/index.html">
+<meta property="og:site_name" content="闲言语">
+<meta property="og:description" content="光阴似箭，我也做起了毕业设计。随波逐流，我也玩起了深度学习。 深度学习需要较强的计算能力，在网络上找了一圈，列出一些可用的方案。  极客云  谷歌云 。提供一年免费试用，但需要外币信用卡。  谷歌的Colaboratory   厦大HPC   淘宝西电机房等   百度深度学习平台   AWS  DeepBrain Chain  美团云 售罄  滴滴云  华为云  阿里云  参考文章   机器学习深">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://findneo.github.io/190308-run-aster-on-gce-or-locally/1552054146667.png">
+<meta property="og:image" content="https://findneo.github.io/190308-run-aster-on-gce-or-locally/1552054275727.png">
+<meta property="og:image" content="https://findneo.github.io/190308-run-aster-on-gce-or-locally/1552054400444.png">
+<meta property="og:image" content="https://findneo.github.io/190308-run-aster-on-gce-or-locally/1552056076810.png">
+<meta property="og:image" content="https://findneo.github.io/190308-run-aster-on-gce-or-locally/1552056065910.png">
+<meta property="og:image" content="https://findneo.github.io/190308-run-aster-on-gce-or-locally/1552093922587.png">
+<meta property="og:image" content="https://findneo.github.io/190308-run-aster-on-gce-or-locally/1552092594436.png">
+<meta property="og:image" content="https://findneo.github.io/190308-run-aster-on-gce-or-locally/1552092638172.png">
+<meta property="og:image" content="https://findneo.github.io/190308-run-aster-on-gce-or-locally/1552079776694.png">
+<meta property="og:image" content="https://findneo.github.io/190308-run-aster-on-gce-or-locally/1552092702860.png">
+<meta property="og:image" content="https://findneo.github.io/190308-run-aster-on-gce-or-locally/1552092743066.png">
+<meta property="og:image" content="https://findneo.github.io/190308-run-aster-on-gce-or-locally/1552094702649.png">
+<meta property="og:image" content="https://findneo.github.io/190308-run-aster-on-gce-or-locally/1552093439964.png">
+<meta property="og:updated_time" content="2019-03-09T01:34:52.757Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用谷歌云进行深度学习训练，以aster为例">
+<meta name="twitter:description" content="光阴似箭，我也做起了毕业设计。随波逐流，我也玩起了深度学习。 深度学习需要较强的计算能力，在网络上找了一圈，列出一些可用的方案。  极客云  谷歌云 。提供一年免费试用，但需要外币信用卡。  谷歌的Colaboratory   厦大HPC   淘宝西电机房等   百度深度学习平台   AWS  DeepBrain Chain  美团云 售罄  滴滴云  华为云  阿里云  参考文章   机器学习深">
+<meta name="twitter:image" content="https://findneo.github.io/190308-run-aster-on-gce-or-locally/1552054146667.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":true},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":true,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://findneo.github.io/190308-run-aster-on-gce-or-locally/">
+
+
+
+
+
+  <title>使用谷歌云进行深度学习训练，以aster为例 | 闲言语</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?c9a19ce963f4d3d9bdc923fec3582400";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">闲言语</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://findneo.github.io/190308-run-aster-on-gce-or-locally/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="findneo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="闲言语">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">使用谷歌云进行深度学习训练，以aster为例</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-08T16:33:07+08:00">
+                2019-03-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>光阴似箭，我也做起了毕业设计。随波逐流，我也玩起了深度学习。</p>
+<p>深度学习需要较强的计算能力，在网络上找了一圈，列出一些可用的方案。</p>
+<ul>
+<li><p><a href="https://www.jikecloud.net" target="_blank" rel="noopener">极客云</a></p>
+</li>
+<li><p><a href="https://console.cloud.google.com/freetrial/signup/tos" target="_blank" rel="noopener">谷歌云</a> 。提供一年免费试用，但需要外币信用卡。</p>
+</li>
+<li><p>谷歌的<a href="https://www.138vps.com/jc/1325.html" target="_blank" rel="noopener">Colaboratory</a> </p>
+</li>
+<li><p><a href="https://net.xmu.edu.cn/19/47/c17463a334151/page.htm" target="_blank" rel="noopener">厦大HPC</a> </p>
+</li>
+<li><p><a href="https://item.taobao.com/item.htm?id=572068150187" target="_blank" rel="noopener">淘宝西电机房等</a> </p>
+</li>
+<li><p><a href="https://cloud.baidu.com/product/bdl.html" target="_blank" rel="noopener">百度深度学习平台</a> </p>
+</li>
+<li><p><a href="https://amazonaws-china.com/cn/free/" target="_blank" rel="noopener">AWS</a></p>
+</li>
+<li><p><a href="https://www.deepbrainchain.org/" target="_blank" rel="noopener">DeepBrain Chain</a></p>
+</li>
+<li><p>美团云 售罄</p>
+</li>
+<li><p><a href="https://blog.csdn.net/sinat_36256646/article/details/80745792" target="_blank" rel="noopener">滴滴云</a></p>
+</li>
+<li><p><a href="https://www.huaweicloud.com/product/hmi.html" target="_blank" rel="noopener">华为云</a></p>
+</li>
+<li><p>阿里云</p>
+</li>
+<li><p>参考文章</p>
+</li>
+<li><ul>
+<li><a href="https://blog.csdn.net/cccat6/article/details/79057746" target="_blank" rel="noopener">机器学习深度学习云GPU资源与对比</a></li>
+<li><a href="https://www.zhihu.com/question/51362855" target="_blank" rel="noopener">有没有云端的深度学习计算服务？</a>  </li>
+</ul>
+</li>
+</ul>
+<h1 id="基本环境"><a href="#基本环境" class="headerlink" title="基本环境"></a>基本环境</h1><p>在谷歌云上搭建起 <strong>Ubuntu16.04 + Python3.5 + tensorflow-gpu-1.4 + CUDA v8 + cuDNN v6</strong> 的环境。</p>
+<h2 id="申请试用谷歌云"><a href="#申请试用谷歌云" class="headerlink" title="申请试用谷歌云"></a>申请试用谷歌云</h2><p>地址可随意填，记录两个。</p>
+<p><code>台中市大甲区大甲里 邮编：43749</code> </p>
+<p><code>California(加利福尼亚省) Adelanto(阿德兰托市) 邮编[ADELANTO CA 92301]</code> </p>
+<h2 id="新建虚拟机"><a href="#新建虚拟机" class="headerlink" title="新建虚拟机"></a>新建虚拟机</h2><p>进入Google Cloud Platform -&gt; Compute Engine -&gt; VM 实例 ，通过“创建实例”新建一台虚拟机。</p>
+<ul>
+<li>机器类型中选择自定义来添加GPU数量和类型。</li>
+<li>需要先按提示申请升级账户才能进行上述操作。很快会有邮件反馈申请成功。</li>
+<li>自定义磁盘容量，防火墙允许流量。</li>
+<li>点击创建得到一台全新的云端虚拟机。</li>
+</ul>
+<h2 id="远程访问"><a href="#远程访问" class="headerlink" title="远程访问"></a>远程访问</h2><ul>
+<li>添加静态外部IP地址。在VM实例页面，实例右侧的设置处点击查看网络详情即可。</li>
+<li>在Compute Engine -&gt; 元数据 中修改SSH 密钥。使用XHSELL或命令行工具生成密钥对后在云端按指定格式添加公钥，然后可在本地用私钥远程登陆。</li>
+</ul>
+<h2 id="安装Anaconda"><a href="#安装Anaconda" class="headerlink" title="安装Anaconda"></a>安装Anaconda</h2><ul>
+<li><p><code>wget https://repo.continuum.io/archive/Anaconda3-4.2.0-Linux-x86_64.sh</code></p>
+</li>
+<li><p><code>chmod +x Anaconda3-4.2.0-Linux-x86_64.sh</code></p>
+</li>
+<li><p><code>./Anaconda3-4.2.0-Linux-x86_64.sh</code> 按提示选择，对于是否添加到PATH记得选yes。</p>
+</li>
+<li><p><code>source ~/.bashrc</code> 使conda等命令生效。</p>
+</li>
+<li><p><code>conda create -n tensorflow python=3.5</code>  建立虚拟环境。</p>
+</li>
+<li><p><code>source activate tensorflow</code> 激活环境。</p>
+</li>
+<li><p><code>pip install --ignore-installed --upgrade tensorflow-gpu==1.4.0</code> 安装tensorflow。</p>
+</li>
+<li><p><code>lspci -vnn | grep VGA -A 12</code> 查看显卡类型</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">(tensorflow) dfindneo@gaster:~/tf/aster/c_ops$ lspci -vnn | grep VGA -A 12</span><br><span class="line">00:03.0 Non-VGA unclassified device [0000]: Red Hat, Inc. Virtio SCSI [1af4:1004]</span><br><span class="line">        Subsystem: Red Hat, Inc. Virtio SCSI [1af4:0008]</span><br><span class="line">        Physical Slot: 3</span><br><span class="line">        Flags: bus master, fast devsel, latency 0, IRQ 11</span><br><span class="line">        I/O ports at c080 [size=64]</span><br><span class="line">        Memory at fd000000 (32-bit, non-prefetchable) [size=128]</span><br><span class="line">        Capabilities: &lt;access denied&gt;</span><br><span class="line">        Kernel driver <span class="keyword">in</span> use: virtio-pci</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">00:04.0 3D controller [0302]: NVIDIA Corporation GP100GL [Tesla P100 PCIe 16GB] [10de:15f8] (rev a1)</span><br><span class="line">        Subsystem: NVIDIA Corporation Device [10de:118f]</span><br><span class="line">        Physical Slot: 4</span><br><span class="line">        Flags: fast devsel, IRQ 11</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="安装显卡驱动"><a href="#安装显卡驱动" class="headerlink" title="安装显卡驱动"></a>安装显卡驱动</h2><ul>
+<li><p>访问<a href="https://www.nvidia.com/Download/index.aspx?lang=en-us" target="_blank" rel="noopener">NVIDIA官网</a> ，选择配置。<br><img src="1552054146667.png" alt="1552054146667"></p>
+</li>
+<li><p>点击search，看到对应的版本是384.66<br><img src="1552054275727.png" alt="1552054275727"></p>
+</li>
+<li><p>安装驱动</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sudo add-apt-repository ppa:graphics-drivers/ppa  </span><br><span class="line">sudo apt-get update  </span><br><span class="line">sudo apt-get install nvidia-384 <span class="comment">#此处要根据上面查询到的版本适当更改</span></span><br><span class="line">sudo apt-get install mesa-common-dev  </span><br><span class="line">sudo apt-get install freeglut3-dev</span><br><span class="line">sudo reboot -h now</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>重启后可以使用<code>nvidia-smi</code> 命令查看是否安装成功。<br><img src="1552054400444.png" alt="1552054400444"></p>
+</li>
+</ul>
+<h2 id="安装CUDA8-0"><a href="#安装CUDA8-0" class="headerlink" title="安装CUDA8.0"></a>安装CUDA8.0</h2><ul>
+<li>我使用<code>sudo apt install nvidia-cuda-toolkit</code> 安装的CUDA是7.?版本的，使用<code>sudo apt remove nvidia-cuda*</code>  卸载掉了。</li>
+<li>要安装CUDAv8.0，在<a href="https://developer.nvidia.com/cuda-80-ga2-download-archive" target="_blank" rel="noopener">这个页面</a>选择系统、架构、发行版及其版本，安装类型可选择runfile。如果是Ubuntu16.04，可直接 <code>wget https://developer.nvidia.com/compute/cuda/8.0/Prod2/local_installers/cuda_8.0.61_375.26_linux-run</code> ，然后 <code>sh  cuda_8.0.61_375.26_linux-run</code>  。</li>
+<li>执行 <code>cd ~/NVIDIA_CUDA-8.0_Samples/1_Utilities/deviceQuery &amp;&amp; make &amp;&amp; ./deviceQuery</code> 。如果输出末尾有PASS字样，表示安装成功。</li>
+<li>使用 <code>nvcc --version</code> 查看版本信息。<br><img src="1552056076810.png" alt="1552056076810"> </li>
+</ul>
+<h2 id="安装cuDNN6-0"><a href="#安装cuDNN6-0" class="headerlink" title="安装cuDNN6.0"></a>安装cuDNN6.0</h2><ul>
+<li>登陆账号后访问 <code>https://developer.nvidia.com/compute/machine-learning/cudnn/secure/v6/prod/8.0_20170307/cudnn-8.0-linux-x64-v6.0-tgz</code>  ，点击下载，在chrome浏览器中按CTRL+J查看真实下载链接，暂停下载，然后在shell里wget该链接即可。下载后重命名文件为<code>cudnn-8.0-linux-x64-v6.0.tgz</code> 。</li>
+<li><code>tar xzf cudnn-8.0-linux-x64-v6.0.tgz</code><br><code>sudo cp cuda/include/cudnn.h /usr/local/cuda/include/</code><br><code>sudo cp cuda/lib64/libcudnn* /usr/local/cuda/lib64/</code><br><code>sudo chmod a+r /usr/local/cuda/include/cudnn.h</code><br><code>sudo chmod a+r /usr/local/cuda/lib64/libcudnn*</code> </li>
+<li>安装完成<br><img src="1552056065910.png" alt="1552056065910"></li>
+</ul>
+<p>到此为止深度学习的基本环境已经安装完成。可以在Compute Engine -&gt; 快照 中建立一个快照。</p>
+<p>接下来记录想要复现和改进的模型 <code>aster</code>  的基本环境配置。</p>
+<h1 id="ASTER环境"><a href="#ASTER环境" class="headerlink" title="ASTER环境"></a>ASTER环境</h1><h2 id="激活虚拟环境并安装依赖"><a href="#激活虚拟环境并安装依赖" class="headerlink" title="激活虚拟环境并安装依赖"></a>激活虚拟环境并安装依赖</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">source</span> activate tensorflow</span><br><span class="line"><span class="built_in">cd</span> ~</span><br><span class="line">sudo apt update</span><br><span class="line">sudo apt install git cmake libcupti-dev build-essential protobuf-compiler unzip</span><br><span class="line">pip install --user protobuf tqdm numpy editdistance Pillow scipy matplotlib edit_distance</span><br></pre></td></tr></table></figure>
+<h2 id="下载源码"><a href="#下载源码" class="headerlink" title="下载源码"></a>下载源码</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir tf &amp;&amp; <span class="built_in">cd</span> tf</span><br><span class="line">git <span class="built_in">clone</span> https://github.com/bgshih/aster.git</span><br></pre></td></tr></table></figure>
+<h2 id="按照readme依次完成三步配置"><a href="#按照readme依次完成三步配置" class="headerlink" title="按照readme依次完成三步配置"></a>按照readme依次完成三步配置</h2><p>①<code>Go to c_ops/ and run build.sh to build the custom operators</code> </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/tf/aster/c_ops</span><br><span class="line">chmod +x build.sh</span><br><span class="line">./build.sh</span><br></pre></td></tr></table></figure>
+<p><img src="1552093922587.png" alt="1552093922587"></p>
+<p><img src="1552092594436.png" alt="1552092594436"></p>
+<p>②<code>Execute protoc aster/protos/*.proto --python_out=. to build the protobuf files</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/tf</span><br><span class="line">protoc aster/protos/*.proto --python_out=.</span><br></pre></td></tr></table></figure>
+<p><img src="1552092638172.png" alt="1552092638172"></p>
+<p>③<code>Add /path/to/aster to PYTHONPATH, or set this variable for every run</code> </p>
+<p>在<code>~/.bashrc</code> 末尾加两行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export PYTHONPATH=&quot;$&#123;PYTHONPATH&#125;:/home/neo/tf/aster&quot;</span><br><span class="line">source activate tensorflow</span><br></pre></td></tr></table></figure>
+<h2 id="下载作者提供的模型"><a href="#下载作者提供的模型" class="headerlink" title="下载作者提供的模型"></a>下载作者提供的模型</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/tf/aster/experiments/demo/</span><br><span class="line">wget  https://github.com/bgshih/aster/releases/download/v1.0.1/model-demo.zip</span><br><span class="line">unzip model-demo.zip</span><br></pre></td></tr></table></figure>
+<h2 id="运行demo"><a href="#运行demo" class="headerlink" title="运行demo"></a>运行demo</h2><p> <code>python aster/demo.py</code> </p>
+<p><img src="1552079776694.png" alt="1552079776694"></p>
+<h2 id="数据集下载"><a href="#数据集下载" class="headerlink" title="数据集下载"></a>数据集下载</h2><h3 id="cute80"><a href="#cute80" class="headerlink" title="cute80"></a>cute80</h3><ul>
+<li><a href="http://cs-chan.com/downloads_CUTE80_dataset.html" target="_blank" rel="noopener">主页</a> </li>
+<li>下载：<a href="http://cs-chan.com/source/CUTE80_Dataset.zip" target="_blank" rel="noopener">CUTE80_Dataset.zip</a> (44 MB) </li>
+</ul>
+<h3 id="ic03"><a href="#ic03" class="headerlink" title="ic03"></a>ic03</h3><p><a href="http://www.iapr-tc11.org/mediawiki/index.php/ICDAR_2003_Robust_Reading_Competitions" target="_blank" rel="noopener">下载</a> </p>
+<h3 id="ic13"><a href="#ic13" class="headerlink" title="ic13"></a>ic13</h3><ul>
+<li><a href="http://dagdata.cvc.uab.es/icdar2013competition/?ch=2&amp;com=downloads" target="_blank" rel="noopener">主页</a> </li>
+<li><a href="http://rrc.cvc.uab.es/?ch=2&amp;com=downloads" target="_blank" rel="noopener">下载</a> （注册账号后可见）</li>
+</ul>
+<h3 id="ic15"><a href="#ic15" class="headerlink" title="ic15"></a>ic15</h3><ul>
+<li><a href="http://rrc.cvc.uab.es/?ch=4" target="_blank" rel="noopener">主页</a> </li>
+<li><a href="http://rrc.cvc.uab.es/?ch=4&amp;com=downloads" target="_blank" rel="noopener">下载</a> （注册账号后可见）</li>
+<li>文件说明</li>
+</ul>
+<p><strong><em>Downloads - Incidental Scene Text</em></strong><br>Download below the training dataset and associated ground truth information for each of the Tasks.</p>
+<hr>
+<p><strong><em>Task 4.1: Text Localization (2015 edition)</em></strong><br><strong>Training Set</strong><br>Training Set Images (88.5MB).- 1000 images obtained with wearable cameras</p>
+<p>Training Set Localisation and Transcription Ground Truth (157KB).- 1000 text files with word level localisation and transcription ground truth</p>
+<p><strong>Test Set</strong><br>Test Set Images (43.3MB).- 500 images obtained with wearable cameras. You can submit your results for this Task over the images of the test set through the My Methods section.</p>
+<p>Test Set Ground Truth (244Kb). - 500 text files with text localisation bounding boxes for the images of the test set.</p>
+<hr>
+<p><strong><em>Task 4.2: Text Segmentation (N/A)</em></strong><br>Not available.</p>
+<hr>
+<p><strong><em>Task 4.3: Word Recognition (2015 edition)</em></strong><br><strong>Training Set</strong><br>Training Set Word Images, along with Transcriptions Ground truth (40.5MB).- ~4468 cut out word images corresponding to the axis oriented bounding boxes of the words are provided along with a single text file with the relative coordinates of the bounding shape within each word image. Transcription ground truth is provided in a single txt file.</p>
+<p><strong>Test Set</strong><br>Test Set Word Images (21.5MB).- 2077 cut out word images corresponding to the axis oriented bounding boxes of the words are provided along with a single text file with the relative coordinates of the bounding shape within each word image. You can submit your results for this Task over the images of the test set through the My Methods section.</p>
+<p>Test Set Ground Truth (49Kb). - A single text file with the transcriptions of the 2077 images of the test set. Each line corresponds to an image of the test set.</p>
+<hr>
+<p><strong><em>Task 4.4: End to End (2015 edition)</em></strong><br><strong>Training Set</strong><br>Training Set Images (88.5MB).- 1000 images obtained with wearable cameras</p>
+<p>Training Set Vocabulary (16KB).- Vocabulary of all words (words of 3 characters or longer comprising only letters) appearing in the training set</p>
+<p>Training Set Per-image Vocabularies (504KB).- Vocabularies of 100 words per image, comprising the words appearing in the image plus distractors</p>
+<p>Training Set Localisation and Transcription Ground Truth (157KB).- 1000 text files with word level localisation and transcription ground truth</p>
+<p><strong>Test Set</strong><br>Test Set Images (43.3MB).- 500 images obtained with wearable cameras. You can submit your results for this Task over the images of the test set through the My Methods section.</p>
+<p>Test Set Vocabulary (8KB).- Vocabulary of all words (words of 3 characters or longer comprising only letters) appearing in the test set</p>
+<p>Test Set Per-image Vocabularies (248KB).- Vocabularies of 100 words per image, comprising the words appearing in the image plus distractors</p>
+<p>Test Set Ground Truth (244 Kb). - 500 text files with text localisation bounding boxes for the images of the test set.</p>
+<hr>
+<p><strong><em>Other</em></strong><br> Generic Vocabulary (796 KB).- A vocabulary of about 90 k words derived from the dataset publicly available here. Please consult [1,2] for further information as well as the disclaimer in the vocabulary file itself.</p>
+<h3 id="iiit5k"><a href="#iiit5k" class="headerlink" title="iiit5k"></a>iiit5k</h3><ul>
+<li><a href="http://cvit.iiit.ac.in/projects/SceneTextUnderstanding/IIIT5K.html" target="_blank" rel="noopener">主页</a> </li>
+<li>下载：<a href="http://cvit.iiit.ac.in/projects/SceneTextUnderstanding/IIIT5K-Word_V3.0.tar.gz" target="_blank" rel="noopener">IIIT5K-Word_V3.0.tar.gz</a> (106 MB) </li>
+</ul>
+<h3 id="svt"><a href="#svt" class="headerlink" title="svt"></a>svt</h3><ul>
+<li><a href="http://vision.ucsd.edu/~kai/svt/" target="_blank" rel="noopener">主页</a></li>
+<li>下载：<a href="http://vision.ucsd.edu/~kai/svt/svt.zip" target="_blank" rel="noopener">Street View Text </a>(118MB)</li>
+</ul>
+<h3 id="synth90k"><a href="#synth90k" class="headerlink" title="synth90k"></a>synth90k</h3><ul>
+<li><a href="http://www.robots.ox.ac.uk/~vgg/data/text/" target="_blank" rel="noopener">主页</a></li>
+<li>下载：<a href="http://www.robots.ox.ac.uk/~vgg/data/text/mjsynth.tar.gz" target="_blank" rel="noopener">mjsynth.tar.gz</a> ( 10 GB )，解压后约34 G，生成的 tfrecord 约16 G。</li>
+</ul>
+<p><img src="1552092702860.png" alt="1552092702860"></p>
+<h3 id="synthtext"><a href="#synthtext" class="headerlink" title="synthtext"></a>synthtext</h3><ul>
+<li><a href="http://www.robots.ox.ac.uk/~vgg/data/scenetext/" target="_blank" rel="noopener">主页</a></li>
+<li>下载：<a href="http://www.robots.ox.ac.uk/~vgg/data/scenetext/SynthText.zip" target="_blank" rel="noopener">SynthText.zip</a> 约40G</li>
+</ul>
+<h2 id="数据集处理"><a href="#数据集处理" class="headerlink" title="数据集处理"></a>数据集处理</h2><p>在 <code>~/tf/data</code> 目录下存放数据集文件夹，配置 <code>~/tf/aster/tools/creat_*.py</code> 中的输入输出目录，运行脚本可在数据集同目录下得到tfrecord文件。</p>
+<p><img src="1552092743066.png" alt="1552092743066"></p>
+<h2 id="训练"><a href="#训练" class="headerlink" title="训练"></a>训练</h2><p>在<code>~/tf/data/</code>目录下存放<code>tfrecord</code>文件；</p>
+<p> 在<code>~/tf/aster/experiments/</code> 新建<code>train1</code> 文件夹，再在其中新建<code>config</code> 和 <code>log</code> 文件夹；</p>
+<p>在<code>config</code> 文件夹内新建<code>trainval.prototxt</code> ，内容参照<code>~/tf/aster/experiments/demo/config/trainval.prototxt</code> 。</p>
+<p>执行训练命令后在<code>~/tf/aster/experiments/train1/log</code> 目录下生成checkpoint文件等。</p>
+<p>train :</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/tf/</span><br><span class="line">python aster/train.py --exp_dir=aster/experiments/train1/ --num_clones=2</span><br></pre></td></tr></table></figure>
+<p><img src="1552094702649.png" alt="1552094702649"></p>
+<p>eval :</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/tf/</span><br><span class="line">python aster/eval.py  --exp_dir=aster/experiments/train1/</span><br></pre></td></tr></table></figure>
+<p><img src="1552093439964.png" alt="1552093439964"></p>
+<h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><h2 id="提高访问速度"><a href="#提高访问速度" class="headerlink" title="提高访问速度"></a>提高访问速度</h2><p>如果是位于国内的服务器，可更改部分操作以提高访问速度。</p>
+<h3 id="修改Ubuntu更新源"><a href="#修改Ubuntu更新源" class="headerlink" title="修改Ubuntu更新源"></a>修改Ubuntu更新源</h3><p>编辑Ubuntu16.04的 <code>/etc/apt/source.list</code> 为以下内容。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial main restricted universe multiverse</span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-updates main restricted universe multiverse</span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-backports main restricted universe multiverse</span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-security main restricted universe multiverse</span><br></pre></td></tr></table></figure>
+<h3 id="使用ssh"><a href="#使用ssh" class="headerlink" title="使用ssh"></a>使用ssh</h3><p><code>sudo apt update &amp;&amp; sudo apt install openssh-server &amp;&amp; sudo service ssh start</code> </p>
+<p><code>sudo apt install lrzsz</code> 安装 lrzsz 后用<code>sz</code> / <code>rz</code> 命令进行小文件传输，大文件用sftp。</p>
+<h3 id="下载Anaconda"><a href="#下载Anaconda" class="headerlink" title="下载Anaconda"></a>下载Anaconda</h3><p><code>wget https://mirrors.tuna.tsinghua.edu.cn/anaconda/archive/Anaconda3-4.2.0-Linux-x86_64.sh</code> </p>
+<h3 id="修改Anaconda软件源"><a href="#修改Anaconda软件源" class="headerlink" title="修改Anaconda软件源"></a>修改Anaconda软件源</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/ </span><br><span class="line">conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/</span><br><span class="line">conda config --<span class="built_in">set</span> show_channel_urls yes</span><br></pre></td></tr></table></figure>
+<h3 id="修改pip源"><a href="#修改pip源" class="headerlink" title="修改pip源"></a>修改pip源</h3><ul>
+<li><p><code>mkdir -p ~/.pip &amp;&amp; touch ~/.pip/pip.conf</code> </p>
+</li>
+<li><p>修改 <code>~/.pip/pip.conf</code> 内容为</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[global]</span><br><span class="line">index-url = https://pypi.tuna.tsinghua.edu.cn/simple</span><br><span class="line">[install]</span><br><span class="line">trusted-host=mirrors.aliyun.com</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>（Windows下为 <code>C:\Users\USERNAME\AppData\Roaming\pip\pip.ini</code> ） </p>
+<h2 id="克隆GitHub公开repo到私有"><a href="#克隆GitHub公开repo到私有" class="headerlink" title="克隆GitHub公开repo到私有"></a>克隆GitHub公开repo到私有</h2><p>GitHub前段时间已经支持免费使用私有仓库，可以将代码仓库镜像自己的私有仓库，更方便地记录代码更改。</p>
+<ul>
+<li><p>sudo apt install git</p>
+</li>
+<li><p>设置git配置和远程访问</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name findneo</span><br><span class="line">git config --global user.email username@gmail.com</span><br><span class="line">ssh-keygen -t rsa -b 4096 -C <span class="string">"usernameo@gmail.com"</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>将~/.ssh/id_rsa.pub添加到GitHub的SSH keys。</p>
+</li>
+<li><p><code>ssh -T git@github.com</code> 测试是否成功</p>
+</li>
+<li><p>mirror 公开仓库 bgshih/aster 到 私有仓库 findneo/myaster</p>
+<ul>
+<li><p>在GitHub新建名为myaster的私有仓库</p>
+</li>
+<li><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> --bare https://github.com/bgshih/aster.git</span><br><span class="line"><span class="built_in">cd</span> aster.git</span><br><span class="line">git push -mirror https://github.com/findneo/myaster.git</span><br><span class="line"><span class="built_in">cd</span> ..</span><br><span class="line">rm -rf aster.git</span><br><span class="line">git <span class="built_in">clone</span> git@github.com:findneo/myaster.git</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="protocol-buffers"><a href="#protocol-buffers" class="headerlink" title="protocol buffers"></a>protocol buffers</h2><p>和XML/JSON/Thrift类似，优点在于简单，快，小，后向兼容，语言平台应用无关；缺点在于自解释性不够，不能表示很复杂的结构。</p>
+<p>只要描述proto文件，就可以使用编译器protoc(支持c++/Java/Python)自动生成用于序列化、反序列化、读写对象的操作的代码。</p>
+<h1 id="感谢"><a href="#感谢" class="headerlink" title="感谢"></a>感谢</h1><p>最后，感谢慷慨借用信用卡的朋友。</p>
+<h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><ul>
+<li><a href="https://www.xuezishi.net/" target="_blank" rel="noopener">学姿势 - 校园金融第一站</a> ——学习信用卡相关的姿势 </li>
+<li><a href="http://www.haoweichi.com/" target="_blank" rel="noopener">美国人信息生成，美国身份生成-世界各国身份信息、地址、信用卡生成</a> </li>
+<li><a href="https://developer.nvidia.com/cuda-toolkit-archive" target="_blank" rel="noopener">CUDA 下载</a> </li>
+<li><a href="https://developer.nvidia.com/cudnn" target="_blank" rel="noopener">cuDNN下载</a> </li>
+<li><a href="https://www.nvidia.com/Download/index.aspx?lang=en-us" target="_blank" rel="noopener">NVIDIA显卡驱动下载</a> </li>
+<li><a href="https://www.cnblogs.com/zpcdbky/p/9757821.html" target="_blank" rel="noopener">保姆级教程——Ubuntu16.04 Server下深度学习环境搭建：安装CUDA8.0，cuDNN6.0，Bazel0.5.4，源码编译安装TensorFlow1.4.0(GPU版)</a>  </li>
+<li><a href="https://www.cnblogs.com/pprp/p/9463974.html" target="_blank" rel="noopener">深度学习环境搭建：Tensorflow1.4.0+Ubuntu16.04+Python3.5+Cuda8.0+Cudnn6.0</a> </li>
+<li>论文下载：<a href="http://www.vlrlab.net/admin/uploads/avatars/ASTER_An_Attentional_Scene_Text_Recognizer_with_Flexible_Rectification.pdf" target="_blank" rel="noopener">【PAMI2018】ASTER_An Attentional Scene Text Recognizer with Flexible Rectification.pdf</a> </li>
+<li>代码仓库：<a href="https://github.com/bgshih/aster" target="_blank" rel="noopener">https://github.com/bgshih/aster</a>  </li>
+<li><a href="https://mirrors.tuna.tsinghua.edu.cn/help/ubuntu/" target="_blank" rel="noopener">清华大学开源软件镜像站</a> <ul>
+<li><a href="https://mirrors.tuna.tsinghua.edu.cn/anaconda/archive/" target="_blank" rel="noopener">国内Anaconda下载</a> </li>
+</ul>
+</li>
+<li><a href="https://repo.continuum.io/archive/" target="_blank" rel="noopener">国际Anaconda下载</a> </li>
+<li><a href="https://help.github.com/en/articles/duplicating-a-repository" target="_blank" rel="noopener">Duplicating a repository</a> </li>
+<li><a href="https://www.ibm.com/developerworks/cn/linux/l-cn-gpb/index.html" target="_blank" rel="noopener">Google Protocol Buffer 的使用和原理</a> </li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/181125-bailucup-writeup/" rel="next" title="2018 柏鹭杯 writeup">
+                <i class="fa fa-chevron-left"></i> 2018 柏鹭杯 writeup
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">findneo</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">74</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/findneo" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i></a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="javascript:alert(atob('ZGZpbmRuZW9AZ21haWwuY29t'))" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i></a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://twitter.com/findne0" target="_blank" title="Twitter">
+                      
+                        <i class="fa fa-fw fa-twitter"></i></a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://chybeta.github.io/" title="Chybeta" target="_blank">Chybeta</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://ctftime.org/event/list/upcoming" title="CTFtime" target="_blank">CTFtime</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://ginove.github.io/" title="Ginove" target="_blank">Ginove</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://lm0963.github.io/" title="Lm0963" target="_blank">Lm0963</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.lzhtony.com" title="lzhtony" target="_blank">lzhtony</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://madsome.one/" title="Mads" target="_blank">Mads</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://ph0en1x.com/" title="Ph0en1x-Team" target="_blank">Ph0en1x-Team</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://vancir.com/" title="Vancir" target="_blank">Vancir</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#基本环境"><span class="nav-number">1.</span> <span class="nav-text">基本环境</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#申请试用谷歌云"><span class="nav-number">1.1.</span> <span class="nav-text">申请试用谷歌云</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#新建虚拟机"><span class="nav-number">1.2.</span> <span class="nav-text">新建虚拟机</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#远程访问"><span class="nav-number">1.3.</span> <span class="nav-text">远程访问</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装Anaconda"><span class="nav-number">1.4.</span> <span class="nav-text">安装Anaconda</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装显卡驱动"><span class="nav-number">1.5.</span> <span class="nav-text">安装显卡驱动</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装CUDA8-0"><span class="nav-number">1.6.</span> <span class="nav-text">安装CUDA8.0</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装cuDNN6-0"><span class="nav-number">1.7.</span> <span class="nav-text">安装cuDNN6.0</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ASTER环境"><span class="nav-number">2.</span> <span class="nav-text">ASTER环境</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#激活虚拟环境并安装依赖"><span class="nav-number">2.1.</span> <span class="nav-text">激活虚拟环境并安装依赖</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#下载源码"><span class="nav-number">2.2.</span> <span class="nav-text">下载源码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#按照readme依次完成三步配置"><span class="nav-number">2.3.</span> <span class="nav-text">按照readme依次完成三步配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#下载作者提供的模型"><span class="nav-number">2.4.</span> <span class="nav-text">下载作者提供的模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#运行demo"><span class="nav-number">2.5.</span> <span class="nav-text">运行demo</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据集下载"><span class="nav-number">2.6.</span> <span class="nav-text">数据集下载</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#cute80"><span class="nav-number">2.6.1.</span> <span class="nav-text">cute80</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ic03"><span class="nav-number">2.6.2.</span> <span class="nav-text">ic03</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ic13"><span class="nav-number">2.6.3.</span> <span class="nav-text">ic13</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ic15"><span class="nav-number">2.6.4.</span> <span class="nav-text">ic15</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#iiit5k"><span class="nav-number">2.6.5.</span> <span class="nav-text">iiit5k</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#svt"><span class="nav-number">2.6.6.</span> <span class="nav-text">svt</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#synth90k"><span class="nav-number">2.6.7.</span> <span class="nav-text">synth90k</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#synthtext"><span class="nav-number">2.6.8.</span> <span class="nav-text">synthtext</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据集处理"><span class="nav-number">2.7.</span> <span class="nav-text">数据集处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#训练"><span class="nav-number">2.8.</span> <span class="nav-text">训练</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#其他"><span class="nav-number">3.</span> <span class="nav-text">其他</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#提高访问速度"><span class="nav-number">3.1.</span> <span class="nav-text">提高访问速度</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#修改Ubuntu更新源"><span class="nav-number">3.1.1.</span> <span class="nav-text">修改Ubuntu更新源</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用ssh"><span class="nav-number">3.1.2.</span> <span class="nav-text">使用ssh</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#下载Anaconda"><span class="nav-number">3.1.3.</span> <span class="nav-text">下载Anaconda</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改Anaconda软件源"><span class="nav-number">3.1.4.</span> <span class="nav-text">修改Anaconda软件源</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改pip源"><span class="nav-number">3.1.5.</span> <span class="nav-text">修改pip源</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#克隆GitHub公开repo到私有"><span class="nav-number">3.2.</span> <span class="nav-text">克隆GitHub公开repo到私有</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#protocol-buffers"><span class="nav-number">3.3.</span> <span class="nav-text">protocol buffers</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#感谢"><span class="nav-number">4.</span> <span class="nav-text">感谢</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考链接"><span class="nav-number">5.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">findneo</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'https://findneo.github.io/190308-run-aster-on-gce-or-locally/';
+          this.page.identifier = '190308-run-aster-on-gce-or-locally/';
+          this.page.title = '使用谷歌云进行深度学习训练，以aster为例';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://findneo.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.4"></script>
+  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=5.1.4"></script>
+
+
+  
+
+</body>
+</html>
