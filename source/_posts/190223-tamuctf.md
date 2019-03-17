@@ -287,7 +287,7 @@ python sqlmap.py -u "http://web6.tamuctf.com/message?id=2" -p id --threads 10 --
 
 ![1552782785371](1552782785371.png)
 
-得到admin用户邮箱为`1337-admin@l337secur1ty.hak` ，Secret值为`WIFHXDZ3BOHJMJSC`，id为1，密码哈希为`02ca0b0603222a090fe2fbf3ba97d90c` ，在somd5查询对应明文为`secretpasscode` 。
+得到admin用户邮箱为 1337-admin@l337secur1ty.hak ，Secret值为`WIFHXDZ3BOHJMJSC`，id为1，密码哈希为`02ca0b0603222a090fe2fbf3ba97d90c` ，在somd5查询对应明文为`secretpasscode` 。
 
 使用burp修改cookie后转发可见flag为`gigem{th3_T0tp_1s_we4k_w1tH_yoU}`。
 
@@ -730,7 +730,7 @@ Return elements from the iterable until it is exhausted.
 Then repeat the sequence indefinitely.
 ```
 
-另外有一个不错的 [工具](https://gchq.github.io/CyberChef/#recipe=Magic(3,true,false,'')&input=WFVCZFRGZFNjdzVYQ1ZSR1RnbEpYRXBNU0ZwT1FFNUFWVnhKQlJwTFQxMGFZQnBJVndsYkNWWkFUbDFXVEJwYVRrQk9RRlZjU1FkSA) 可以尝试检查数据可能的格式。
+另外有一个不错的 [工具](https://gchq.github.io/CyberChef/%23recipe=Magic(3,true,false,'')&input=WFVCZFRGZFNjdzVYQ1ZSR1RnbEpYRXBNU0ZwT1FFNUFWVnhKQlJwTFQxMGFZQnBJVndsYkNWWkFUbDFXVEJwYVRrQk9RRlZjU1FkSA) 可以尝试检查数据可能的格式。
 
 ## Holey Knapsack
 
