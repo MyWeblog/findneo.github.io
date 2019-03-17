@@ -77,12 +77,12 @@
 
 
 
-<meta name="description" content="光阴似箭，我也做起了毕业设计。随波逐流，我也玩起了深度学习。 深度学习需要较强的计算能力，在网络上找了一圈，列出一些可用的方案。  极客云  谷歌云 。提供一年免费试用，但需要外币信用卡。  谷歌的Colaboratory   厦大HPC   淘宝西电机房等   百度深度学习平台   AWS  DeepBrain Chain  美团云 售罄  滴滴云  华为云  阿里云  参考文章   机器学习深">
+<meta name="description" content="光阴似箭，我也做起了毕业设计。随波逐流，我也玩起了深度学习。 深度学习需要较强的计算能力，在网络上找了一圈，列出一些可用的方案。  极客云 谷歌云 。提供一年免费试用，但需要外币信用卡。 谷歌的Colaboratory  厦大HPC  淘宝西电机房等  百度深度学习平台  AWS DeepBrain Chain 美团云 售罄 滴滴云 华为云 阿里云 参考文章 机器学习深度学习云GPU资源与对比 有">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用谷歌云进行深度学习训练，以aster为例">
 <meta property="og:url" content="https://findneo.github.io/190308-run-aster-on-gce-or-locally/index.html">
 <meta property="og:site_name" content="闲言语">
-<meta property="og:description" content="光阴似箭，我也做起了毕业设计。随波逐流，我也玩起了深度学习。 深度学习需要较强的计算能力，在网络上找了一圈，列出一些可用的方案。  极客云  谷歌云 。提供一年免费试用，但需要外币信用卡。  谷歌的Colaboratory   厦大HPC   淘宝西电机房等   百度深度学习平台   AWS  DeepBrain Chain  美团云 售罄  滴滴云  华为云  阿里云  参考文章   机器学习深">
+<meta property="og:description" content="光阴似箭，我也做起了毕业设计。随波逐流，我也玩起了深度学习。 深度学习需要较强的计算能力，在网络上找了一圈，列出一些可用的方案。  极客云 谷歌云 。提供一年免费试用，但需要外币信用卡。 谷歌的Colaboratory  厦大HPC  淘宝西电机房等  百度深度学习平台  AWS DeepBrain Chain 美团云 售罄 滴滴云 华为云 阿里云 参考文章 机器学习深度学习云GPU资源与对比 有">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://findneo.github.io/190308-run-aster-on-gce-or-locally/1552054146667.png">
 <meta property="og:image" content="https://findneo.github.io/190308-run-aster-on-gce-or-locally/1552054275727.png">
@@ -97,10 +97,10 @@
 <meta property="og:image" content="https://findneo.github.io/190308-run-aster-on-gce-or-locally/1552092743066.png">
 <meta property="og:image" content="https://findneo.github.io/190308-run-aster-on-gce-or-locally/1552094702649.png">
 <meta property="og:image" content="https://findneo.github.io/190308-run-aster-on-gce-or-locally/1552093439964.png">
-<meta property="og:updated_time" content="2019-03-09T01:34:52.757Z">
+<meta property="og:updated_time" content="2019-03-11T12:12:27.653Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用谷歌云进行深度学习训练，以aster为例">
-<meta name="twitter:description" content="光阴似箭，我也做起了毕业设计。随波逐流，我也玩起了深度学习。 深度学习需要较强的计算能力，在网络上找了一圈，列出一些可用的方案。  极客云  谷歌云 。提供一年免费试用，但需要外币信用卡。  谷歌的Colaboratory   厦大HPC   淘宝西电机房等   百度深度学习平台   AWS  DeepBrain Chain  美团云 售罄  滴滴云  华为云  阿里云  参考文章   机器学习深">
+<meta name="twitter:description" content="光阴似箭，我也做起了毕业设计。随波逐流，我也玩起了深度学习。 深度学习需要较强的计算能力，在网络上找了一圈，列出一些可用的方案。  极客云 谷歌云 。提供一年免费试用，但需要外币信用卡。 谷歌的Colaboratory  厦大HPC  淘宝西电机房等  百度深度学习平台  AWS DeepBrain Chain 美团云 售罄 滴滴云 华为云 阿里云 参考文章 机器学习深度学习云GPU资源与对比 有">
 <meta name="twitter:image" content="https://findneo.github.io/190308-run-aster-on-gce-or-locally/1552054146667.png">
 
 
@@ -344,33 +344,19 @@
         <p>光阴似箭，我也做起了毕业设计。随波逐流，我也玩起了深度学习。</p>
 <p>深度学习需要较强的计算能力，在网络上找了一圈，列出一些可用的方案。</p>
 <ul>
-<li><p><a href="https://www.jikecloud.net" target="_blank" rel="noopener">极客云</a></p>
-</li>
-<li><p><a href="https://console.cloud.google.com/freetrial/signup/tos" target="_blank" rel="noopener">谷歌云</a> 。提供一年免费试用，但需要外币信用卡。</p>
-</li>
-<li><p>谷歌的<a href="https://www.138vps.com/jc/1325.html" target="_blank" rel="noopener">Colaboratory</a> </p>
-</li>
-<li><p><a href="https://net.xmu.edu.cn/19/47/c17463a334151/page.htm" target="_blank" rel="noopener">厦大HPC</a> </p>
-</li>
-<li><p><a href="https://item.taobao.com/item.htm?id=572068150187" target="_blank" rel="noopener">淘宝西电机房等</a> </p>
-</li>
-<li><p><a href="https://cloud.baidu.com/product/bdl.html" target="_blank" rel="noopener">百度深度学习平台</a> </p>
-</li>
-<li><p><a href="https://amazonaws-china.com/cn/free/" target="_blank" rel="noopener">AWS</a></p>
-</li>
-<li><p><a href="https://www.deepbrainchain.org/" target="_blank" rel="noopener">DeepBrain Chain</a></p>
-</li>
-<li><p>美团云 售罄</p>
-</li>
-<li><p><a href="https://blog.csdn.net/sinat_36256646/article/details/80745792" target="_blank" rel="noopener">滴滴云</a></p>
-</li>
-<li><p><a href="https://www.huaweicloud.com/product/hmi.html" target="_blank" rel="noopener">华为云</a></p>
-</li>
-<li><p>阿里云</p>
-</li>
-<li><p>参考文章</p>
-</li>
-<li><ul>
+<li><a href="https://www.jikecloud.net" target="_blank" rel="noopener">极客云</a></li>
+<li><a href="https://console.cloud.google.com/freetrial/signup/tos" target="_blank" rel="noopener">谷歌云</a> 。提供一年免费试用，但需要外币信用卡。</li>
+<li>谷歌的<a href="https://www.138vps.com/jc/1325.html" target="_blank" rel="noopener">Colaboratory</a> </li>
+<li><a href="https://net.xmu.edu.cn/19/47/c17463a334151/page.htm" target="_blank" rel="noopener">厦大HPC</a> </li>
+<li><a href="https://item.taobao.com/item.htm?id=572068150187" target="_blank" rel="noopener">淘宝西电机房等</a> </li>
+<li><a href="https://cloud.baidu.com/product/bdl.html" target="_blank" rel="noopener">百度深度学习平台</a> </li>
+<li><a href="https://amazonaws-china.com/cn/free/" target="_blank" rel="noopener">AWS</a></li>
+<li><a href="https://www.deepbrainchain.org/" target="_blank" rel="noopener">DeepBrain Chain</a></li>
+<li>美团云 售罄</li>
+<li><a href="https://blog.csdn.net/sinat_36256646/article/details/80745792" target="_blank" rel="noopener">滴滴云</a></li>
+<li><a href="https://www.huaweicloud.com/product/hmi.html" target="_blank" rel="noopener">华为云</a></li>
+<li>阿里云</li>
+<li>参考文章<ul>
 <li><a href="https://blog.csdn.net/cccat6/article/details/79057746" target="_blank" rel="noopener">机器学习深度学习云GPU资源与对比</a></li>
 <li><a href="https://www.zhihu.com/question/51362855" target="_blank" rel="noopener">有没有云端的深度学习计算服务？</a>  </li>
 </ul>
@@ -595,8 +581,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/181125-bailucup-writeup/" rel="next" title="2018 柏鹭杯 writeup">
-                <i class="fa fa-chevron-left"></i> 2018 柏鹭杯 writeup
+              <a href="/190223-tamuctf/" rel="next" title="TAMUctf writeup">
+                <i class="fa fa-chevron-left"></i> TAMUctf writeup
               </a>
             
           </div>
@@ -692,7 +678,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">74</span>
+                  <span class="site-state-item-count">75</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
