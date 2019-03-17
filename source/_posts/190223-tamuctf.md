@@ -730,7 +730,7 @@ Return elements from the iterable until it is exhausted.
 Then repeat the sequence indefinitely.
 ```
 
-另外有一个不错的 [工具](https://gchq.github.io/CyberChef/%23recipe=Magic(3,true,false,'')&input=WFVCZFRGZFNjdzVYQ1ZSR1RnbEpYRXBNU0ZwT1FFNUFWVnhKQlJwTFQxMGFZQnBJVndsYkNWWkFUbDFXVEJwYVRrQk9RRlZjU1FkSA) 可以尝试检查数据可能的格式。
+另外有一个不错的工具（<https://gchq.github.io/CyberChef/#recipe=Magic(3,true,false,'')&input=WFVCZFRGZFNjdzVYQ1ZSR1RnbEpYRXBNU0ZwT1FFNUFWVnhKQlJwTFQxMGFZQnBJVndsYkNWWkFUbDFXVEJwYVRrQk9RRlZjU1FkSA>） 可以尝试检查数据可能的格式。
 
 ## Holey Knapsack
 
