@@ -8,32 +8,19 @@ date: 2019-03-08 16:33:07
 深度学习需要较强的计算能力，在网络上找了一圈，列出一些可用的方案。
 
 - [极客云](https://www.jikecloud.net)
-
 - [谷歌云](https://console.cloud.google.com/freetrial/signup/tos) 。提供一年免费试用，但需要外币信用卡。
-
 - 谷歌的[Colaboratory](https://www.138vps.com/jc/1325.html) 
-
 - [厦大HPC](https://net.xmu.edu.cn/19/47/c17463a334151/page.htm) 
-
 - [淘宝西电机房等](https://item.taobao.com/item.htm?id=572068150187) 
-
 - [百度深度学习平台](https://cloud.baidu.com/product/bdl.html) 
-
 - [AWS](https://amazonaws-china.com/cn/free/)
-
 - [DeepBrain Chain](https://www.deepbrainchain.org/)
-
 - 美团云 售罄
-
 - [滴滴云](https://blog.csdn.net/sinat_36256646/article/details/80745792)
-
 - [华为云](https://www.huaweicloud.com/product/hmi.html)
-
 - 阿里云
-
 - 参考文章
-
-- - [机器学习深度学习云GPU资源与对比](https://blog.csdn.net/cccat6/article/details/79057746)
+  - [机器学习深度学习云GPU资源与对比](https://blog.csdn.net/cccat6/article/details/79057746)
   - [有没有云端的深度学习计算服务？](https://www.zhihu.com/question/51362855)  
 
 # 基本环境
